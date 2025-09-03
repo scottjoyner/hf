@@ -11,6 +11,7 @@ import time
 import re
 from pathlib import Path
 from typing import Any, Dict, Iterable, Optional, Tuple, List
+
 # --- Hugging Face imports (version-agnostic) ---
 try:
     from huggingface_hub import snapshot_download
@@ -29,8 +30,6 @@ except Exception:
     snapshot_download = None
     class HfHubHTTPError(Exception):
         pass
-
-
 
 # ---------------------------------------------------------------------
 # Logging
@@ -464,8 +463,29 @@ def expand_patterns(spec: str) -> List[str]:
             seen.add(p); uniq.append(p)
     return uniq
 
+# ------ PATH HELPERS (updated to author/model layout) -----------------
+
 def _safe_repo_folder(repo_id: str) -> str:
+    """Legacy: owner/repo -> owner__repo (kept for compatibility elsewhere if needed)."""
     return repo_id.replace("/", "__")
+
+def _safe_component(name: str) -> str:
+    """Make a filesystem-safe single path component."""
+    name = name.strip().strip("/\\")
+    # allow letters, digits, dash, underscore, dot; replace everything else with underscore
+    return re.sub(r"[^A-Za-z0-9._-]+", "_", name) or "_"
+
+def _split_author_model(repo_id: str) -> Tuple[str, str]:
+    """
+    Split 'author/repo' into ('author','repo') with safety.
+    If no slash, fallback to ('unknown','repo').
+    """
+    rid = (repo_id or "").strip().strip("/\\")
+    if "/" in rid:
+        author, model = rid.split("/", 1)
+    else:
+        author, model = "unknown", rid
+    return _safe_component(author), _safe_component(model)
 
 def _extract_repo_id(row: Dict[str, str]) -> str:
     """
@@ -579,7 +599,7 @@ def download_one(
         revision=revision,
         local_dir=str(target_dir),
         local_dir_use_symlinks=False,
-        allow_patterns=None,    # allow_patterns if allow_patterns else None,
+        allow_patterns=None,    # intentionally all files; wire patterns here if you want filtering
         ignore_patterns=None,
         max_workers=8,
         etag_timeout=20,
@@ -590,9 +610,20 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Download models and record files in DB")
     ap.add_argument("--input", required=True, help="CSV/TXT with repo IDs (columns: repo_id|model_id|name_hf_slug)")
     ap.add_argument("--out-dir", required=True, help="Directory to store downloaded files")
-    ap.add_argument("--patterns", default="weights", help="Preset/patterns, e.g. 'weights,tokenizer,config' or '*.bin,*.json'")
-    ap.add_argument("--revision", default=os.getenv("HF_REVISION", "main"), help="Default revision (per-row 'revision' overrides)")
-    ap.add_argument("--layout", choices=("by_repo","flat"), default="by_repo", help="by_repo -> <out>/<owner__repo>/...")
+    ap.add_argument(
+        "--patterns",
+        default="weights",
+        help="Preset/patterns, e.g. 'weights,tokenizer,config' or '*.bin,*.json'"
+    )
+    ap.add_argument("--revision", default=os.getenv("HF_REVISION", "main"),
+                    help="Default revision (per-row 'revision' overrides)")
+    # NOTE: by_repo now uses <out>/<Author>/<Model_ID>/...
+    ap.add_argument(
+        "--layout",
+        choices=("by_repo", "flat"),
+        default="by_repo",
+        help="by_repo -> <out>/<Author>/<Model_ID>/... ; flat -> <out>/..."
+    )
     ap.add_argument("--db-path", default=DEFAULT_DB_PATH, help="SQLite DB path")
     args = ap.parse_args(argv)
 
@@ -614,9 +645,6 @@ def main(argv: Optional[List[str]] = None) -> int:
             input_path,
         )
         return 1
-    if not rows:
-        LOG.warning("No rows found in %s", input_path)
-        return 0
 
     ok = 0
     fail = 0
@@ -628,8 +656,8 @@ def main(argv: Optional[List[str]] = None) -> int:
 
         # choose local target dir
         if args.layout == "by_repo":
-            subfolder = (row.get("subfolder") or _safe_repo_folder(repo_id)).strip()
-            target = out_dir / subfolder
+            author, model = _split_author_model(repo_id)
+            target = out_dir / author / model    # <<-- author/model layout
         else:
             target = out_dir
 
@@ -639,7 +667,7 @@ def main(argv: Optional[List[str]] = None) -> int:
                 db_path=args.db_path,
                 repo_id=repo_id,
                 local_root=local_root,
-                storage_root=out_dir if args.layout == "by_repo" else out_dir,
+                storage_root=out_dir,  # storage root stays the top-level hf_models
             )
             LOG.info("✅ %s -> %s (files recorded: %d)", repo_id, local_root, count)
             ok += 1
