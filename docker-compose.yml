@@ -32,7 +32,11 @@ services:
       mc alias set local http://minio:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD" &&
       (mc ls "local/$MINIO_BUCKET" || mc mb -p "local/$MINIO_BUCKET") &&
       echo "MinIO bucket ready: $MINIO_BUCKET"
-
+  worker:
+    build: .
+    depends_on: [minio, mc]
+    volumes:
+      - ./data:/app/data
   pipeline-image:
     build: .
     image: models-pipeline:latest
@@ -113,6 +117,52 @@ services:
       - db:/app/db
       - ./data:/app/data
     command: ["all"]
+
+  registry:
+    build:
+      context: .
+      dockerfile: Dockerfile.registry
+    image: models-registry:latest
+    container_name: models-registry
+    depends_on:
+      - minio
+      - pipeline-image
+    env_file:
+      - .env
+    environment:
+      # Required by the app (defaults are fine if you already set them in .env)
+      DB_PATH: /app/db/models.db
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      MINIO_BUCKET: ${MINIO_BUCKET}
+      MINIO_SECURE: ${MINIO_SECURE:-false}
+      REGISTRY_API_KEY: ${REGISTRY_API_KEY:-}   # optional
+    volumes:
+      - db:/app/db          # share the DB
+      - hf_models:/app/hf_models  # not strictly needed, but handy if you later serve local files
+    ports:
+      - "8081:8081"
+
+  manifest-exporter:
+    image: models-registry:latest  # reuse the same image (has minio + code)
+    container_name: manifest-exporter
+    depends_on:
+      - registry
+      - minio
+    env_file:
+      - .env
+    environment:
+      DB_PATH: /app/db/models.db
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      MINIO_BUCKET: ${MINIO_BUCKET}
+      MINIO_SECURE: ${MINIO_SECURE:-false}
+    volumes:
+      - db:/app/db
+      - ./data:/app/data
+    command: ["python", "scripts/export_manifests.py", "--publish", "--out-dir", "/app/data/manifests", "--every", "86400"]
 
 volumes:
   minio-data:
