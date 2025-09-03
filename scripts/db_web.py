@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import os, sqlite3, time, hashlib, hmac, re
 from pathlib import Path
-from flask import Flask, g, render_template, request, abort, redirect, url_for, session, send_file, jsonify, make_response
+from flask import Flask, g, render_template, request, abort, redirect, url_for, session, send_file, jsonify, make_response, after_this_request
+import tarfile, tempfile, uuid
+
 
 # ----------------- Config -----------------
 DB_PATH      = os.getenv("DB_PATH", "/app/db/models.db")
@@ -9,6 +11,12 @@ SECRET_KEY   = os.getenv("SECRET_KEY", "dev-secret-change-me")  # set in prod
 SESSION_NAME = os.getenv("SESSION_COOKIE_NAME", "reg_sess")
 # Optional: Enable presign mode later (requires boto3 or minio client)
 ENABLE_PRESIGN = (os.getenv("ENABLE_PRESIGN", "0").lower() in ("1", "true", "yes"))
+# Where to write temp archives before sending to client
+ARCHIVE_TMP_DIR = os.getenv("ARCHIVE_TMP_DIR", "/tmp")
+
+# If true, write one audit row per file included in a bundle (in addition to the parent event)
+BUNDLE_PER_FILE_AUDIT = (os.getenv("BUNDLE_PER_FILE_AUDIT", "1").lower() in ("1","true","yes"))
+
 
 app = Flask(__name__, template_folder="webapp/templates", static_folder="webapp/static")
 app.secret_key = SECRET_KEY
@@ -17,6 +25,57 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["SESSION_COOKIE_SECURE"] = os.getenv("SESSION_COOKIE_SECURE", "0") in ("1","true","yes")
 
 # ----------------- DB helpers -----------------
+def _sanitize_component(name: str) -> str:
+    return re.sub(r"[^A-Za-z0-9._-]+", "_", (name or "").strip()) or "_"
+
+def _author_model_root(repo_id: str) -> str:
+    # e.g., 'owner/repo' -> 'owner/repo' (sanitized as two path components in archive root)
+    if "/" in repo_id:
+        author, model = repo_id.split("/", 1)
+    else:
+        author, model = "unknown", repo_id
+    return f"{_sanitize_component(author)}/{_sanitize_component(model)}"
+
+def _collect_allowed_files(db, user, repo_id: str, prefix: str | None):
+    """
+    Returns (allowed_rows, denied_count).
+    Each row is from files table; enforces per-file permission via _match_permission.
+    """
+    rows = db.execute(
+        "SELECT * FROM files WHERE repo_id=? ORDER BY rfilename",
+        (repo_id,)
+    ).fetchall()
+    allowed = []
+    denied = 0
+    for r in rows:
+        rf = r["rfilename"]
+        if prefix and not rf.startswith(prefix):
+            continue
+        ok, _pid, _src = _match_permission(db, user, repo_id, rf)
+        if ok:
+            allowed.append(r)
+        else:
+            denied += 1
+    return allowed, denied
+
+def _build_tar_gz(archive_path: str, repo_id: str, files_rows):
+    """
+    Create a .tar.gz at archive_path containing all files_rows.
+    Archive layout:
+      <Author>/<Model_ID>/<rfilename>
+    """
+    root = _author_model_root(repo_id)
+    with tarfile.open(archive_path, "w:gz") as tar:
+        for r in files_rows:
+            lp = r["local_path"]
+            if not lp or not Path(lp).exists():
+                continue
+            arcname = f"{root}/{r['rfilename']}"
+            # add without recursing (rfilename is already relative path)
+            tar.add(lp, arcname=arcname, recursive=False)
+    return root
+
+
 def get_db():
     db = getattr(g, "_db", None)
     if db is None:
@@ -223,10 +282,11 @@ def models():
         rows = db.execute("SELECT * FROM models ORDER BY last_modified DESC LIMIT 200").fetchall()
     return render_template("models.html", rows=rows, q=q, user=current_user())
 
-@app.route("/models/<path:repo_id>")
-def model_detail(repo_id):
+@app.route("/models/<path:author_id>/<path:repo_id>")
+def model_detail(author_id, repo_id):
     db = get_db()
-    m = db.execute("SELECT * FROM models WHERE repo_id=?", (repo_id,)).fetchone()
+    repo = f"{author_id}/{repo_id}"
+    m = db.execute("SELECT * FROM models WHERE repo_id=?", (repo,)).fetchone()
     if not m:
         abort(404)
     files = db.execute("SELECT * FROM files WHERE repo_id=? ORDER BY rfilename", (repo_id,)).fetchall()
@@ -239,6 +299,109 @@ def files_page():
     db = get_db()
     rows = db.execute("SELECT * FROM files ORDER BY created_ts DESC LIMIT 500").fetchall()
     return render_template("files.html", rows=rows, user=current_user())
+
+@app.route("/api/models/<path:repo_id>/bundle", methods=["GET"])
+def api_bundle(repo_id):
+    # Auth via API key
+    user, key = _auth_from_api_key()
+    db = get_db()
+    if not user or not key:
+        _audit(db, user_id=None, api_key_id=None, repo_id=repo_id, rfilename="*",
+               outcome="DENY", via="api_key-bundle", permission_id=None,
+               permission_source=None, message="Missing/invalid API key for bundle")
+        return jsonify({"error": "unauthorized"}), 401
+
+    prefix = request.args.get("prefix", "").strip() or None
+    # strict=1 => if any file is denied, return 403; strict=0 => include only allowed
+    strict = (request.args.get("strict", "1").lower() in ("1","true","yes"))
+    fmt = (request.args.get("format", "tar.gz").lower())
+    if fmt not in ("tar.gz", "tgz"):
+        return jsonify({"error": "unsupported_format", "supported": ["tar.gz","tgz"]}), 400
+
+    allowed, denied_count = _collect_allowed_files(db, user, repo_id, prefix)
+    if not allowed:
+        msg = "No permitted files for this model (or none match prefix)"
+        _audit(db, user_id=user["id"], api_key_id=key["id"], repo_id=repo_id, rfilename="*",
+               outcome="DENY", via="api_key-bundle", permission_id=None,
+               permission_source=None, message=msg)
+        return jsonify({"error": "forbidden", "message": msg}), 403
+
+    if strict and denied_count > 0:
+        msg = f"{denied_count} file(s) are not permitted under current policy (use strict=0 to exclude them)"
+        _audit(db, user_id=user["id"], api_key_id=key["id"], repo_id=repo_id, rfilename="*",
+               outcome="DENY", via="api_key-bundle", permission_id=None,
+               permission_source=None, message=msg)
+        return jsonify({"error": "forbidden", "message": msg}), 403
+
+    # Build temp archive
+    tmp_name = f"bundle-{uuid.uuid4().hex}.tar.gz"
+    tmp_path = str(Path(ARCHIVE_TMP_DIR) / tmp_name)
+    root = _build_tar_gz(tmp_path, repo_id, allowed)
+
+    # Parent audit
+    _audit(db, user_id=user["id"], api_key_id=key["id"], repo_id=repo_id, rfilename="*",
+           outcome="ALLOW", via="api_key-bundle", permission_id=None,
+           permission_source="bundle", message=f"Bundle created files={len(allowed)} denied={denied_count} prefix={prefix or ''}")
+
+    # Optional per-file audit
+    if BUNDLE_PER_FILE_AUDIT:
+        for r in allowed:
+            _audit(db, user_id=user["id"], api_key_id=key["id"], repo_id=repo_id, rfilename=r["rfilename"],
+                   outcome="ALLOW", via="api_key-bundle", permission_id=None,
+                   permission_source="bundle", message="Included in bundle")
+
+    @after_this_request
+    def _cleanup(response):
+        try:
+            os.remove(tmp_path)
+        except Exception:
+            pass
+        return response
+
+    fname = f"{root.replace('/','__')}.tar.gz"  # downloadable filename
+    return send_file(tmp_path, as_attachment=True, download_name=fname)
+
+@app.route("/models/<path:repo_id>/download-all")
+def ui_bundle(repo_id):
+    user = require_login()
+    if not isinstance(user, sqlite3.Row):
+        return user  # redirect to login
+
+    db = get_db()
+    # optional filter in UI via ?prefix=
+    prefix = request.args.get("prefix", "").strip() or None
+
+    allowed, denied_count = _collect_allowed_files(db, user, repo_id, prefix)
+    if not allowed:
+        _audit(db, user_id=user["id"], api_key_id=None, repo_id=repo_id, rfilename="*",
+               outcome="DENY", via="session-bundle", permission_id=None,
+               permission_source=None, message="No permitted files")
+        abort(403)
+
+    tmp_name = f"bundle-{uuid.uuid4().hex}.tar.gz"
+    tmp_path = str(Path(ARCHIVE_TMP_DIR) / tmp_name)
+    root = _build_tar_gz(tmp_path, repo_id, allowed)
+
+    _audit(db, user_id=user["id"], api_key_id=None, repo_id=repo_id, rfilename="*",
+           outcome="ALLOW", via="session-bundle", permission_id=None,
+           permission_source="bundle", message=f"UI bundle files={len(allowed)} denied={denied_count} prefix={prefix or ''}")
+
+    if BUNDLE_PER_FILE_AUDIT:
+        for r in allowed:
+            _audit(db, user_id=user["id"], api_key_id=None, repo_id=repo_id, rfilename=r["rfilename"],
+                   outcome="ALLOW", via="session-bundle", permission_id=None,
+                   permission_source="bundle", message="Included in bundle")
+
+    @after_this_request
+    def _cleanup(response):
+        try:
+            os.remove(tmp_path)
+        except Exception:
+            pass
+        return response
+
+    fname = f"{root.replace('/','__')}.tar.gz"
+    return send_file(tmp_path, as_attachment=True, download_name=fname)
 
 # ----------------- UI Auth -----------------
 @app.route("/login", methods=["GET","POST"])

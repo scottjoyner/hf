@@ -60,6 +60,14 @@
     {% endfor %}
     </tbody>
   </table>
+  <p>
+    <a href="{{ url_for('ui_bundle', repo_id=m['repo_id']) }}">Download all (.tar.gz)</a>
+    <!-- Optional: add a prefix box to scope e.g. snapshots/<REV>/ -->
+    <!-- <form method="get" action="{{ url_for('ui_bundle', repo_id=m['repo_id']) }}" style="display:inline">
+      <input name="prefix" placeholder="path prefix (optional)">
+      <button type="submit">Download subset</button>
+    </form> -->
+  </p>
   <p><a href="/models">Back to Models</a></p>
 </body>
 </html>

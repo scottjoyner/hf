@@ -11,3 +11,9 @@ docker compose run --rm sync        # upload hf_models to MinIO + AWS S3 (if con
 
 # Or do everything in one shot:
 docker compose run --rm pipeline
+
+
+
+#TODO
+ Currently the logic associated with the model_id column from the build_model_metadata.csv has significant consequences as it currently uses the <AUTHOR>/<MODEL_ID> tag as the column name, and the entire application is depentnant on this
+ 
