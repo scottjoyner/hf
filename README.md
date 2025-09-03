@@ -60,3 +60,17 @@ Adjust namespaces, storage classes, and image names to your environment.
 - `sync_to_s3.py` uploads to both MinIO **and** external S3 if the corresponding environment variables are present.
 - `models.csv` lives in `./data/models.csv` — edit to add/remove repos.
 
+# HOW TO RUN PIPELINE
+```
+# 1) Just see what would be downloaded (no pipeline run)
+./run_pipeline.sh --dry-run-models
+
+# 2) Validate (fail if zero models), then run pipeline once
+./run_pipeline.sh --validate-models --run-once
+
+# 3) Upload a new list and run the pipeline
+./run_pipeline.sh --set-models ./my_models.csv --run-once
+
+# 4) Full: update list, validate, remove orphans, run, then tail logs
+./run_pipeline.sh --set-models ./my_models.csv --validate-models --remove-orphans --run-once --logs
+```
