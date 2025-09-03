@@ -1,0 +1,56 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: models-pipeline
+  namespace: models-pipeline
+spec:
+  schedule: "0 3 * * *"  # daily at 03:00
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: pipeline
+            image: ghcr.io/yourorg/models-pipeline:latest
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: HUGGINGFACE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token
+                  key: token
+            - name: MINIO_URL
+              value: "http://minio.models-pipeline.svc.cluster.local:9000"
+            - name: MINIO_BUCKET
+              value: "models"
+            - name: MINIO_REGION
+              value: "us-east-1"
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: minio-creds
+                  key: accesskey
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minio-creds
+                  key: secretkey
+            # Optional AWS S3 backup creds
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-s3-creds
+                  key: access_key
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-s3-creds
+                  key: secret_key
+            - name: AWS_REGION
+              value: "us-east-1"
+            - name: AWS_S3_BUCKET
+              value: "your-backup-bucket"
+            command: ["/app/entrypoint.sh", "worker", "all"]
