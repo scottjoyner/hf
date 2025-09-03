@@ -9,6 +9,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR ${APP_HOME}
 
+ENV PYTHONPATH=/app
+
 # System deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates tzdata curl \

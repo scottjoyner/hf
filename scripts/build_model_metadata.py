@@ -9,6 +9,13 @@ from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 
+try:
+    from scripts.models_db import init_db, upsert_model
+except ModuleNotFoundError:
+    import os as _os, sys as _sys
+    _sys.path.append(_os.path.abspath(_os.path.join(_os.path.dirname(__file__), "..")))
+    from scripts.models_db import init_db, upsert_model
+    
 def is_clean_hf_url(url: str) -> bool:
     try:
         if not isinstance(url, str) or not url:
