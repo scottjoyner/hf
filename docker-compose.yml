@@ -7,15 +7,10 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     command: server /data --console-address ":9001"
     ports:
-      - "19000:9000"   # host:container (API)
-      - "19001:9001"   # host:container (Web console)
+      - "19000:9000"   # API
+      - "19001:9001"   # Web console
     volumes:
       - minio-data:/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   mc:
     image: minio/mc:latest
@@ -27,16 +22,45 @@ services:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
       MINIO_BUCKET: ${MINIO_BUCKET}
-    entrypoint: ["/bin/sh","-lc"]
+    entrypoint: ["/bin/sh","-c"]
     command: >
-      mc alias set local http://minio:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD" &&
-      (mc ls "local/$MINIO_BUCKET" || mc mb -p "local/$MINIO_BUCKET") &&
-      echo "MinIO bucket ready: $MINIO_BUCKET"
+      echo "Configuring mc alias...";
+      for i in $$(seq 1 120); do
+        mc alias set minio http://minio:9000 "$$MINIO_ROOT_USER" "$$MINIO_ROOT_PASSWORD" >/dev/null 2>&1 && break;
+        sleep 1;
+      done;
+      echo "Waiting for MinIO list to succeed...";
+      for i in $$(seq 1 120); do
+        mc ls minio >/dev/null 2>&1 && break;
+        sleep 1;
+      done;
+      echo "Ensuring bucket exists: $$MINIO_BUCKET";
+      mc mb -p "minio/$$MINIO_BUCKET" >/dev/null 2>&1 || true;
+      mc ls "minio/$$MINIO_BUCKET" >/dev/null || { echo "Bucket check failed"; exit 1; }
+      echo "MinIO bucket ready: $$MINIO_BUCKET";
+      tail -f /dev/null
+    healthcheck:
+      test: ["CMD-SHELL", "mc alias set minio http://minio:9000 \"$$MINIO_ROOT_USER\" \"$$MINIO_ROOT_PASSWORD\" >/dev/null 2>&1 && mc ls minio/\"$$MINIO_BUCKET\" >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  
+  sync:
+    image: models-pipeline:latest
+    env_file: .env
+    depends_on:
+      mc:
+        condition: service_healthy
+    volumes:
+      - hf_models:/app/hf_models
+    command: ["sync"]
+  
   worker:
     build: .
     depends_on: [minio, mc]
     volumes:
       - ./data:/app/data
+  
   pipeline-image:
     build: .
     image: models-pipeline:latest
@@ -84,16 +108,6 @@ services:
       - ./data:/app/data
     command: ["metadata"]
 
-  sync:
-    image: models-pipeline:latest
-    env_file: .env
-    depends_on:
-      - pipeline-image
-      - mc
-    volumes:
-      - hf_models:/app/hf_models
-    command: ["sync"]
-
   db-web:
     image: models-pipeline:latest
     env_file: .env
@@ -109,8 +123,10 @@ services:
     image: models-pipeline:latest
     env_file: .env
     depends_on:
-      - pipeline-image
-      - mc
+      mc:
+        condition: service_healthy
+      pipeline-image:
+        condition: service_started
     volumes:
       - cache:/app/cache
       - hf_models:/app/hf_models
@@ -125,22 +141,23 @@ services:
     image: models-registry:latest
     container_name: models-registry
     depends_on:
-      - minio
-      - pipeline-image
+      mc:
+        condition: service_healthy
+      pipeline-image:
+        condition: service_started
     env_file:
       - .env
     environment:
-      # Required by the app (defaults are fine if you already set them in .env)
       DB_PATH: /app/db/models.db
       MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
       MINIO_BUCKET: ${MINIO_BUCKET}
       MINIO_SECURE: ${MINIO_SECURE:-false}
-      REGISTRY_API_KEY: ${REGISTRY_API_KEY:-}   # optional
+      REGISTRY_ADMIN_TOKEN: ${REGISTRY_ADMIN_TOKEN:-changeme}
     volumes:
-      - db:/app/db          # share the DB
-      - hf_models:/app/hf_models  # not strictly needed, but handy if you later serve local files
+      - db:/app/db
+      - hf_models:/app/hf_models
     ports:
       - "8081:8081"
 
