@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Models</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 0.5rem; border-bottom: 1px solid #eee; text-align: left; }
+    a { text-decoration: none; color: #0366d6; }
+    form { margin-bottom: 1rem; }
+    input[type=text]{ padding: .4rem .6rem; width: 280px;}
+    button { padding: .45rem .8rem;}
+  </style>
+</head>
+<body>
+  <h1>Models</h1>
+  <form method="get">
+    <input type="text" name="q" placeholder="Search repo_id or model_name..." value="{{ q or '' }}"/>
+    <button>Search</button>
+  </form>
+  <table>
+    <tr><th>Repo</th><th>Author</th><th>Pipeline</th><th>Params</th><th>Last Modified</th><th>Downloads</th></tr>
+    {% for m in rows %}
+      <tr>
+        <td><a href="/models/{{ m['repo_id'] }}">{{ m['repo_id'] }}</a></td>
+        <td>{{ m['author'] }}</td>
+        <td>{{ m['pipeline_tag'] }}</td>
+        <td>{{ m['parameters_readable'] }}</td>
+        <td>{{ m['last_modified'] }}</td>
+        <td>{{ m['downloads'] }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

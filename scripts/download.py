@@ -300,3 +300,162 @@ if __name__ == "__main__":
     main()
 """
 """
+
+
+# --- Direct upload + DB integration additions ---
+import boto3
+from botocore.exceptions import ClientError
+from scripts.models_db import init_db, upsert_model, upsert_file, record_upload, compute_sha256
+
+def extract_basic_model_fields(repo_id: str, js: dict) -> dict:
+    # Minimal parse to populate 'models' table
+    author = js.get("author") or (repo_id.split("/")[0] if "/" in repo_id else "")
+    pipeline_tag = js.get("pipeline_tag") or js.get("transformersInfo", {}).get("pipeline_tag") \
+                   or js.get("cardData", {}).get("pipeline_tag") or ""
+    downloads = js.get("downloads") or 0
+    likes = js.get("likes") or 0
+    created_at = js.get("createdAt") or ""
+    last_modified = js.get("lastModified") or ""
+    tags = js.get("tags") or []
+    languages = js.get("cardData", {}).get("language") or []
+    license_spdx = ""
+    if isinstance(tags, list):
+        for t in tags:
+            if isinstance(t, str) and t.lower().startswith("license:"):
+                license_spdx = t.split(":",1)[-1]
+                break
+    # params
+    st = js.get("safetensors") or {}
+    params_int = st.get("total") if isinstance(st.get("total"), int) else None
+    params_readable = ""
+    if isinstance(params_int, int):
+        if params_int >= 1_000_000_000:
+            params_readable = f"{params_int/1_000_000_000:.2f}B"
+        elif params_int >= 1_000_000:
+            params_readable = f"{params_int/1_000_000:.2f}M"
+        elif params_int >= 1_000:
+            params_readable = f"{params_int/1_000:.2f}K"
+        else:
+            params_readable = str(params_int)
+
+    return {
+        "canonical_url": f"https://huggingface.co/{repo_id}",
+        "model_name": repo_id.split("/")[-1],
+        "author": author,
+        "pipeline_tag": pipeline_tag,
+        "license": license_spdx,
+        "parameters": params_int,
+        "parameters_readable": params_readable,
+        "downloads": int(downloads) if isinstance(downloads, (int,float)) else 0,
+        "likes": int(likes) if isinstance(likes, (int,float)) else 0,
+        "created_at": created_at,
+        "last_modified": last_modified,
+        "languages": ";".join(languages) if isinstance(languages, list) else "",
+        "tags": ";".join([t for t in tags if isinstance(t,str)]),
+        "model_description": js.get("cardData", {}).get("summary","") if isinstance(js.get("cardData"), dict) else "",
+        "params_raw": "",
+        "model_size_raw": "",
+    }
+
+def ensure_bucket(s3_client, bucket: str, region: str, endpoint_url: Optional[str] = None):
+    try:
+        s3_client.head_bucket(Bucket=bucket)
+        return
+    except ClientError as e:
+        code = int(e.response.get("ResponseMetadata", {}).get("HTTPStatusCode", 0))
+        if code not in (403, 404):
+            raise
+    create_params = {"Bucket": bucket}
+    if region and (endpoint_url is None or "amazonaws.com" in (endpoint_url or "")):
+        if region != "us-east-1":
+            create_params["CreateBucketConfiguration"] = {"LocationConstraint": region}
+    try:
+        s3_client.create_bucket(**create_params)
+    except ClientError as e:
+        if e.response["Error"]["Code"] != "BucketAlreadyOwnedByYou":
+            raise
+
+def upload_minio(client, bucket: str, key: str, file_path: str) -> Optional[str]:
+    try:
+        client.upload_file(file_path, bucket, key)
+        # Head to get ETag
+        resp = client.head_object(Bucket=bucket, Key=key)
+        return resp.get("ETag")
+    except Exception as e:
+        print(f"[WARN] MinIO upload failed for {key}: {e}", file=sys.stderr)
+        return None
+
+def get_env(name: str, default: Optional[str] = None):
+    v = os.getenv(name)
+    return v if v not in (None, "") else default
+
+def main_with_db_and_upload():
+    # Parse args again to extract custom flags, or rely on envs
+    import argparse
+    ap = argparse.ArgumentParser(add_help=False)
+    ap.add_argument("--db-path", default=os.getenv("DB_PATH", "/app/db/models.db"))
+    ap.add_argument("--direct-upload", action="store_true", default=os.getenv("DIRECT_UPLOAD","0") == "1")
+    ap.add_argument("--minio-url", default=get_env("MINIO_URL","http://minio:9000"))
+    ap.add_argument("--minio-bucket", default=get_env("MINIO_BUCKET","models"))
+    ap.add_argument("--minio-region", default=get_env("MINIO_REGION","us-east-1"))
+    ap.add_argument("--minio-prefix", default=get_env("MINIO_KEY_PREFIX",""))
+    ap.add_argument("--minio-access-key", default=get_env("MINIO_ROOT_USER", get_env("MINIO_ACCESS_KEY")))
+    ap.add_argument("--minio-secret-key", default=get_env("MINIO_ROOT_PASSWORD", get_env("MINIO_SECRET_KEY")))
+    # We accept unknown args to avoid clashing with original parser
+    flags, unknown = ap.parse_known_args()
+
+    # Initialize DB
+    init_db(flags.db_path)
+
+    # If direct upload desired, set up client + bucket
+    minio_client = None
+    if flags.direct_upload and flags.minio_access_key and flags.minio_secret_key and flags.minio_bucket:
+        minio_client = boto3.client(
+            "s3",
+            endpoint_url=flags.minio_url,
+            aws_access_key_id=flags.minio_access_key,
+            aws_secret_access_key=flags.minio_secret_key,
+            region_name=flags.minio_region,
+        )
+        ensure_bucket(minio_client, flags.minio_bucket, flags.minio_region, endpoint_url=flags.minio_url)
+
+    # Re-run original main() but intercept loop via a tiny hook.
+    # We'll monkeypatch download_file to compute sha + upload + DB writes.
+    original_download_file = download_file
+
+    def download_file_hook(repo_id, rfilename, dest, headers, revision, expected_size=None):
+        ok = original_download_file(repo_id, rfilename, dest, headers, revision, expected_size)
+        # Record local file info
+        size = None
+        if dest.exists():
+            size = dest.stat().st_size
+            sha256 = compute_sha256(str(dest))
+        else:
+            sha256 = None
+        upsert_file(flags.db_path, repo_id, rfilename, size, sha256, str(dest) if dest.exists() else None)
+        # Upload to MinIO
+        if ok and minio_client is not None and dest.exists():
+            rel = dest.relative_to(Path(args.out_dir)).as_posix() if 'args' in globals() else dest.name
+            key = f"{flags.minio_prefix}/{rel}" if flags.minio_prefix else rel
+            etag = upload_minio(minio_client, flags.minio_bucket, key, str(dest))
+            record_upload(flags.db_path, repo_id, rfilename, "minio", flags.minio_bucket, key, etag)
+        return ok
+
+    globals()['download_file'] = download_file_hook
+
+    # Wrap load_or_fetch_model_json to also upsert basic model row
+    original_load = load_or_fetch_model_json
+    def load_or_fetch_with_upsert(repo_id: str, revision: str, sleep_s: float = 0.5):
+        js = original_load(repo_id, revision, sleep_s)
+        if js:
+            fields = extract_basic_model_fields(repo_id, js)
+            upsert_model(flags.db_path, repo_id, fields)
+        return js
+    globals()['load_or_fetch_model_json'] = load_or_fetch_with_upsert
+
+    # Call the original main()
+    return main()
+
+if __name__ == "__main__":
+    # If invoked normally, run enhanced main to support DB+upload
+    main_with_db_and_upload()

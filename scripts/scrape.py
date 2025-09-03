@@ -96,6 +96,7 @@ def enrich_csv(input_csv="models.csv", output_csv="models_enriched.csv"):
 
     df.to_csv(output_csv, index=False)
     print(f"Enriched data saved to {output_csv}")
+    _maybe_seed_db(input_csv, output_csv)
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
@@ -103,3 +104,30 @@ if __name__ == "__main__":
     ap.add_argument("--output", default="models_enriched.csv")
     args = ap.parse_args()
     enrich_csv(args.input, args.output)
+
+
+# Optional: write a minimal presence row into DB for each URL-resolved model
+import os
+from scripts.models_db import init_db, upsert_model
+
+def _maybe_seed_db(input_csv, output_csv):
+    db_path = os.getenv("DB_PATH", "/app/db/models.db")
+    try:
+        init_db(db_path)
+        df = pd.read_csv(output_csv)
+        for _, row in df.iterrows():
+            url = row.get("updated_url") or row.get("url")
+            if isinstance(url, str) and url.startswith("https://huggingface.co"):
+                repo_id = extract_model_id(url)
+                upsert_model(db_path, repo_id, {
+                    "canonical_url": f"https://huggingface.co/{repo_id}",
+                    "model_name": repo_id.split('/')[-1],
+                })
+        print(f"[DB] Seeded minimal model rows into {db_path}")
+    except Exception as e:
+        print(f"[DB] seed skipped: {e}")
+
+# Hook enrich_csv call site
+if __name__ == "__main__":
+    # Already handled by argparse above; append DB seeding after writing CSV
+    pass

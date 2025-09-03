@@ -51,11 +51,23 @@ services:
 
   pipeline-image:
     build: .
+    image: models-db-web:
     image: models-pipeline:latest
+    env_file: .env
+    depends_on:
+      - pipeline-image
+    volumes:
+      - db:/app/db
+    ports:
+      - "8080:8080"
+    command: ["worker", "db-web"]
+
+  pipeline:latest
     container_name: pipeline-image
     env_file: .env
     volumes:
       - cache:/app/cache
+      - db:/app/db
       - hf_models:/app/hf_models
       - ./data:/app/data
     command: ["worker", "help"]
@@ -63,38 +75,85 @@ services:
 
   # Individual task runners
   scraper:
+    image: models-db-web:
     image: models-pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
     volumes:
+      - db:/app/db
+    ports:
+      - "8080:8080"
+    command: ["worker", "db-web"]
+
+  pipeline:latest
+    env_file: .env
+    depends_on:
+      - pipeline-image
+    volumes:
       - cache:/app/cache
+      - db:/app/db
       - ./data:/app/data
     command: ["worker", "scrape"]
 
   downloader:
+    image: models-db-web:
     image: models-pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
     volumes:
+      - db:/app/db
+    ports:
+      - "8080:8080"
+    command: ["worker", "db-web"]
+
+  pipeline:latest
+    env_file: .env
+    depends_on:
+      - pipeline-image
+    volumes:
       - cache:/app/cache
+      - db:/app/db
       - hf_models:/app/hf_models
       - ./data:/app/data
     command: ["worker", "download"]
 
   metadata:
+    image: models-db-web:
     image: models-pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
     volumes:
+      - db:/app/db
+    ports:
+      - "8080:8080"
+    command: ["worker", "db-web"]
+
+  pipeline:latest
+    env_file: .env
+    depends_on:
+      - pipeline-image
+    volumes:
       - cache:/app/cache
+      - db:/app/db
       - ./data:/app/data
     command: ["worker", "metadata"]
 
   sync:
+    image: models-db-web:
     image: models-pipeline:latest
+    env_file: .env
+    depends_on:
+      - pipeline-image
+    volumes:
+      - db:/app/db
+    ports:
+      - "8080:8080"
+    command: ["worker", "db-web"]
+
+  pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
@@ -103,14 +162,37 @@ services:
       - hf_models:/app/hf_models
     command: ["worker", "sync"]
 
-  pipeline:
+  db-web:
     image: models-pipeline:latest
+    env_file: .env
+    depends_on:
+      - pipeline-image
+    volumes:
+      - db:/app/db
+    ports:
+      - "8080:8080"
+    command: ["worker", "db-web"]
+
+  pipeline:
+    image: models-db-web:
+    image: models-pipeline:latest
+    env_file: .env
+    depends_on:
+      - pipeline-image
+    volumes:
+      - db:/app/db
+    ports:
+      - "8080:8080"
+    command: ["worker", "db-web"]
+
+  pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
       - mc
     volumes:
       - cache:/app/cache
+      - db:/app/db
       - hf_models:/app/hf_models
       - ./data:/app/data
     command: ["worker", "all"]
@@ -119,3 +201,9 @@ volumes:
   minio-data:
   cache:
   hf_models:
+
+volumes:
+  minio-data:
+  cache:
+  hf_models:
+  db:

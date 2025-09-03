@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Files</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 0.5rem; border-bottom: 1px solid #eee; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>Recent Files</h1>
+  <table>
+    <tr><th>Repo</th><th>Filename</th><th>Size</th><th>SHA256</th><th>Created</th></tr>
+    {% for f in rows %}
+    <tr><td><a href="/models/{{ f['repo_id'] }}">{{ f['repo_id'] }}</a></td><td>{{ f['rfilename'] }}</td><td>{{ f['size'] }}</td><td>{{ f['sha256'] }}</td><td>{{ f['created_at'] }}</td></tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

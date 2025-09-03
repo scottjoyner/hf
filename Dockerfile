@@ -20,12 +20,13 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # App code
 COPY scripts/ ./scripts/
+COPY scripts/webapp ./scripts/webapp
 COPY data/models.csv ./data/models.csv
 COPY scripts/entrypoint.sh ./entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
 # Use non-root
-RUN useradd -m -u 1000 appuser
+RUN mkdir -p /app/db && useradd -m -u 1000 appuser
 USER appuser
 
 ENV PATH="${APP_HOME}/scripts:${PATH}"

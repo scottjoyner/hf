@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ m['repo_id'] }}</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 0.5rem; border-bottom: 1px solid #eee; text-align: left; }
+    h1 { margin-bottom: .5rem; }
+    .muted { color: #666; }
+    a { text-decoration: none; color: #0366d6; }
+  </style>
+</head>
+<body>
+  <h1>{{ m['repo_id'] }}</h1>
+  <p class="muted">{{ m['model_description'] }}</p>
+  <p><a href="{{ m['canonical_url'] }}" target="_blank">Open on HuggingFace</a></p>
+
+  <h2>Metadata</h2>
+  <table>
+    <tr><th>Author</th><td>{{ m['author'] }}</td></tr>
+    <tr><th>Pipeline</th><td>{{ m['pipeline_tag'] }}</td></tr>
+    <tr><th>License</th><td>{{ m['license'] }}</td></tr>
+    <tr><th>Parameters</th><td>{{ m['parameters_readable'] }}</td></tr>
+    <tr><th>Downloads</th><td>{{ m['downloads'] }}</td></tr>
+    <tr><th>Created</th><td>{{ m['created_at'] }}</td></tr>
+    <tr><th>Last Modified</th><td>{{ m['last_modified'] }}</td></tr>
+    <tr><th>Languages</th><td>{{ m['languages'] }}</td></tr>
+    <tr><th>Tags</th><td>{{ m['tags'] }}</td></tr>
+  </table>
+
+  <h2>Files ({{ files|length }})</h2>
+  <table>
+    <tr><th>Path</th><th>Size</th><th>SHA256</th></tr>
+    {% for f in files %}
+    <tr><td>{{ f['rfilename'] }}</td><td>{{ f['size'] }}</td><td class="muted">{{ f['sha256'] }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>Uploads ({{ uploads|length }})</h2>
+  <table>
+    <tr><th>When</th><th>Store</th><th>Bucket</th><th>Key</th><th>ETag</th></tr>
+    {% for u in uploads %}
+    <tr><td>{{ u['uploaded_at'] }}</td><td>{{ u['storage'] }}</td><td>{{ u['bucket'] }}</td><td>{{ u['key'] }}</td><td class="muted">{{ u['etag'] }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <p><a href="/models">Back to Models</a></p>
+</body>
+</html>

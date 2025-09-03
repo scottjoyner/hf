@@ -320,3 +320,32 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# --- DB update integration ---
+import os
+from scripts.models_db import init_db, upsert_model
+
+def _write_models_into_db(db_path: str, df):
+    init_db(db_path)
+    for _, row in df.iterrows():
+        repo_id = row.get("repo_id")
+        if not isinstance(repo_id, str) or not repo_id:
+            continue
+        fields = {k: row.get(k) for k in [
+            "canonical_url","model_name","author","pipeline_tag","license",
+            "parameters","parameters_readable","downloads","likes","created_at",
+            "last_modified","languages","tags","model_description","params_raw","model_size_raw"
+        ]}
+        upsert_model(db_path, repo_id, fields)
+
+if __name__ == "__main__":
+    # After CSV write, attempt DB sync if DB_PATH present
+    db_path = os.getenv("DB_PATH", "/app/db/models.db")
+    try:
+        import pandas as _pd
+        _df = _pd.read_csv(args.output)
+        _write_models_into_db(db_path, _df)
+        print(f"[DB] models table updated at {db_path}")
+    except Exception as e:
+        print(f"[DB] skipped: {e}")

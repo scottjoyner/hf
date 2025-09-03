@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Models DB</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 1rem; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { padding: 0.5rem; border-bottom: 1px solid #eee; text-align: left; }
+    a { text-decoration: none; color: #0366d6; }
+  </style>
+</head>
+<body>
+  <h1>Models Dashboard</h1>
+  <div class="cards">
+    <div class="card"><h3>Models</h3><div>{{ m_count }}</div></div>
+    <div class="card"><h3>Files</h3><div>{{ f_count }}</div></div>
+    <div class="card"><h3>Uploads</h3><div>{{ u_count }}</div></div>
+  </div>
+
+  <h2>Latest modified</h2>
+  <table>
+    <tr><th>Repo</th><th>Last Modified</th><th>Downloads</th></tr>
+    {% for r in latest %}
+    <tr><td><a href="/models/{{ r['repo_id'] }}">{{ r['repo_id'] }}</a></td><td>{{ r['last_modified'] }}</td><td>{{ r['downloads'] }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>Top downloads</h2>
+  <table>
+    <tr><th>Repo</th><th>Downloads</th></tr>
+    {% for r in top %}
+    <tr><td><a href="/models/{{ r['repo_id'] }}">{{ r['repo_id'] }}</a></td><td>{{ r['downloads'] }}</td></tr>
+    {% endfor %}
+  </table>
+
+  <p><a href="/models">Browse all models</a> · <a href="/files">Recent files</a></p>
+</body>
+</html>
