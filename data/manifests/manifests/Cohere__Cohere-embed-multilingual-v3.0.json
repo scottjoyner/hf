@@ -1,55 +1,55 @@
 {
   "schema": "hf-model-manifest/v1",
   "repo_id": "Cohere/Cohere-embed-multilingual-v3.0",
-  "updated_ts": 1756930700,
+  "updated_ts": 1756931250,
   "files": [
     {
       "rfilename": ".gitattributes",
       "size": "",
       "sha256": null,
-      "updated_ts": 1756930700,
+      "updated_ts": 1756931250,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.gitattributes"
     },
     {
       "rfilename": "README.md",
       "size": "",
       "sha256": null,
-      "updated_ts": 1756930700,
+      "updated_ts": 1756931250,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/README.md"
     },
     {
       "rfilename": "config.json",
       "size": "",
       "sha256": null,
-      "updated_ts": 1756930700,
+      "updated_ts": 1756931250,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/config.json"
     },
     {
       "rfilename": "sentencepiece.bpe.model",
       "size": "",
       "sha256": null,
-      "updated_ts": 1756930700,
+      "updated_ts": 1756931250,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/sentencepiece.bpe.model"
     },
     {
       "rfilename": "special_tokens_map.json",
       "size": "",
       "sha256": null,
-      "updated_ts": 1756930700,
+      "updated_ts": 1756931250,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/special_tokens_map.json"
     },
     {
       "rfilename": "tokenizer.json",
       "size": "",
       "sha256": null,
-      "updated_ts": 1756930700,
+      "updated_ts": 1756931250,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/tokenizer.json"
     },
     {
       "rfilename": "tokenizer_config.json",
       "size": "",
       "sha256": null,
-      "updated_ts": 1756930700,
+      "updated_ts": 1756931250,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/tokenizer_config.json"
     }
   ]

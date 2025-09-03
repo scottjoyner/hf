@@ -33,7 +33,10 @@ logging.basicConfig(
 # ---------------------------------------------------------------------
 DEFAULT_DB_PATH = os.getenv("DB_PATH", "/app/db/models.db")
 _CANON_RE = re.compile(r"https?://(?:www\.)?huggingface\.co/([^/\s]+)/([^/\s]+)")
-
+_HF_URL_PATTERNS = [
+    re.compile(r"^https?://(?:www\.)?huggingface\.co/([^/\s]+)/([^/\s?#]+)"),
+    re.compile(r"^https?://(?:www\.)?hf\.co/([^/\s]+)/([^/\s?#]+)"),
+]
 
 # ---------------------------------------------------------------------
 # Connection helpers
@@ -452,43 +455,70 @@ def _safe_repo_folder(repo_id: str) -> str:
     return repo_id.replace("/", "__")
 
 def _extract_repo_id(row: Dict[str, str]) -> str:
-    # Try common columns
-    for key in ("repo_id", "model_id", "name_hf_slug", "id"):
+    """
+    Return 'owner/repo' from a row using generous heuristics:
+    - direct columns: repo_id, model_id, name_hf_slug, id, hf_repo, huggingface_repo
+    - URL columns: updated_url, url, canonical_url -> parse owner/repo
+    - model_name if it already looks like owner/repo
+    """
+    # 1) direct ids
+    for key in ("repo_id", "model_id", "name_hf_slug", "id", "hf_repo", "huggingface_repo"):
         v = (row.get(key) or "").strip()
         if v:
             return v
-    # Try canonical_url
-    url = (row.get("canonical_url") or "").strip()
-    if url:
-        m = _CANON_RE.match(url)
-        if m:
-            return f"{m.group(1)}/{m.group(2)}"
+
+    # 2) URL-derived ids
+    for key in ("updated_url", "url", "canonical_url"):
+        url = (row.get(key) or "").strip()
+        if not url:
+            continue
+        for pat in _HF_URL_PATTERNS:
+            m = pat.match(url)
+            if m:
+                return f"{m.group(1)}/{m.group(2)}"
+
+    # 3) model_name sometimes already has owner/repo
+    mn = (row.get("model_name") or "").strip()
+    if mn and "/" in mn and not mn.startswith("http"):
+        return mn
+
     return ""
 
 def _read_rows(path: Path) -> List[Dict[str, str]]:
+    """
+    Read CSV/TXT and return rows with a resolved 'repo_id'.
+    For CSV, we accept flexible columns and try to parse HF URLs.
+    """
     if not path.exists():
         raise FileNotFoundError(f"input not found: {path}")
 
+    # TXT input: one repo_id per line
     if path.suffix.lower() == ".txt":
         rows: List[Dict[str, str]] = []
-        for line in path.read_text().splitlines():
+        for line in path.read_text(encoding="utf-8").splitlines():
             line = line.strip()
             if not line or line.startswith("#"):
                 continue
             rows.append({"repo_id": line})
         return rows
 
-    out: List[Dict[str, str]] = []
+    # CSV input
+    kept: List[Dict[str, str]] = []
+    total = 0
     with path.open(newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for r in reader:
+            total += 1
             # normalize strings
             row = {k: (v.strip() if isinstance(v, str) else v) for k, v in r.items()}
             rid = _extract_repo_id(row)
             if rid:
                 row["repo_id"] = rid
-                out.append(row)
-    return out
+                kept.append(row)
+
+    LOG.info("Input file: %s", path)
+    LOG.info("Rows detected: %d (kept from %d total)", len(kept), total)
+    return kept
 
 def _walk_and_upsert(db_path: str, repo_id: str, local_root: Path, storage_root: Path) -> int:
     """
@@ -565,7 +595,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     LOG.info("Input file: %s", input_path)
     LOG.info("Rows detected: %d", len(rows))
     if not rows:
-        LOG.error("No rows found in %s. Expect a column like repo_id/model_id/name_hf_slug/id or a canonical_url.", input_path)
+        LOG.error(
+            "No rows found in %s. Expect a repo id column or a URL column like 'updated_url'/'url' "
+            "pointing to https://huggingface.co/<owner>/<repo>.",
+            input_path,
+        )
         return 1
     if not rows:
         LOG.warning("No rows found in %s", input_path)
