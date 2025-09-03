@@ -7,8 +7,8 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     command: server /data --console-address ":9001"
     ports:
-      - "19000:9000"   # API
-      - "19001:9001"   # Web console
+      - "19000:9000"
+      - "19001:9001"
     volumes:
       - minio-data:/data
 
@@ -22,35 +22,16 @@ services:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
       MINIO_BUCKET: ${MINIO_BUCKET}
-    entrypoint: ["/bin/sh","-c"]
+    entrypoint: ["/bin/sh","-lc"]
     command: >
-      echo "Configuring mc alias...";
-      for i in $$(seq 1 120); do
-        mc alias set minio http://minio:9000 "$$MINIO_ROOT_USER" "$$MINIO_ROOT_PASSWORD" >/dev/null 2>&1 && break;
-        sleep 1;
-      done;
-      echo "Waiting for MinIO list to succeed...";
-      for i in $$(seq 1 120); do
-        mc ls minio >/dev/null 2>&1 && break;
-        sleep 1;
-      done;
-      echo "Ensuring bucket exists: $$MINIO_BUCKET";
-      mc mb -p "minio/$$MINIO_BUCKET" >/dev/null 2>&1 || true;
-      mc ls "minio/$$MINIO_BUCKET" >/dev/null || { echo "Bucket check failed"; exit 1; }
-      echo "MinIO bucket ready: $$MINIO_BUCKET";
-      tail -f /dev/null
-    healthcheck:
-      test: ["CMD-SHELL", "mc alias set minio http://minio:9000 \"$$MINIO_ROOT_USER\" \"$$MINIO_ROOT_PASSWORD\" >/dev/null 2>&1 && mc ls minio/\"$$MINIO_BUCKET\" >/dev/null 2>&1"]
-      interval: 5s
-      timeout: 3s
-      retries: 20
+      mc alias set local http://minio:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD" &&
+      (mc ls "local/$MINIO_BUCKET" || mc mb -p "local/$MINIO_BUCKET") &&
+      echo "MinIO bucket ready: $MINIO_BUCKET"
   
   sync:
     image: models-pipeline:latest
     env_file: .env
-    depends_on:
-      mc:
-        condition: service_healthy
+    depends_on: [minio]
     volumes:
       - hf_models:/app/hf_models
     command: ["sync"]
@@ -123,8 +104,6 @@ services:
     image: models-pipeline:latest
     env_file: .env
     depends_on:
-      mc:
-        condition: service_healthy
       pipeline-image:
         condition: service_started
     volumes:
@@ -141,8 +120,6 @@ services:
     image: models-registry:latest
     container_name: models-registry
     depends_on:
-      mc:
-        condition: service_healthy
       pipeline-image:
         condition: service_started
     env_file:
