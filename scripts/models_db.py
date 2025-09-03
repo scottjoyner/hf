@@ -18,10 +18,8 @@ DEFAULT_DB_PATH = os.getenv("DB_PATH", "/app/db/models.db")
 def connect(db_path: str = DEFAULT_DB_PATH) -> sqlite3.Connection:
     p = Path(db_path)
     p.parent.mkdir(parents=True, exist_ok=True)
-    # check_same_thread=False allows reuse across threads if needed by workers
     conn = sqlite3.connect(str(p), check_same_thread=False)
     conn.row_factory = sqlite3.Row
-    # Pragmas: WAL for better concurrency; NORMAL is fine for dev perf
     conn.execute("PRAGMA journal_mode=WAL;")
     conn.execute("PRAGMA synchronous=NORMAL;")
     return conn
@@ -63,6 +61,20 @@ MODELS_COLUMNS: Dict[str, str] = {
     "model_description": "TEXT",
     "params_raw": "TEXT",
     "model_size_raw": "TEXT",
+
+    # ---- Aggregate/summary fields (added for metadata upserts)
+    "file_count": "INTEGER",
+    "total_size_bytes": "INTEGER",
+
+    # ---- File-type flags (0/1), useful for quick filtering
+    "has_safetensors": "INTEGER",
+    "has_pytorch_bin": "INTEGER",
+    "has_gguf": "INTEGER",
+    "has_onnx": "INTEGER",
+    "has_tflite": "INTEGER",
+    "has_coreml": "INTEGER",
+
+    # tracking
     "first_seen_ts": "INTEGER",
     "last_update_ts": "INTEGER",
 }
@@ -83,12 +95,20 @@ UPLOADS_COLUMNS: Dict[str, str] = {
     "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
     "repo_id": "TEXT NOT NULL",
     "rfilename": "TEXT NOT NULL",
-    "target": "TEXT NOT NULL",        # 'minio' | 's3' | ...
+    "target": "TEXT NOT NULL",
     "bucket": "TEXT NOT NULL",
     "object_key": "TEXT NOT NULL",
     "etag": "TEXT",
     "uploaded_ts": "INTEGER",
 }
+
+FIELD_ALIASES = {
+    "has_bin": "has_pytorch_bin",        # common shorthand → schema name
+    "total_size": "total_size_bytes",    # alternative names → schema name
+    "total_bytes": "total_size_bytes",
+    "size_bytes": "total_size_bytes",
+}
+
 
 # ---------------------------------------------------------------------
 # Introspection / migration utilities
@@ -102,7 +122,6 @@ def _columns(conn: sqlite3.Connection, table: str) -> Iterable[str]:
     return [r["name"] for r in conn.execute(f"PRAGMA table_info({table});").fetchall()]
 
 def _add_column(conn: sqlite3.Connection, table: str, col: str, decl: str, default_sql: Optional[str] = None):
-    # Note: cannot add PRIMARY KEY via ALTER, so only use this for non-PK columns.
     conn.execute(f"ALTER TABLE {table} ADD COLUMN {col} {decl};")
     if default_sql is not None:
         conn.execute(f"UPDATE {table} SET {col}={default_sql} WHERE {col} IS NULL;")
@@ -123,17 +142,13 @@ def _drop_and_create(conn: sqlite3.Connection, table: str, columns: Dict[str, st
         _ensure_unique_index(conn, iname, table, icols)
 
 def _rebuild_table(conn: sqlite3.Connection, table: str, columns: Dict[str, str], insert_map: Dict[str, str], uniques: Tuple[Tuple[str, str], ...] = ()):
-    # Create shadow table with desired schema
     new_table = f"{table}__new"
     conn.execute(f"DROP TABLE IF EXISTS {new_table};")
     cols_sql = ", ".join([f"{k} {v}" for k, v in columns.items()])
     conn.execute(f"CREATE TABLE {new_table} ({cols_sql});")
     for iname, icols in uniques:
         _ensure_unique_index(conn, iname, new_table, icols)
-
-    # Copy data with mapping of common columns
-    src_cols = []
-    dst_cols = []
+    src_cols, dst_cols = [], []
     for dst, src_expr in insert_map.items():
         if dst in columns:
             dst_cols.append(dst)
@@ -143,13 +158,11 @@ def _rebuild_table(conn: sqlite3.Connection, table: str, columns: Dict[str, str]
             f"INSERT OR IGNORE INTO {new_table} ({', '.join(dst_cols)}) "
             f"SELECT {', '.join(src_cols)} FROM {table};"
         )
-
-    # Swap
     conn.execute(f"DROP TABLE {table};")
     conn.execute(f"ALTER TABLE {new_table} RENAME TO {table};")
 
 # ---------------------------------------------------------------------
-# init / migrate (idempotent; safe for dev & future additive changes)
+# init / migrate
 # ---------------------------------------------------------------------
 def init_db(db_path: str = DEFAULT_DB_PATH) -> None:
     with connect(db_path) as conn:
@@ -159,11 +172,21 @@ def init_db(db_path: str = DEFAULT_DB_PATH) -> None:
         existing = set(_columns(conn, "models"))
         for col, decl in MODELS_COLUMNS.items():
             if col not in existing:
-                # assign sensible defaults for timestamps when adding to existing rows
-                default_sql = "strftime('%s','now')" if col in ("first_seen_ts", "last_update_ts") else None
-                # add non-PK columns via ALTER (repo_id PK already exists)
                 if col == "repo_id":
-                    continue
+                    continue  # already exists
+                # sensible defaults for new columns
+                if col in ("first_seen_ts", "last_update_ts"):
+                    default_sql = "strftime('%s','now')"
+                elif col in (
+                    "file_count", "total_size_bytes",
+                    "downloads", "likes", "parameters", "used_storage_bytes",
+                    "private", "gated", "disabled",
+                    "has_safetensors", "has_pytorch_bin", "has_gguf",
+                    "has_onnx", "has_tflite", "has_coreml",
+                ):
+                    default_sql = "0"
+                else:
+                    default_sql = None
                 _add_column(conn, "models", col, decl, default_sql)
 
         # files
@@ -173,7 +196,6 @@ def init_db(db_path: str = DEFAULT_DB_PATH) -> None:
         else:
             cols = set(_columns(conn, "files"))
             if "id" not in cols:
-                # If table empty, drop & create. Else rebuild to introduce PK.
                 cnt = conn.execute("SELECT COUNT(1) AS n FROM files;").fetchone()["n"]
                 if cnt == 0:
                     _drop_and_create(conn, "files", FILES_COLUMNS, uniques_files)
@@ -189,14 +211,12 @@ def init_db(db_path: str = DEFAULT_DB_PATH) -> None:
                         "updated_ts": "COALESCE(updated_ts, strftime('%s','now'))",
                     }
                     _rebuild_table(conn, "files", FILES_COLUMNS, insert_map, uniques_files)
-            # add any other missing columns
             cols = set(_columns(conn, "files"))
             for col, decl in FILES_COLUMNS.items():
                 if col not in cols:
-                    default_sql = "strftime('%s','now')" if col in ("created_ts", "updated_ts") else None
                     if col == "id":
-                        # never try to ALTER ADD PRIMARY KEY; handled by rebuild above
-                        continue
+                        continue  # cannot add PK via ALTER
+                    default_sql = "strftime('%s','now')" if col in ("created_ts", "updated_ts") else None
                     _add_column(conn, "files", col, decl, default_sql)
             _ensure_index(conn, "idx_files_repo", "files", "repo_id")
             _ensure_unique_index(conn, "uniq_files_repo_rfn", "files", "repo_id, rfilename")
@@ -225,9 +245,9 @@ def init_db(db_path: str = DEFAULT_DB_PATH) -> None:
             cols = set(_columns(conn, "uploads"))
             for col, decl in UPLOADS_COLUMNS.items():
                 if col not in cols:
-                    default_sql = "strftime('%s','now')" if col == "uploaded_ts" else None
                     if col == "id":
                         continue
+                    default_sql = "strftime('%s','now')" if col == "uploaded_ts" else None
                     _add_column(conn, "uploads", col, decl, default_sql)
             _ensure_unique_index(conn, "uniq_upload_target_bucket_key", "uploads", "target, bucket, object_key")
 
@@ -236,11 +256,7 @@ def init_db(db_path: str = DEFAULT_DB_PATH) -> None:
 # ---------------------------------------------------------------------
 # Utilities
 # ---------------------------------------------------------------------
-def compute_sha256(path: str | Path, chunk_size: int = 1024 * 1024) -> Tuple[str, int]:
-    """
-    Return (hex_sha256, size_bytes) for a local file.
-    This shape is handy in download steps where we store both.
-    """
+def compute_sha256_and_size(path: str | Path, chunk_size: int = 1024 * 1024) -> Tuple[str, int]:
     p = Path(path)
     h = hashlib.sha256()
     size = 0
@@ -249,6 +265,10 @@ def compute_sha256(path: str | Path, chunk_size: int = 1024 * 1024) -> Tuple[str
             h.update(chunk)
             size += len(chunk)
     return h.hexdigest(), size
+
+def compute_sha256(path: str | Path, chunk_size: int = 1024 * 1024) -> str:
+    digest, _ = compute_sha256_and_size(path, chunk_size=chunk_size)
+    return digest
 
 def _columns_for_upsert(fields: Dict[str, Any]) -> Tuple[str, str, list]:
     cols, qs, vals = [], [], []
@@ -260,24 +280,40 @@ def _columns_for_upsert(fields: Dict[str, Any]) -> Tuple[str, str, list]:
 # Upserts / Queries
 # ---------------------------------------------------------------------
 def upsert_model(db_path: str, repo_id: str, fields: Dict[str, Any]) -> None:
+    """
+    Upserts a model row. Unknown columns are ignored; known aliases are normalized.
+    This prevents migrations from breaking when scripts add new/renamed fields.
+    """
     if not repo_id:
         return
     init_db(db_path)
-    all_fields = dict(fields)
-    all_fields["repo_id"] = repo_id
-    all_fields["last_update_ts"] = _now_epoch()
-    # set first_seen_ts only on first insert (leave it alone on conflict)
-    cols, qs, vals = _columns_for_upsert(all_fields)
-    set_parts = [f"{k}=excluded.{k}" for k in all_fields.keys() if k not in ("repo_id", "first_seen_ts")]
-    sql = (
-        f"INSERT INTO models ({cols}) VALUES ({qs}) "
-        f"ON CONFLICT(repo_id) DO UPDATE SET {', '.join(set_parts)};"
-    )
+
+    # normalize aliases and drop unknown columns
+    normalized: Dict[str, Any] = {}
+    for k, v in (fields or {}).items():
+        kk = FIELD_ALIASES.get(k, k)
+        if kk in MODELS_COLUMNS:          # only keep columns the schema knows
+            normalized[kk] = v
+
+    # always set keys we control
+    normalized["repo_id"] = repo_id
+    normalized["last_update_ts"] = _now_epoch()
+
+    cols, qs, vals = _columns_for_upsert(normalized)
+    set_parts = [f"{k}=excluded.{k}" for k in normalized.keys() if k not in ("repo_id", "first_seen_ts")]
+
     with connect(db_path) as conn:
-        # ensure first_seen_ts exists for new rows
-        conn.execute("INSERT INTO models(repo_id, first_seen_ts, last_update_ts) VALUES (?, ?, ?) "
-                     "ON CONFLICT(repo_id) DO NOTHING;", (repo_id, _now_epoch(), _now_epoch()))
-        conn.execute(sql, vals)
+        # ensure the row exists with timestamps so first_seen_ts is populated once
+        conn.execute(
+            "INSERT INTO models(repo_id, first_seen_ts, last_update_ts) VALUES (?, ?, ?) "
+            "ON CONFLICT(repo_id) DO NOTHING;",
+            (repo_id, _now_epoch(), _now_epoch()),
+        )
+        conn.execute(
+            f"INSERT INTO models ({cols}) VALUES ({qs}) "
+            f"ON CONFLICT(repo_id) DO UPDATE SET {', '.join(set_parts)};",
+            vals,
+        )
         conn.commit()
 
 def upsert_file(
@@ -289,20 +325,31 @@ def upsert_file(
     local_path: Optional[str] = None,
     storage_root: Optional[str] = None,
 ) -> int:
-    """
-    Positional-friendly signature to match callers:
-      upsert_file(db_path, repo_id, rfilename, size, sha256, local_path[, storage_root])
-    """
     init_db(db_path)
-    # compute sha256 if not provided but file exists
+
+    # If sha256 arrived as a tuple (hex, size), unpack (defensive).
+    if isinstance(sha256, tuple) and len(sha256) == 2:
+        sha_hex, sz = sha256
+        try:
+            sha256 = str(sha_hex)
+        except Exception:
+            sha256 = None
+        if size is None:
+            try:
+                size = int(sz)
+            except Exception:
+                pass
+
+    # Compute sha/size if missing and file exists.
     if not sha256 and local_path and Path(local_path).exists():
         try:
-            sha256, size_calc = compute_sha256(local_path)
-            size = size or size_calc
+            sha256_hex, sz = compute_sha256_and_size(local_path)
+            sha256 = sha256_hex
+            size = size or sz
         except Exception:
             pass
+
     with connect(db_path) as conn:
-        # keep parent row for FK-like semantics
         conn.execute("INSERT INTO models(repo_id) VALUES (?) ON CONFLICT(repo_id) DO NOTHING;", (repo_id,))
         conn.execute("""
         INSERT INTO files (repo_id, rfilename, size, sha256, local_path, storage_root, created_ts, updated_ts)
@@ -314,7 +361,10 @@ def upsert_file(
           storage_root=COALESCE(excluded.storage_root, files.storage_root),
           updated_ts=excluded.updated_ts;
         """, (repo_id, rfilename, size, sha256, local_path, storage_root))
-        row = conn.execute("SELECT id FROM files WHERE repo_id=? AND rfilename=?;", (repo_id, rfilename)).fetchone()
+        row = conn.execute(
+            "SELECT id FROM files WHERE repo_id=? AND rfilename=?;",
+            (repo_id, rfilename)
+        ).fetchone()
         conn.commit()
         return int(row["id"]) if row else -1
 
@@ -328,13 +378,8 @@ def record_upload(
     object_key: str,
     etag: Optional[str] = None,
 ) -> int:
-    """
-    Log an upload of a file to a storage target (e.g., minio or s3).
-    Enforced unique on (target, bucket, object_key) so retries don’t duplicate.
-    """
     init_db(db_path)
     with connect(db_path) as conn:
-        # ensure refs exist
         conn.execute("INSERT INTO models(repo_id) VALUES (?) ON CONFLICT(repo_id) DO NOTHING;", (repo_id,))
         conn.execute("INSERT INTO files(repo_id, rfilename) VALUES (?, ?) ON CONFLICT(repo_id, rfilename) DO NOTHING;",
                      (repo_id, rfilename))
@@ -358,6 +403,8 @@ def get_models(db_path: str = DEFAULT_DB_PATH, limit: int = 200, offset: int = 0
         cur = conn.execute("""
         SELECT repo_id, model_name, author, pipeline_tag, license,
                parameters, parameters_readable, downloads, likes,
+               file_count, total_size_bytes,
+               has_safetensors, has_pytorch_bin, has_gguf,
                created_at, last_modified, canonical_url
         FROM models
         ORDER BY last_update_ts DESC
