@@ -1,0 +1,288 @@
+{
+    "info": {
+      "name": "Model Registry API",
+      "_postman_id": "8b8d8a0f-8f7c-4a2a-9c6e-aaaa0000abcd",
+      "description": "Postman collection for the Model Registry service.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+      { "key": "baseUrl", "value": "http://localhost:8081" },
+      { "key": "apiKey", "value": "" },
+      { "key": "adminToken", "value": "" },
+      { "key": "repoId", "value": "meta-llama/Llama-3-8B" },
+      { "key": "rfilename", "value": "tokenizer.json" },
+      { "key": "expires", "value": "900" },
+      { "key": "limit", "value": "100" },
+      { "key": "now", "value": "" },
+      { "key": "since30d", "value": "" }
+    ],
+    "event": [
+      {
+        "listen": "prerequest",
+        "script": {
+          "type": "text/javascript",
+          "exec": [
+            "const now = Math.floor(Date.now()/1000);",
+            "pm.collectionVariables.set('now', String(now));",
+            "pm.collectionVariables.set('since30d', String(now - 30*86400));"
+          ]
+        }
+      }
+    ],
+    "item": [
+      {
+        "name": "Health",
+        "item": [
+          {
+            "name": "GET /healthz",
+            "request": {
+              "method": "GET",
+              "url": "{{baseUrl}}/healthz"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('status 200', () => pm.response.code === 200);"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Users",
+        "item": [
+          {
+            "name": "POST /v1/users/register",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "content-type", "value": "application/json" }
+              ],
+              "url": "{{baseUrl}}/v1/users/register",
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"email\": \"you@example.com\",\n  \"name\": \"You\"\n}"
+              }
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('status 200', () => pm.response.code === 200);",
+                    "const data = pm.response.json();",
+                    "if (data && data.api_key) {",
+                    "  pm.collectionVariables.set('apiKey', data.api_key);",
+                    "  pm.environment.set('apiKey', data.api_key);",
+                    "}"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "POST /v1/users/rotate-key",
+            "request": {
+              "method": "POST",
+              "header": [
+                { "key": "x-api-key", "value": "{{apiKey}}" }
+              ],
+              "url": "{{baseUrl}}/v1/users/rotate-key"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('status 200', () => pm.response.code === 200);",
+                    "const data = pm.response.json();",
+                    "if (data && data.api_key) {",
+                    "  pm.collectionVariables.set('apiKey', data.api_key);",
+                    "  pm.environment.set('apiKey', data.api_key);",
+                    "}"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "GET /v1/users/me",
+            "request": {
+              "method": "GET",
+              "header": [
+                { "key": "x-api-key", "value": "{{apiKey}}" }
+              ],
+              "url": "{{baseUrl}}/v1/users/me"
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "pm.test('status 200', () => pm.response.code === 200);"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "GET /v1/users/me/usage",
+            "request": {
+              "method": "GET",
+              "header": [
+                { "key": "x-api-key", "value": "{{apiKey}}" }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/v1/users/me/usage?since={{since30d}}&until={{now}}&top_models_limit=20",
+                "host": [ "{{baseUrl}}" ],
+                "path": [ "v1", "users", "me", "usage" ],
+                "query": [
+                  { "key": "since", "value": "{{since30d}}" },
+                  { "key": "until", "value": "{{now}}" },
+                  { "key": "top_models_limit", "value": "20" }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Models",
+        "item": [
+          {
+            "name": "GET /v1/models",
+            "request": {
+              "method": "GET",
+              "header": [
+                { "key": "x-api-key", "value": "{{apiKey}}" }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/v1/models?q=&limit={{limit}}&offset=0",
+                "host": [ "{{baseUrl}}" ],
+                "path": [ "v1", "models" ],
+                "query": [
+                  { "key": "q", "value": "" },
+                  { "key": "limit", "value": "{{limit}}" },
+                  { "key": "offset", "value": "0" }
+                ]
+              }
+            }
+          },
+          {
+            "name": "GET /v1/models/{repo_id}",
+            "request": {
+              "method": "GET",
+              "header": [
+                { "key": "x-api-key", "value": "{{apiKey}}" }
+              ],
+              "url": "{{baseUrl}}/v1/models/{{repoId}}"
+            }
+          },
+          {
+            "name": "GET /v1/models/{repo_id}/files",
+            "request": {
+              "method": "GET",
+              "header": [
+                { "key": "x-api-key", "value": "{{apiKey}}" }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/v1/models/{{repoId}}/files?presign=true&expires={{expires}}",
+                "host": [ "{{baseUrl}}" ],
+                "path": [ "v1", "models", "{{repoId}}", "files" ],
+                "query": [
+                  { "key": "presign", "value": "true" },
+                  { "key": "expires", "value": "{{expires}}" }
+                ]
+              }
+            }
+          },
+          {
+            "name": "GET /v1/files/{repo_id}/{rfilename}/download",
+            "request": {
+              "method": "GET",
+              "header": [
+                { "key": "x-api-key", "value": "{{apiKey}}" }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/v1/files/{{repoId}}/{{rfilename}}/download?expires={{expires}}",
+                "host": [ "{{baseUrl}}" ],
+                "path": [ "v1", "files", "{{repoId}}", "{{rfilename}}", "download" ],
+                "query": [
+                  { "key": "expires", "value": "{{expires}}" }
+                ]
+              }
+            }
+          },
+          {
+            "name": "GET /v1/manifest/{repo_id}",
+            "request": {
+              "method": "GET",
+              "header": [
+                { "key": "x-api-key", "value": "{{apiKey}}" }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/v1/manifest/{{repoId}}?presign=false&expires={{expires}}",
+                "host": [ "{{baseUrl}}" ],
+                "path": [ "v1", "manifest", "{{repoId}}" ],
+                "query": [
+                  { "key": "presign", "value": "false" },
+                  { "key": "expires", "value": "{{expires}}" }
+                ]
+              }
+            }
+          },
+          {
+            "name": "GET /v1/changes",
+            "request": {
+              "method": "GET",
+              "header": [
+                { "key": "x-api-key", "value": "{{apiKey}}" }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/v1/changes?since={{since30d}}&limit=500",
+                "host": [ "{{baseUrl}}" ],
+                "path": [ "v1", "changes" ],
+                "query": [
+                  { "key": "since", "value": "{{since30d}}" },
+                  { "key": "limit", "value": "500" }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Admin",
+        "item": [
+          {
+            "name": "GET /v1/admin/usage",
+            "request": {
+              "method": "GET",
+              "header": [
+                { "key": "x-admin-token", "value": "{{adminToken}}" }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/v1/admin/usage?since={{since30d}}&top_users_limit=50&top_models_limit=100",
+                "host": [ "{{baseUrl}}" ],
+                "path": [ "v1", "admin", "usage" ],
+                "query": [
+                  { "key": "since", "value": "{{since30d}}" },
+                  { "key": "top_users_limit", "value": "50" },
+                  { "key": "top_models_limit", "value": "100" }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+  
