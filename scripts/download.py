@@ -1,11 +1,31 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+import argparse
+import csv
 import hashlib
+import logging
 import os
 import sqlite3
+import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, Iterable, Optional, Tuple
+from typing import Any, Dict, Iterable, Optional, Tuple, List
+
+# NEW: huggingface hub (make sure in requirements.txt)
+try:
+    from huggingface_hub import snapshot_download, HfHubHTTPError
+except Exception as _e:
+    snapshot_download = None
+    HfHubHTTPError = Exception
+
+# ---------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------
+LOG = logging.getLogger("download")
+logging.basicConfig(
+    level=os.environ.get("LOGLEVEL", "INFO").upper(),
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
 
 # ---------------------------------------------------------------------
 # Config / defaults
@@ -381,3 +401,188 @@ def get_files_for_repo(db_path: str, repo_id: str):
         FROM files WHERE repo_id=? ORDER BY rfilename ASC;
         """, (repo_id,))
         return [dict(r) for r in cur.fetchall()]
+
+# ---------------------------------------------------------------------
+# NEW: downloader CLI wired into your DB
+# ---------------------------------------------------------------------
+
+PRESETS: Dict[str, List[str]] = {
+    "weights": ["*.bin", "*.safetensors", "*.pt", "*.pth", "*.ckpt", "*.onnx"],
+    "gguf": ["*.gguf"],
+    "tokenizer": [
+        "tokenizer*.json", "vocab.*", "*merges.txt", "*vocab.json",
+        "spiece.model", "*.model"
+    ],
+    "config": [
+        "config.json", "*config.json", "*.yaml", "*.yml", "generation_config.json"
+    ],
+    "text": ["README.md", "*.md", "LICENSE*", "NOTICE*", "COPYING*"],
+    "core": [
+        "config.json", "generation_config.json",
+        "tokenizer*.json", "vocab.*", "*merges.txt", "*vocab.json",
+        "spiece.model", "*.model",
+        "*.safetensors", "*.bin"
+    ],
+}
+
+def expand_patterns(spec: str) -> List[str]:
+    if not spec:
+        return []
+    tokens = [t.strip() for t in spec.split(",") if t.strip()]
+    out: List[str] = []
+    for t in tokens:
+        key = t.lower()
+        if key in PRESETS:
+            out.extend(PRESETS[key])
+        elif any(ch in t for ch in ["*", "?", "[", "]"]) or "." in t:
+            out.append(t)  # raw glob
+        else:
+            out.append(f"*{t}*")
+    # dedupe preserve order
+    seen = set(); uniq: List[str] = []
+    for p in out:
+        if p not in seen:
+            seen.add(p); uniq.append(p)
+    return uniq
+
+def _safe_repo_folder(repo_id: str) -> str:
+    return repo_id.replace("/", "__")
+
+def _read_rows(path: Path) -> List[Dict[str, str]]:
+    if not path.exists():
+        raise FileNotFoundError(f"input not found: {path}")
+    if path.suffix.lower() == ".txt":
+        rows: List[Dict[str, str]] = []
+        for line in path.read_text().splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            rows.append({"repo_id": line})
+        return rows
+    # CSV
+    with path.open(newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        out: List[Dict[str, str]] = []
+        for r in reader:
+            rid = (r.get("repo_id") or r.get("model_id") or r.get("name_hf_slug") or r.get("id") or "").strip()
+            if not rid:
+                continue
+            row = {k: (v.strip() if isinstance(v, str) else v) for k, v in r.items()}
+            row["repo_id"] = rid
+            out.append(row)
+        return out
+
+def _walk_and_upsert(db_path: str, repo_id: str, local_root: Path, storage_root: Path) -> int:
+    """
+    Walk local_root; upsert every file into DB with relative rfilename.
+    Returns number of files recorded.
+    """
+    n = 0
+    for p in local_root.rglob("*"):
+        if not p.is_file():
+            continue
+        rel = p.relative_to(local_root)
+        rfilename = str(rel).replace("\\", "/")
+        # compute sha+size once
+        try:
+            sha, size = compute_sha256_and_size(p)
+        except Exception:
+            sha, size = None, p.stat().st_size if p.exists() else None
+        upsert_file(
+            db_path=db_path,
+            repo_id=repo_id,
+            rfilename=rfilename,
+            size=size,
+            sha256=sha,
+            local_path=str(p),
+            storage_root=str(storage_root),
+        )
+        n += 1
+    return n
+
+def download_one(
+    repo_id: str,
+    target_dir: Path,
+    allow_patterns: List[str],
+    revision: Optional[str],
+) -> Path:
+    if snapshot_download is None:
+        raise RuntimeError(
+            "huggingface_hub is not available. Add `huggingface_hub` to requirements.txt."
+        )
+    target_dir.mkdir(parents=True, exist_ok=True)
+    LOG.info("Downloading %s (rev=%s) patterns=%s -> %s", repo_id, revision, allow_patterns or "(all)", target_dir)
+    local_path = snapshot_download(
+        repo_id=repo_id,
+        repo_type="model",
+        revision=revision,
+        local_dir=str(target_dir),
+        local_dir_use_symlinks=False,
+        allow_patterns=allow_patterns if allow_patterns else None,
+        ignore_patterns=None,
+        max_workers=8,
+        etag_timeout=20,
+    )
+    return Path(local_path)
+
+def main(argv: Optional[List[str]] = None) -> int:
+    ap = argparse.ArgumentParser(description="Download models and record files in DB")
+    ap.add_argument("--input", required=True, help="CSV/TXT with repo IDs (columns: repo_id|model_id|name_hf_slug)")
+    ap.add_argument("--out-dir", required=True, help="Directory to store downloaded files")
+    ap.add_argument("--patterns", default="weights", help="Preset/patterns, e.g. 'weights,tokenizer,config' or '*.bin,*.json'")
+    ap.add_argument("--revision", default=os.getenv("HF_REVISION", "main"), help="Default revision (per-row 'revision' overrides)")
+    ap.add_argument("--layout", choices=("by_repo","flat"), default="by_repo", help="by_repo -> <out>/<owner__repo>/...")
+    ap.add_argument("--db-path", default=DEFAULT_DB_PATH, help="SQLite DB path")
+    args = ap.parse_args(argv)
+
+    input_path = Path(args.input).resolve()
+    out_dir = Path(args.out_dir).resolve()
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    init_db(args.db_path)
+
+    default_patterns = expand_patterns(args.patterns)
+    LOG.info("Using patterns: %s", default_patterns or "(all files)")
+    rows = _read_rows(input_path)
+    if not rows:
+        LOG.warning("No rows found in %s", input_path)
+        return 0
+
+    ok = 0
+    fail = 0
+    for row in rows:
+        repo_id = row["repo_id"]
+        rev = (row.get("revision") or args.revision or "").strip() or None
+        per_row_patterns = row.get("allow_patterns", "").strip()
+        allow_patterns = expand_patterns(per_row_patterns) if per_row_patterns else default_patterns
+
+        # choose local target dir
+        if args.layout == "by_repo":
+            subfolder = (row.get("subfolder") or _safe_repo_folder(repo_id)).strip()
+            target = out_dir / subfolder
+        else:
+            target = out_dir
+
+        try:
+            local_root = download_one(repo_id, target, allow_patterns, rev)
+            count = _walk_and_upsert(
+                db_path=args.db_path,
+                repo_id=repo_id,
+                local_root=local_root,
+                storage_root=out_dir if args.layout == "by_repo" else out_dir,
+            )
+            LOG.info("✅ %s -> %s (files recorded: %d)", repo_id, local_root, count)
+            ok += 1
+        except HfHubHTTPError as e:
+            LOG.error("❌ %s (HTTP): %s", repo_id, e)
+            fail += 1
+        except Exception as e:
+            LOG.error("❌ %s: %s", repo_id, e)
+            fail += 1
+
+    LOG.info("Done. success=%d failed=%d total=%d", ok, fail, len(rows))
+    return 0 if fail == 0 else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
