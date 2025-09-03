@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os, sqlite3, time
 from pathlib import Path
-from typing import List, Optional, Any
+from typing import List, Optional, Any, Dict
 
 from fastapi import FastAPI, HTTPException, Query, Depends, Header, Request
 from fastapi.responses import JSONResponse
@@ -20,6 +20,7 @@ MINIO_ACCESS_KEY = os.environ.get("MINIO_ROOT_USER", "")
 MINIO_SECRET_KEY = os.environ.get("MINIO_ROOT_PASSWORD", "")
 MINIO_BUCKET     = os.environ.get("MINIO_BUCKET", "models")
 MINIO_SECURE     = os.environ.get("MINIO_SECURE", "false").strip().lower() == "true"
+ADMIN_TOKEN      = os.environ.get("REGISTRY_ADMIN_TOKEN", "").strip()
 
 def get_conn() -> sqlite3.Connection:
     p = Path(DB_PATH); p.parent.mkdir(parents=True, exist_ok=True)
@@ -72,7 +73,7 @@ class ChangeRow(BaseModel):
     repo_id: str
     last_update_ts: int
 
-# ---------- auth dependency ----------
+# ---------- auth dependencies ----------
 def current_user(x_api_key: Optional[str] = Header(default=None)):
     if not x_api_key:
         raise HTTPException(status_code=401, detail="missing x-api-key")
@@ -81,8 +82,31 @@ def current_user(x_api_key: Optional[str] = Header(default=None)):
         raise HTTPException(status_code=401, detail="invalid or revoked api key")
     return user
 
+def admin_required(x_admin_token: Optional[str] = Header(default=None)):
+    if not ADMIN_TOKEN:
+        raise HTTPException(status_code=503, detail="admin token not configured")
+    if not x_admin_token or x_admin_token != ADMIN_TOKEN:
+        raise HTTPException(status_code=401, detail="invalid admin token")
+    return {"role": "admin"}
+
+# ---------- helpers ----------
+def _window(since: Optional[int], until: Optional[int], default_days: int = 30) -> (int, int):
+    now = int(time.time())
+    if until is None: until = now
+    if since is None: since = until - default_days * 86400
+    return int(since), int(until)
+
+def _object_key_for(c: sqlite3.Connection, repo_id: str, rfilename: str) -> str:
+    row = c.execute("""
+      SELECT object_key FROM uploads
+       WHERE repo_id=? AND rfilename=? AND target IN ('minio','s3')
+       ORDER BY uploaded_ts DESC LIMIT 1""", (repo_id, rfilename)).fetchone()
+    if row and row["object_key"]:
+        return row["object_key"]
+    return f"hf/{repo_id.strip('/')}/{rfilename}"
+
 # ---------- FastAPI ----------
-app = FastAPI(title="Model Registry API", version="0.2.0")
+app = FastAPI(title="Model Registry API", version="0.3.0")
 
 @app.on_event("startup")
 def _startup():
@@ -159,15 +183,6 @@ def get_model(repo_id: str, user=Depends(current_user)):
         if not r: raise HTTPException(status_code=404, detail="model not found")
         return ModelRow(**dict(r))
 
-def _object_key_for(c: sqlite3.Connection, repo_id: str, rfilename: str) -> str:
-    row = c.execute("""
-      SELECT object_key FROM uploads
-       WHERE repo_id=? AND rfilename=? AND target IN ('minio','s3')
-       ORDER BY uploaded_ts DESC LIMIT 1""", (repo_id, rfilename)).fetchone()
-    if row and row["object_key"]:
-        return row["object_key"]
-    return f"hf/{repo_id.strip('/')}/{rfilename}"
-
 @app.get("/v1/models/{repo_id}/files", response_model=List[FileRow])
 def list_files(repo_id: str, presign: bool = Query(False), expires: int = Query(3600, ge=60, le=86400),
                user=Depends(current_user), request: Request = None):
@@ -186,7 +201,7 @@ def list_files(repo_id: str, presign: bool = Query(False), expires: int = Query(
             fr = FileRow(rfilename=r["rfilename"], size=r["size"], sha256=r["sha256"],
                          updated_ts=r["updated_ts"], object_key=obj, presigned_url=url)
             out.append(fr)
-        # log event (manifest/files list)
+        # log event
         ra = request.headers.get("x-forwarded-for") or request.client.host if request else None
         ua = request.headers.get("user-agent") if request else None
         log_access(user_id=int(user["user_id"]), api_key_id=int(user["api_key_id"]),
@@ -209,7 +224,6 @@ def direct_download(repo_id: str, rfilename: str, expires: int = Query(3600, ge=
             raise HTTPException(status_code=404, detail=f"object not accessible: {obj}") from e
         ra = request.headers.get("x-forwarded-for") or request.client.host if request else None
         ua = request.headers.get("user-agent") if request else None
-        # Log issuance of a download URL (we can’t observe actual bytes from MinIO here)
         log_access(user_id=int(user["user_id"]), api_key_id=int(user["api_key_id"]),
                    event_type="download_url_issued", repo_id=repo_id, rfilename=row["rfilename"],
                    object_key=obj, size=row["size"], status="ok", remote_addr=ra, user_agent=ua)
@@ -239,3 +253,148 @@ def changes(since: int = Query(...), limit: int = Query(500, ge=1, le=2000), use
            WHERE last_update_ts IS NOT NULL AND last_update_ts > ?
            ORDER BY last_update_ts ASC LIMIT ?""", (since, limit)).fetchall()
         return [ChangeRow(**dict(r)) for r in rows]
+
+# ---------- NEW: per-user usage ----------
+@app.get("/v1/users/me/usage")
+def my_usage(
+    since: Optional[int] = Query(None),
+    until: Optional[int] = Query(None),
+    top_models_limit: int = Query(20, ge=1, le=200),
+    user=Depends(current_user)
+):
+    since, until = _window(since, until, default_days=30)
+    uid = int(user["user_id"])
+    out: Dict[str, Any] = {"window": {"since": since, "until": until}}
+
+    with get_conn() as c:
+        # totals
+        t = c.execute("""
+          SELECT COUNT(*) AS events,
+                 SUM(CASE WHEN event_type='manifest' THEN 1 ELSE 0 END) AS manifests,
+                 SUM(CASE WHEN event_type='files_list' THEN 1 ELSE 0 END) AS files_list,
+                 SUM(CASE WHEN event_type='download_url_issued' THEN 1 ELSE 0 END) AS downloads,
+                 MAX(ts) AS last_seen_ts
+            FROM access_logs
+           WHERE user_id=? AND ts BETWEEN ? AND ?;
+        """, (uid, since, until)).fetchone()
+        out["totals"] = {k: int(t[k] or 0) for k in ["events","manifests","files_list","downloads"]}
+        out["last_seen_ts"] = int(t["last_seen_ts"] or 0)
+
+        # distincts
+        d_repo = c.execute("""
+          SELECT COUNT(DISTINCT repo_id) AS n FROM access_logs
+           WHERE user_id=? AND repo_id IS NOT NULL AND ts BETWEEN ? AND ?;
+        """, (uid, since, until)).fetchone()
+        out["distinct_models"] = int(d_repo["n"] or 0)
+
+        # top models (by downloads)
+        top = c.execute("""
+          SELECT repo_id, COUNT(*) AS downloads
+            FROM access_logs
+           WHERE user_id=? AND event_type='download_url_issued' AND ts BETWEEN ? AND ?
+           GROUP BY repo_id ORDER BY downloads DESC, repo_id ASC LIMIT ?;
+        """, (uid, since, until, top_models_limit)).fetchall()
+        out["top_models"] = [{"repo_id": r["repo_id"], "downloads": int(r["downloads"])} for r in top]
+
+        # timeseries (daily)
+        ts_rows = c.execute("""
+          SELECT date(ts,'unixepoch') AS day,
+                 COUNT(*) AS events,
+                 SUM(CASE WHEN event_type='download_url_issued' THEN 1 ELSE 0 END) AS downloads
+            FROM access_logs
+           WHERE user_id=? AND ts BETWEEN ? AND ?
+           GROUP BY day ORDER BY day ASC;
+        """, (uid, since, until)).fetchall()
+        out["timeseries_daily"] = [
+            {"day": r["day"], "events": int(r["events"]), "downloads": int(r["downloads"] or 0)} for r in ts_rows
+        ]
+    return out
+
+# ---------- NEW: admin usage dashboard ----------
+@app.get("/v1/admin/usage")
+def admin_usage(
+    since: Optional[int] = Query(None),
+    until: Optional[int] = Query(None),
+    top_users_limit: int = Query(50, ge=1, le=500),
+    top_models_limit: int = Query(100, ge=1, le=1000),
+    filter_user_id: Optional[int] = Query(None),
+    filter_email: Optional[str] = Query(None),
+    admin=Depends(admin_required)
+):
+    since, until = _window(since, until, default_days=30)
+    out: Dict[str, Any] = {"window": {"since": since, "until": until}}
+
+    with get_conn() as c:
+        user_clause = ""
+        params: List[Any] = [since, until]
+
+        # resolve user filter
+        if filter_email and not filter_user_id:
+            row = c.execute("SELECT id FROM users WHERE email=?", (filter_email.strip(),)).fetchone()
+            if row: filter_user_id = int(row["id"])
+        if filter_user_id:
+            user_clause = " AND l.user_id=? "
+            params.append(int(filter_user_id))
+
+        # totals over selection
+        t = c.execute(f"""
+          SELECT COUNT(*) AS events,
+                 SUM(CASE WHEN l.event_type='manifest' THEN 1 ELSE 0 END) AS manifests,
+                 SUM(CASE WHEN l.event_type='files_list' THEN 1 ELSE 0 END) AS files_list,
+                 SUM(CASE WHEN l.event_type='download_url_issued' THEN 1 ELSE 0 END) AS downloads,
+                 MAX(l.ts) AS last_seen_ts
+            FROM access_logs l
+           WHERE l.ts BETWEEN ? AND ? {user_clause};
+        """, tuple(params)).fetchone()
+        out["totals"] = {k: int(t[k] or 0) for k in ["events","manifests","files_list","downloads"]}
+        out["last_seen_ts"] = int(t["last_seen_ts"] or 0)
+
+        # top users (ignored if filtering a single user)
+        if not filter_user_id:
+            rows = c.execute("""
+              SELECT u.id AS user_id, u.email, u.name,
+                     COUNT(*) AS events,
+                     SUM(CASE WHEN l.event_type='download_url_issued' THEN 1 ELSE 0 END) AS downloads,
+                     MAX(l.ts) AS last_seen_ts
+                FROM access_logs l JOIN users u ON u.id=l.user_id
+               WHERE l.ts BETWEEN ? AND ?
+               GROUP BY u.id, u.email, u.name
+               ORDER BY downloads DESC, events DESC
+               LIMIT ?;
+            """, (since, until, top_users_limit)).fetchall()
+            out["top_users"] = [
+                {"user_id": int(r["user_id"]), "email": r["email"], "name": r["name"],
+                 "events": int(r["events"]), "downloads": int(r["downloads"] or 0),
+                 "last_seen_ts": int(r["last_seen_ts"] or 0)}
+                for r in rows
+            ]
+
+        # top models in selection
+        rows = c.execute(f"""
+          SELECT l.repo_id, COUNT(*) AS downloads
+            FROM access_logs l
+           WHERE l.event_type='download_url_issued' AND l.ts BETWEEN ? AND ? {user_clause}
+           GROUP BY l.repo_id
+           ORDER BY downloads DESC, l.repo_id ASC
+           LIMIT ?;
+        """, tuple(params + [top_models_limit])).fetchall()
+        out["top_models"] = [{"repo_id": r["repo_id"], "downloads": int(r["downloads"])} for r in rows]
+
+        # timeseries (daily)
+        rows = c.execute(f"""
+          SELECT date(l.ts,'unixepoch') AS day,
+                 COUNT(*) AS events,
+                 SUM(CASE WHEN l.event_type='download_url_issued' THEN 1 ELSE 0 END) AS downloads
+            FROM access_logs l
+           WHERE l.ts BETWEEN ? AND ? {user_clause}
+           GROUP BY day ORDER BY day ASC;
+        """, tuple(params)).fetchall()
+        out["timeseries_daily"] = [
+            {"day": r["day"], "events": int(r["events"]), "downloads": int(r["downloads"] or 0)}
+            for r in rows
+        ]
+
+    # include filter echo
+    if filter_user_id or filter_email:
+        out["filter"] = {"user_id": filter_user_id, "email": filter_email}
+    return out

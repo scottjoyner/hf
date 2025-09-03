@@ -111,3 +111,46 @@ def log_access(user_id: Optional[int], api_key_id: Optional[int], event_type: st
         (user_id, api_key_id, event_type, repo_id, rfilename, object_key,
          size, status, remote_addr, user_agent, _now()))
         c.commit()
+
+def ensure_registry_tables() -> None:
+    with conn() as c:
+        c.execute("""
+        CREATE TABLE IF NOT EXISTS users(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          email TEXT UNIQUE,
+          name TEXT,
+          is_active INTEGER DEFAULT 1,
+          created_ts INTEGER
+        );""")
+        c.execute("""
+        CREATE TABLE IF NOT EXISTS api_keys(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER NOT NULL,
+          key_hash TEXT UNIQUE NOT NULL,
+          created_ts INTEGER,
+          last_used_ts INTEGER,
+          revoked_ts INTEGER,
+          FOREIGN KEY(user_id) REFERENCES users(id)
+        );""")
+        c.execute("CREATE INDEX IF NOT EXISTS idx_api_keys_user ON api_keys(user_id);")
+        c.execute("""
+        CREATE TABLE IF NOT EXISTS access_logs(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER,
+          api_key_id INTEGER,
+          event_type TEXT,
+          repo_id TEXT,
+          rfilename TEXT,
+          object_key TEXT,
+          size INTEGER,
+          status TEXT,
+          remote_addr TEXT,
+          user_agent TEXT,
+          ts INTEGER
+        );""")
+        # NEW: extra indexes for usage analytics
+        c.execute("CREATE INDEX IF NOT EXISTS idx_logs_time ON access_logs(ts);")
+        c.execute("CREATE INDEX IF NOT EXISTS idx_logs_user_ts ON access_logs(user_id, ts);")
+        c.execute("CREATE INDEX IF NOT EXISTS idx_logs_event_ts ON access_logs(event_type, ts);")
+        c.execute("CREATE INDEX IF NOT EXISTS idx_logs_repo_ts ON access_logs(repo_id, ts);")
+        c.commit()
