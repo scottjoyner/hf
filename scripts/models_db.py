@@ -7,14 +7,21 @@ import time
 from pathlib import Path
 from typing import Any, Dict, Iterable, Optional, Tuple
 
+# ---------------------------------------------------------------------
+# Config / defaults
+# ---------------------------------------------------------------------
 DEFAULT_DB_PATH = os.getenv("DB_PATH", "/app/db/models.db")
 
-# ------------------ connection ------------------
+# ---------------------------------------------------------------------
+# Connection helpers
+# ---------------------------------------------------------------------
 def connect(db_path: str = DEFAULT_DB_PATH) -> sqlite3.Connection:
     p = Path(db_path)
     p.parent.mkdir(parents=True, exist_ok=True)
+    # check_same_thread=False allows reuse across threads if needed by workers
     conn = sqlite3.connect(str(p), check_same_thread=False)
     conn.row_factory = sqlite3.Row
+    # Pragmas: WAL for better concurrency; NORMAL is fine for dev perf
     conn.execute("PRAGMA journal_mode=WAL;")
     conn.execute("PRAGMA synchronous=NORMAL;")
     return conn
@@ -22,7 +29,9 @@ def connect(db_path: str = DEFAULT_DB_PATH) -> sqlite3.Connection:
 def _now_epoch() -> int:
     return int(time.time())
 
-# ------------------ desired schemas ------------------
+# ---------------------------------------------------------------------
+# Desired schemas (authoritative shape)
+# ---------------------------------------------------------------------
 MODELS_COLUMNS: Dict[str, str] = {
     "repo_id": "TEXT PRIMARY KEY",
     "canonical_url": "TEXT",
@@ -74,14 +83,16 @@ UPLOADS_COLUMNS: Dict[str, str] = {
     "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
     "repo_id": "TEXT NOT NULL",
     "rfilename": "TEXT NOT NULL",
-    "target": "TEXT NOT NULL",
+    "target": "TEXT NOT NULL",        # 'minio' | 's3' | ...
     "bucket": "TEXT NOT NULL",
     "object_key": "TEXT NOT NULL",
     "etag": "TEXT",
     "uploaded_ts": "INTEGER",
 }
 
-# ------------------ helpers ------------------
+# ---------------------------------------------------------------------
+# Introspection / migration utilities
+# ---------------------------------------------------------------------
 def _table_exists(conn: sqlite3.Connection, table: str) -> bool:
     return bool(conn.execute(
         "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?;", (table,)
@@ -91,6 +102,7 @@ def _columns(conn: sqlite3.Connection, table: str) -> Iterable[str]:
     return [r["name"] for r in conn.execute(f"PRAGMA table_info({table});").fetchall()]
 
 def _add_column(conn: sqlite3.Connection, table: str, col: str, decl: str, default_sql: Optional[str] = None):
+    # Note: cannot add PRIMARY KEY via ALTER, so only use this for non-PK columns.
     conn.execute(f"ALTER TABLE {table} ADD COLUMN {col} {decl};")
     if default_sql is not None:
         conn.execute(f"UPDATE {table} SET {col}={default_sql} WHERE {col} IS NULL;")
@@ -118,6 +130,7 @@ def _rebuild_table(conn: sqlite3.Connection, table: str, columns: Dict[str, str]
     conn.execute(f"CREATE TABLE {new_table} ({cols_sql});")
     for iname, icols in uniques:
         _ensure_unique_index(conn, iname, new_table, icols)
+
     # Copy data with mapping of common columns
     src_cols = []
     dst_cols = []
@@ -130,11 +143,14 @@ def _rebuild_table(conn: sqlite3.Connection, table: str, columns: Dict[str, str]
             f"INSERT OR IGNORE INTO {new_table} ({', '.join(dst_cols)}) "
             f"SELECT {', '.join(src_cols)} FROM {table};"
         )
+
     # Swap
     conn.execute(f"DROP TABLE {table};")
     conn.execute(f"ALTER TABLE {new_table} RENAME TO {table};")
 
-# ------------------ init / migrate ------------------
+# ---------------------------------------------------------------------
+# init / migrate (idempotent; safe for dev & future additive changes)
+# ---------------------------------------------------------------------
 def init_db(db_path: str = DEFAULT_DB_PATH) -> None:
     with connect(db_path) as conn:
         # models
@@ -143,7 +159,11 @@ def init_db(db_path: str = DEFAULT_DB_PATH) -> None:
         existing = set(_columns(conn, "models"))
         for col, decl in MODELS_COLUMNS.items():
             if col not in existing:
+                # assign sensible defaults for timestamps when adding to existing rows
                 default_sql = "strftime('%s','now')" if col in ("first_seen_ts", "last_update_ts") else None
+                # add non-PK columns via ALTER (repo_id PK already exists)
+                if col == "repo_id":
+                    continue
                 _add_column(conn, "models", col, decl, default_sql)
 
         # files
@@ -153,7 +173,7 @@ def init_db(db_path: str = DEFAULT_DB_PATH) -> None:
         else:
             cols = set(_columns(conn, "files"))
             if "id" not in cols:
-                # If table empty, drop & create. Else rebuild.
+                # If table empty, drop & create. Else rebuild to introduce PK.
                 cnt = conn.execute("SELECT COUNT(1) AS n FROM files;").fetchone()["n"]
                 if cnt == 0:
                     _drop_and_create(conn, "files", FILES_COLUMNS, uniques_files)
@@ -174,6 +194,9 @@ def init_db(db_path: str = DEFAULT_DB_PATH) -> None:
             for col, decl in FILES_COLUMNS.items():
                 if col not in cols:
                     default_sql = "strftime('%s','now')" if col in ("created_ts", "updated_ts") else None
+                    if col == "id":
+                        # never try to ALTER ADD PRIMARY KEY; handled by rebuild above
+                        continue
                     _add_column(conn, "files", col, decl, default_sql)
             _ensure_index(conn, "idx_files_repo", "files", "repo_id")
             _ensure_unique_index(conn, "uniq_files_repo_rfn", "files", "repo_id, rfilename")
@@ -203,19 +226,29 @@ def init_db(db_path: str = DEFAULT_DB_PATH) -> None:
             for col, decl in UPLOADS_COLUMNS.items():
                 if col not in cols:
                     default_sql = "strftime('%s','now')" if col == "uploaded_ts" else None
+                    if col == "id":
+                        continue
                     _add_column(conn, "uploads", col, decl, default_sql)
             _ensure_unique_index(conn, "uniq_upload_target_bucket_key", "uploads", "target, bucket, object_key")
 
         conn.commit()
 
-# ------------------ utilities ------------------
-def compute_sha256(path: str | Path, chunk_size: int = 1024 * 1024) -> str:
+# ---------------------------------------------------------------------
+# Utilities
+# ---------------------------------------------------------------------
+def compute_sha256(path: str | Path, chunk_size: int = 1024 * 1024) -> Tuple[str, int]:
+    """
+    Return (hex_sha256, size_bytes) for a local file.
+    This shape is handy in download steps where we store both.
+    """
     p = Path(path)
     h = hashlib.sha256()
+    size = 0
     with p.open("rb") as f:
         for chunk in iter(lambda: f.read(chunk_size), b""):
             h.update(chunk)
-    return h.hexdigest()
+            size += len(chunk)
+    return h.hexdigest(), size
 
 def _columns_for_upsert(fields: Dict[str, Any]) -> Tuple[str, str, list]:
     cols, qs, vals = [], [], []
@@ -223,7 +256,9 @@ def _columns_for_upsert(fields: Dict[str, Any]) -> Tuple[str, str, list]:
         cols.append(k); qs.append("?"); vals.append(v)
     return ",".join(cols), ",".join(qs), vals
 
-# ------------------ upserts / queries ------------------
+# ---------------------------------------------------------------------
+# Upserts / Queries
+# ---------------------------------------------------------------------
 def upsert_model(db_path: str, repo_id: str, fields: Dict[str, Any]) -> None:
     if not repo_id:
         return
@@ -231,10 +266,17 @@ def upsert_model(db_path: str, repo_id: str, fields: Dict[str, Any]) -> None:
     all_fields = dict(fields)
     all_fields["repo_id"] = repo_id
     all_fields["last_update_ts"] = _now_epoch()
+    # set first_seen_ts only on first insert (leave it alone on conflict)
     cols, qs, vals = _columns_for_upsert(all_fields)
-    set_parts = [f"{k}=excluded.{k}" for k in all_fields.keys() if k != "repo_id"]
-    sql = f"INSERT INTO models ({cols}) VALUES ({qs}) ON CONFLICT(repo_id) DO UPDATE SET {', '.join(set_parts)};"
+    set_parts = [f"{k}=excluded.{k}" for k in all_fields.keys() if k not in ("repo_id", "first_seen_ts")]
+    sql = (
+        f"INSERT INTO models ({cols}) VALUES ({qs}) "
+        f"ON CONFLICT(repo_id) DO UPDATE SET {', '.join(set_parts)};"
+    )
     with connect(db_path) as conn:
+        # ensure first_seen_ts exists for new rows
+        conn.execute("INSERT INTO models(repo_id, first_seen_ts, last_update_ts) VALUES (?, ?, ?) "
+                     "ON CONFLICT(repo_id) DO NOTHING;", (repo_id, _now_epoch(), _now_epoch()))
         conn.execute(sql, vals)
         conn.commit()
 
@@ -242,27 +284,34 @@ def upsert_file(
     db_path: str,
     repo_id: str,
     rfilename: str,
-    *,
     size: Optional[int] = None,
     sha256: Optional[str] = None,
     local_path: Optional[str] = None,
     storage_root: Optional[str] = None,
 ) -> int:
+    """
+    Positional-friendly signature to match callers:
+      upsert_file(db_path, repo_id, rfilename, size, sha256, local_path[, storage_root])
+    """
     init_db(db_path)
+    # compute sha256 if not provided but file exists
     if not sha256 and local_path and Path(local_path).exists():
         try:
-            sha256 = compute_sha256(local_path)
+            sha256, size_calc = compute_sha256(local_path)
+            size = size or size_calc
         except Exception:
-            sha256 = None
+            pass
     with connect(db_path) as conn:
+        # keep parent row for FK-like semantics
+        conn.execute("INSERT INTO models(repo_id) VALUES (?) ON CONFLICT(repo_id) DO NOTHING;", (repo_id,))
         conn.execute("""
         INSERT INTO files (repo_id, rfilename, size, sha256, local_path, storage_root, created_ts, updated_ts)
         VALUES (?, ?, ?, ?, ?, ?, COALESCE(strftime('%s','now'), 0), COALESCE(strftime('%s','now'), 0))
         ON CONFLICT(repo_id, rfilename) DO UPDATE SET
-          size=excluded.size,
-          sha256=excluded.sha256,
-          local_path=excluded.local_path,
-          storage_root=excluded.storage_root,
+          size=COALESCE(excluded.size, files.size),
+          sha256=COALESCE(excluded.sha256, files.sha256),
+          local_path=COALESCE(excluded.local_path, files.local_path),
+          storage_root=COALESCE(excluded.storage_root, files.storage_root),
           updated_ts=excluded.updated_ts;
         """, (repo_id, rfilename, size, sha256, local_path, storage_root))
         row = conn.execute("SELECT id FROM files WHERE repo_id=? AND rfilename=?;", (repo_id, rfilename)).fetchone()
@@ -279,8 +328,16 @@ def record_upload(
     object_key: str,
     etag: Optional[str] = None,
 ) -> int:
+    """
+    Log an upload of a file to a storage target (e.g., minio or s3).
+    Enforced unique on (target, bucket, object_key) so retries don’t duplicate.
+    """
     init_db(db_path)
     with connect(db_path) as conn:
+        # ensure refs exist
+        conn.execute("INSERT INTO models(repo_id) VALUES (?) ON CONFLICT(repo_id) DO NOTHING;", (repo_id,))
+        conn.execute("INSERT INTO files(repo_id, rfilename) VALUES (?, ?) ON CONFLICT(repo_id, rfilename) DO NOTHING;",
+                     (repo_id, rfilename))
         conn.execute("""
         INSERT INTO uploads (repo_id, rfilename, target, bucket, object_key, etag, uploaded_ts)
         VALUES (?, ?, ?, ?, ?, ?, COALESCE(strftime('%s','now'), 0))
