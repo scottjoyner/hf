@@ -33,7 +33,7 @@ services:
     env_file: .env
     depends_on: [minio]
     volumes:
-      - hf_models:/app/hf_models
+      - ./hf_models:/app/hf_models
     command: ["sync"]
   
   worker:
@@ -42,7 +42,8 @@ services:
     env_file: .env
     volumes:
       - ./data:/app/data
-      - hf_models:/app/hf_models 
+      - ./hf_models:/app/hf_models
+      - ./db:/app/db
   
   pipeline-image:
     build: .
@@ -50,9 +51,9 @@ services:
     container_name: pipeline-image
     env_file: .env
     volumes:
-      - cache:/app/cache
-      - hf_models:/app/hf_models
-      - db:/app/db
+      - ./cache:/app/cache
+      - ./hf_models:/app/hf_models
+      - ./db:/app/db
       - ./data:/app/data
     # ENTRYPOINT comes from Dockerfile; run "help" by default
     command: ["help"]
@@ -63,8 +64,8 @@ services:
     depends_on:
       - pipeline-image
     volumes:
-      - cache:/app/cache
-      - db:/app/db
+      - ./cache:/app/cache
+      - ./db:/app/db
       - ./data:/app/data
     command: ["scrape"]
 
@@ -74,9 +75,9 @@ services:
     depends_on:
       - pipeline-image
     volumes:
-      - cache:/app/cache
-      - hf_models:/app/hf_models
-      - db:/app/db
+      - ./cache:/app/cache
+      - ./hf_models:/app/hf_models
+      - ./db:/app/db
       - ./data:/app/data
     command: ["download"]
 
@@ -86,8 +87,8 @@ services:
     depends_on:
       - pipeline-image
     volumes:
-      - cache:/app/cache
-      - db:/app/db
+      - ./cache:/app/cache
+      - ./db:/app/db
       - ./data:/app/data
     command: ["metadata"]
 
@@ -97,7 +98,7 @@ services:
     depends_on:
       - pipeline-image
     volumes:
-      - db:/app/db
+      - ./db:/app/db
     ports:
       - "8080:8080"
     command: ["db-web"]
@@ -109,9 +110,9 @@ services:
       pipeline-image:
         condition: service_started
     volumes:
-      - cache:/app/cache
-      - hf_models:/app/hf_models
-      - db:/app/db
+      - ./cache:/app/cache
+      - ./hf_models:/app/hf_models
+      - ./db:/app/db
       - ./data:/app/data
     command: ["all"]
 
@@ -135,8 +136,8 @@ services:
       MINIO_SECURE: ${MINIO_SECURE:-false}
       REGISTRY_ADMIN_TOKEN: ${REGISTRY_ADMIN_TOKEN:-changeme}
     volumes:
-      - db:/app/db
-      - hf_models:/app/hf_models
+      - ./db:/app/db
+      - ./hf_models:/app/hf_models
     ports:
       - "8081:8081"
 
@@ -156,7 +157,7 @@ services:
       MINIO_BUCKET: ${MINIO_BUCKET}
       MINIO_SECURE: ${MINIO_SECURE:-false}
     volumes:
-      - db:/app/db
+      - ./db:/app/db
       - ./data:/app/data
     command: ["python", "scripts/export_manifests.py", "--publish", "--out-dir", "/app/data/manifests", "--every", "86400"]
 
