@@ -1,37 +1,30 @@
-# syntax=docker/dockerfile:1.6
+# Dockerfile
 FROM python:3.11-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1 \
+WORKDIR /app
+
+# OS deps (curl for healthchecks / mc bootstrap logs)
+RUN apt-get update && apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    APP_HOME=/app
-
-WORKDIR ${APP_HOME}
-
-ENV PYTHONPATH=/app
-
-# System deps
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates tzdata curl \
- && rm -rf /var/lib/apt/lists/*
+    PYTHONPATH=/app
 
 # Python deps
-COPY requirements.txt ./
-RUN pip install --upgrade pip && pip install -r requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# App code
+# App files
 COPY scripts/ ./scripts/
-COPY scripts/webapp ./scripts/webapp
-COPY data/models.csv ./data/models.csv
-COPY scripts/entrypoint.sh ./entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+# (optional) bring in defaults; they’ll be bind-mounted at runtime anyway
+COPY data/ ./data/
 
-# Use non-root
-RUN mkdir -p /app/db && useradd -m -u 1000 appuser
-USER appuser
+# Make sure scripts is a package
+RUN test -f scripts/__init__.py || touch scripts/__init__.py
 
-ENV PATH="${APP_HOME}/scripts:${PATH}"
-
-ENTRYPOINT ["/app/entrypoint.sh"]
-CMD ["worker", "help"]
+# Default entrypoint: run the worker CLI module
+ENTRYPOINT ["python","-m","scripts.worker"]
+# Default command if none given
+CMD ["help"]

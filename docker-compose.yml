@@ -6,20 +6,17 @@ services:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     command: server /data --console-address ":9001"
-    # Host ports 19000/19001 to avoid conflicts with anything already on 9000/9001
     ports:
       - "19000:9000"   # host:container (API)
       - "19001:9001"   # host:container (Web console)
     volumes:
       - minio-data:/data
-    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  # Bootstrap client: creates ${MINIO_BUCKET} if missing
   mc:
     image: minio/mc:latest
     container_name: minio-mc
@@ -30,23 +27,23 @@ services:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
       MINIO_BUCKET: ${MINIO_BUCKET}
-    entrypoint: ["/bin/sh", "-lc"]
+    entrypoint: ["/bin/sh","-lc"]
     command: >
       mc alias set local http://minio:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD" &&
       (mc ls "local/$MINIO_BUCKET" || mc mb -p "local/$MINIO_BUCKET") &&
       echo "MinIO bucket ready: $MINIO_BUCKET"
 
-  # Build-only / utility container (doesn't need to stay up)
   pipeline-image:
     build: .
     image: models-pipeline:latest
     container_name: pipeline-image
     env_file: .env
     volumes:
-      - ./cache:/app/cache
-      - ./hf_models:/app/hf_models
-      - ./db:/app/db
+      - cache:/app/cache
+      - hf_models:/app/hf_models
+      - db:/app/db
       - ./data:/app/data
+    # ENTRYPOINT comes from Dockerfile; run "help" by default
     command: ["help"]
 
   scraper:
@@ -55,8 +52,8 @@ services:
     depends_on:
       - pipeline-image
     volumes:
-      - ./cache:/app/cache
-      - ./db:/app/db
+      - cache:/app/cache
+      - db:/app/db
       - ./data:/app/data
     command: ["scrape"]
 
@@ -66,9 +63,9 @@ services:
     depends_on:
       - pipeline-image
     volumes:
-      - ./cache:/app/cache
-      - ./hf_models:/app/hf_models
-      - ./db:/app/db
+      - cache:/app/cache
+      - hf_models:/app/hf_models
+      - db:/app/db
       - ./data:/app/data
     command: ["download"]
 
@@ -78,8 +75,8 @@ services:
     depends_on:
       - pipeline-image
     volumes:
-      - ./cache:/app/cache
-      - ./db:/app/db
+      - cache:/app/cache
+      - db:/app/db
       - ./data:/app/data
     command: ["metadata"]
 
@@ -90,23 +87,20 @@ services:
       - pipeline-image
       - mc
     volumes:
-      - ./hf_models:/app/hf_models
-      - ./db:/app/db
+      - hf_models:/app/hf_models
     command: ["sync"]
 
-  # Web dashboard for the SQLite DB
   db-web:
     image: models-pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
     volumes:
-      - ./db:/app/db
+      - db:/app/db
     ports:
       - "8080:8080"
     command: ["db-web"]
 
-  # One-off: run the whole pipeline (db-init -> scrape -> download -> metadata -> sync)
   pipeline:
     image: models-pipeline:latest
     env_file: .env
@@ -114,11 +108,14 @@ services:
       - pipeline-image
       - mc
     volumes:
-      - ./cache:/app/cache
-      - ./hf_models:/app/hf_models
-      - ./db:/app/db
+      - cache:/app/cache
+      - hf_models:/app/hf_models
+      - db:/app/db
       - ./data:/app/data
     command: ["all"]
 
 volumes:
   minio-data:
+  cache:
+  hf_models:
+  db:

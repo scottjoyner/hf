@@ -4,3 +4,5 @@ requests
 tqdm
 python-dotenv
 Flask
+awscli
+sqlite-web
