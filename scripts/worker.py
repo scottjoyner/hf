@@ -3,6 +3,7 @@ import argparse
 import os
 import shlex
 import sys
+import csv
 from pathlib import Path
 from urllib.parse import quote
 from subprocess import CalledProcessError, run
@@ -37,6 +38,47 @@ MINIO_PREFIX    = os.getenv("MINIO_PREFIX", "").strip()      # optional subfolde
 MINIO_SECURE    = (os.getenv("MINIO_SECURE", "false").lower() in ("1", "true", "yes"))
 
 # ---------- utils ----------
+
+def _csv_has_rows(path: Path) -> bool:
+    """Return True if CSV has at least one non-empty, non-comment data row beyond the header."""
+    try:
+        if not path.exists():
+            return False
+        with path.open("r", encoding="utf-8", newline="") as f:
+            reader = csv.reader(f)
+            header = next(reader, None)
+            if not header:
+                return False
+            for row in reader:
+                if row and not str(row[0]).strip().startswith("#"):
+                    # has at least one data row
+                    return True
+        return False
+    except Exception as e:
+        info(f"csv_has_rows error for {path}: {e}")
+        return False
+
+def _pick_models_input() -> Path:
+    """Prefer models_enriched.csv if it has data, else fallback to models.csv; allow override via MODELS_INPUT."""
+    override = os.getenv("MODELS_INPUT", "").strip()
+    if override:
+        p = Path(override)
+        info(f"MODELS_INPUT override set: {p}")
+        return p
+
+    enriched = DATA_DIR / "models_enriched.csv"
+    base = DATA_DIR / "models.csv"
+
+    if _csv_has_rows(enriched):
+        info(f"Using enriched models file: {enriched}")
+        return enriched
+    if _csv_has_rows(base):
+        info(f"Using base models file: {base}")
+        return base
+
+    # Neither has rows; still return enriched (consistent path) but warn loudly
+    info(f"⚠️ No data rows found in {enriched} or {base}. Downloader may exit with warning.")
+    return enriched
 
 def info(msg: str) -> None:
     print(f"[worker] {msg}", flush=True)
@@ -90,16 +132,15 @@ def step_scrape():
 
 def step_download():
     """
-    Download model binaries listed in models_enriched.csv to OUT_DIR.
+    Download model binaries listed in models_enriched.csv (preferred) or models.csv to OUT_DIR.
     """
     ensure_dirs()
-    if not MODELS_ENRICHED_CSV.exists():
-        info(f"Need {MODELS_ENRICHED_CSV}. Run 'worker scrape' first.")
-        sys.exit(3)
+    input_path = _pick_models_input()
 
+    info(f"Downloader input: {input_path}")
     sh([
         "python", "scripts/download.py",
-        "--input", str(MODELS_ENRICHED_CSV),
+        "--input", str(input_path),
         "--out-dir", str(OUT_DIR),
         "--patterns", os.getenv("DOWNLOAD_PATTERNS", "weights"),
         "--revision", os.getenv("HF_REVISION", "main"),

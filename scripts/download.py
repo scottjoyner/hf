@@ -8,6 +8,7 @@ import os
 import sqlite3
 import sys
 import time
+import re
 from pathlib import Path
 from typing import Any, Dict, Iterable, Optional, Tuple, List
 
@@ -31,6 +32,8 @@ logging.basicConfig(
 # Config / defaults
 # ---------------------------------------------------------------------
 DEFAULT_DB_PATH = os.getenv("DB_PATH", "/app/db/models.db")
+_CANON_RE = re.compile(r"https?://(?:www\.)?huggingface\.co/([^/\s]+)/([^/\s]+)")
+
 
 # ---------------------------------------------------------------------
 # Connection helpers
@@ -448,9 +451,24 @@ def expand_patterns(spec: str) -> List[str]:
 def _safe_repo_folder(repo_id: str) -> str:
     return repo_id.replace("/", "__")
 
+def _extract_repo_id(row: Dict[str, str]) -> str:
+    # Try common columns
+    for key in ("repo_id", "model_id", "name_hf_slug", "id"):
+        v = (row.get(key) or "").strip()
+        if v:
+            return v
+    # Try canonical_url
+    url = (row.get("canonical_url") or "").strip()
+    if url:
+        m = _CANON_RE.match(url)
+        if m:
+            return f"{m.group(1)}/{m.group(2)}"
+    return ""
+
 def _read_rows(path: Path) -> List[Dict[str, str]]:
     if not path.exists():
         raise FileNotFoundError(f"input not found: {path}")
+
     if path.suffix.lower() == ".txt":
         rows: List[Dict[str, str]] = []
         for line in path.read_text().splitlines():
@@ -459,18 +477,18 @@ def _read_rows(path: Path) -> List[Dict[str, str]]:
                 continue
             rows.append({"repo_id": line})
         return rows
-    # CSV
+
+    out: List[Dict[str, str]] = []
     with path.open(newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
-        out: List[Dict[str, str]] = []
         for r in reader:
-            rid = (r.get("repo_id") or r.get("model_id") or r.get("name_hf_slug") or r.get("id") or "").strip()
-            if not rid:
-                continue
+            # normalize strings
             row = {k: (v.strip() if isinstance(v, str) else v) for k, v in r.items()}
-            row["repo_id"] = rid
-            out.append(row)
-        return out
+            rid = _extract_repo_id(row)
+            if rid:
+                row["repo_id"] = rid
+                out.append(row)
+    return out
 
 def _walk_and_upsert(db_path: str, repo_id: str, local_root: Path, storage_root: Path) -> int:
     """
@@ -544,6 +562,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     default_patterns = expand_patterns(args.patterns)
     LOG.info("Using patterns: %s", default_patterns or "(all files)")
     rows = _read_rows(input_path)
+    LOG.info("Input file: %s", input_path)
+    LOG.info("Rows detected: %d", len(rows))
+    if not rows:
+        LOG.error("No rows found in %s. Expect a column like repo_id/model_id/name_hf_slug/id or a canonical_url.", input_path)
+        return 1
     if not rows:
         LOG.warning("No rows found in %s", input_path)
         return 0
