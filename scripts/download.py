@@ -18,6 +18,15 @@ from typing import Dict, Iterable, List, Optional, Set, Tuple
 import pandas as pd
 import requests
 from tqdm import tqdm
+try:
+    from scripts.hf_normalize import canonical_repo_id_from_url, is_hf_url
+except ModuleNotFoundError:
+    # allow running as "python scripts/download.py" or different CWDs
+    import os, sys
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+    from scripts.hf_normalize import canonical_repo_id_from_url, is_hf_url
+
+# from scripts.hf_normalize import canonical_repo_id_from_url, is_hf_url
 
 # --------------------------
 # Configuration
@@ -50,13 +59,7 @@ def is_hf_url(url: str) -> bool:
     return isinstance(url, str) and url.startswith("https://huggingface.co/")
 
 def extract_repo_id_from_url(url: str) -> Optional[str]:
-    if not is_hf_url(url):
-        return None
-    parts = url.split("huggingface.co/")[-1].split("?")[0].split("#")[0].strip("/")
-    bits = parts.split("/")
-    if len(bits) >= 2:
-        return f"{bits[0]}/{bits[1]}"
-    return None
+    return canonical_repo_id_from_url(url) if is_hf_url(url) else None
 
 def resolve_repo_id(row: dict) -> Optional[str]:
     if "updated_url" in row and isinstance(row["updated_url"], str):

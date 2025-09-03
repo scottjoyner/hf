@@ -17,7 +17,7 @@ case "$cmd" in
     ;;
   scrape)
     echo "[worker] scrape -> models_enriched.csv"
-    python3 scripts/scrape.py --input data/models.csv --output models_enriched.csv
+    python3 scripts/scrape.py --input data/models.csv --output data/models_enriched.csv
     ;;
   download)
     echo "[worker] download -> hf_models"
@@ -27,9 +27,9 @@ case "$cmd" in
     echo "[worker] build model_metadata.csv"
     if [[ ! -f "models_enriched.csv" ]]; then
       echo "models_enriched.csv not found; running scrape first"
-      python3 scripts/scrape.py --input data/models.csv --output models_enriched.csv
+      python3 scripts/scrape.py --input data/models.csv --output data/models_enriched.csv
     fi
-    python3 scripts/build_model_metadata.py --input models_enriched.csv --cache cache --output model_metadata.csv
+    python3 scripts/build_model_metadata.py --input data/models_enriched.csv --cache cache --output data/model_metadata.csv
     ;;
   sync)
     echo "[worker] sync hf_models -> MinIO (+ S3 if configured)"
@@ -38,9 +38,9 @@ case "$cmd" in
   all)
     echo "[worker] pipeline: db-init -> scrape -> download -> metadata -> sync"
     python3 -c "from scripts.models_db import init_db; import os; init_db(os.getenv('DB_PATH','/app/db/models.db'))"
-    python3 scripts/scrape.py --input data/models.csv --output models_enriched.csv
+    python3 scripts/scrape.py --input data/models.csv --output data/models_enriched.csv
     python3 scripts/download.py --input data/models.csv --out-dir hf_models --patterns weights
-    python3 scripts/build_model_metadata.py --input models_enriched.csv --cache cache --output model_metadata.csv
+    python3 scripts/build_model_metadata.py --input data/models_enriched.csv --cache cache --output data/model_metadata.csv
     python3 scripts/sync_to_s3.py --src hf_models
     ;;
   *)

@@ -1,0 +1,5 @@
+services:
+  minio:
+    ports:
+      - "19000:9000"   # host -> container
+      - "19001:9001"

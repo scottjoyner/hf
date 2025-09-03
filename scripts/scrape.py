@@ -1,34 +1,101 @@
+#!/usr/bin/env python3
+"""
+scrape.py — Enrich models CSV with Hugging Face metadata (cached) and optionally
+seed a SQLite DB.
+
+- Reads an input CSV with at least: model_name, url (optionally updated_url)
+- Normalizes any HF URLs to canonical form: https://huggingface.co/<org>/<repo> (or /<repo>)
+- Fetches /api/models/<repo> (with caching) to add: model_description, params, model_size
+- Writes the enriched CSV to the requested output path (default: data/models_enriched.csv)
+- Optionally seeds/updates a SQLite DB if DB_PATH is set (via scripts/models_db.py)
+
+Usage:
+  python scripts/scrape.py --input data/models.csv --output data/models_enriched.csv
+"""
+
+import os
+import json
+import time
+from pathlib import Path
+from typing import Tuple
+from pathlib import Path
 import pandas as pd
 import requests
 from tqdm import tqdm
-import time
-import os
-import json
-import argparse
 
-# huggingface-electra-small-discriminator,https://sparknlp.org/2022/06/22/electra_qa_hankzhong_small_discriminator_finetuned_squad_en_3_0.html,Apache_2.0,14m
+# Try to use shared normalizer; fall back to local helpers if unavailable
+try:
+    from scripts.hf_normalize import (
+        is_hf_url,
+        canonicalize_hf_url,
+        canonical_repo_id_from_url,
+        repo_id_from_any,
+    )
+except Exception:
+    from urllib.parse import urlparse
 
-CACHE_DIR = "cache"
-os.makedirs(CACHE_DIR, exist_ok=True)
+    HUGGINGFACE = "huggingface.co"
 
-HUGGINGFACE_TOKEN = os.getenv("HUGGINGFACE_TOKEN")
+    def is_hf_url(url: str) -> bool:
+        if not isinstance(url, str) or not url:
+            return False
+        try:
+            u = urlparse(url)
+            return u.scheme in ("http", "https") and u.netloc == HUGGINGFACE
+        except Exception:
+            return False
 
-HEADERS = {}
+    def canonical_repo_id_from_url(url: str):
+        if not is_hf_url(url):
+            return None
+        u = urlparse(url)
+        parts = [p for p in u.path.strip("/").split("/") if p]
+        if not parts:
+            return None
+        if len(parts) >= 2:
+            return f"{parts[0]}/{parts[1]}"
+        return parts[0]
+
+    def canonicalize_hf_url(url: str) -> str:
+        rid = canonical_repo_id_from_url(url)
+        return f"https://{HUGGINGFACE}/{rid}" if rid else ""
+
+    def repo_id_from_any(url: str, fallback_name: str = ""):
+        rid = canonical_repo_id_from_url(url) if is_hf_url(url) else None
+        if rid:
+            return rid
+        if isinstance(fallback_name, str) and "/" in fallback_name.strip("/"):
+            return fallback_name.strip("/")
+        if isinstance(fallback_name, str) and fallback_name and "/" not in fallback_name:
+            return fallback_name.strip()
+        return None
+
+# --------------------------
+# Configuration
+# --------------------------
+CACHE_DIR = Path("cache")
+CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+HUGGINGFACE_TOKEN = os.getenv("HUGGINGFACE_TOKEN", "").strip()
+HEADERS = {"User-Agent": "models-scraper/1.0"}
 if HUGGINGFACE_TOKEN:
     HEADERS["Authorization"] = f"Bearer {HUGGINGFACE_TOKEN}"
 
-def fetch_model_info(model_id: str):
-    """
-    Calls Hugging Face Model Hub API to retrieve model metadata,
-    but caches results in local JSON files to avoid repeated calls.
-    """
-    cache_path = os.path.join(CACHE_DIR, f"{model_id.replace('/', '__')}.json")
+# --------------------------
+# Helpers
+# --------------------------
+def _cache_path_for(repo_id: str) -> Path:
+    return CACHE_DIR / f"{repo_id.replace('/', '__')}.json"
 
-    # Try loading from cache
-    if os.path.exists(cache_path):
+def fetch_model_info(model_id: str) -> Tuple[str, str, str]:
+    """
+    Return (model_description, params, size) from cached HF model JSON.
+    Cache misses call HF API and store JSON. Returns empty strings on failure.
+    """
+    cpath = _cache_path_for(model_id)
+    if cpath.exists():
         try:
-            with open(cache_path, "r") as f:
-                data = json.load(f)
+            data = json.loads(cpath.read_text())
         except Exception:
             data = None
     else:
@@ -37,97 +104,111 @@ def fetch_model_info(model_id: str):
     if data is None:
         api_url = f"https://huggingface.co/api/models/{model_id}"
         try:
-            response = requests.get(api_url, headers=HEADERS, timeout=30)
-            response.raise_for_status()
-            data = response.json()
-
-            # Save to cache
-            with open(cache_path, "w") as f:
-                json.dump(data, f, indent=2)
-
-            time.sleep(0.5)  # polite backoff
+            r = requests.get(api_url, headers=HEADERS, timeout=30)
+            r.raise_for_status()
+            data = r.json()
+            cpath.write_text(json.dumps(data, indent=2))
+            time.sleep(0.25)  # be nice to the API
         except requests.HTTPError as e:
-            print(f"Error fetching {model_id}: {e}")
+            print(f"[WARN] HF API error for {model_id}: {e}")
             return "", "", ""
         except Exception as e:
-            print(f"Error fetching {model_id}: {e}")
+            print(f"[WARN] Failed to fetch {model_id}: {e}")
             return "", "", ""
 
-    # Parse data
-    card_data = data.get("cardData", {}) if isinstance(data, dict) else {}
-    model_description = card_data.get("summary", data.get("pipeline_tag", "")) if isinstance(data, dict) else ""
-    params = card_data.get("params", "")
-    size = card_data.get("model_size", "")
+    card = data.get("cardData") or {}
+    model_description = card.get("summary") or data.get("pipeline_tag") or ""
+    params = card.get("params") or ""
+    size = card.get("model_size") or ""
+    return str(model_description or ""), str(params or ""), str(size or "")
 
-    return model_description, params, size
-
-def extract_model_id(url: str):
-    """
-    Extracts model ID from Hugging Face URL.
-    e.g., https://huggingface.co/Cohere/Cohere-embed-english-light-v3.0
-    -> Cohere/Cohere-embed-english-light-v3.0
-    """
-    return "/".join(url.strip("/").split("/")[-2:])
-
-def enrich_csv(input_csv="models.csv", output_csv="models_enriched.csv"):
+def enrich_csv(input_csv: str = "data/models.csv", output_csv: str = "data/models_enriched.csv") -> None:
     df = pd.read_csv(input_csv)
-    new_descriptions = []
-    new_params = []
-    new_sizes = []
+
+    # Build/refresh 'updated_url' as canonical HF URLs where possible
+    updated_urls = []
+    for _, row in df.iterrows():
+        raw = row.get("updated_url") if isinstance(row.get("updated_url"), str) else row.get("url")
+        updated_urls.append(canonicalize_hf_url(raw) if isinstance(raw, str) else "")
+    df["updated_url"] = updated_urls
+
+    new_descriptions, new_params, new_sizes = [], [], []
 
     for _, row in tqdm(df.iterrows(), total=len(df), desc="Enriching"):
-        url = row.get('updated_url') or row.get('url')
-        if pd.isna(url) or not isinstance(url, str) or not url.startswith("https://huggingface.co"):
-            new_descriptions.append("")
-            new_params.append("")
-            new_sizes.append("")
+        url = (row.get("updated_url") or row.get("url") or "").strip()
+        model_name = (row.get("model_name") or "").strip()
+
+        # Resolve repo id from URL (preferred) or fallback from name
+        if is_hf_url(url):
+            rid = canonical_repo_id_from_url(url) or ""
+        else:
+            rid = repo_id_from_any(url, model_name) or ""
+
+        if not rid:
+            new_descriptions.append(""); new_params.append(""); new_sizes.append("")
             continue
 
-        model_id = extract_model_id(url)
-        description, params, size = fetch_model_info(model_id)
-        new_descriptions.append(description)
-        new_params.append(params)
-        new_sizes.append(size)
-        time.sleep(0.1)  # avoid hammering
+        desc, params, size = fetch_model_info(rid)
+        new_descriptions.append(desc); new_params.append(params); new_sizes.append(size)
 
-    df['model_description'] = new_descriptions
-    df['params'] = new_params
-    df['model_size'] = new_sizes
+    df["model_description"] = new_descriptions
+    df["params"] = new_params
+    df["model_size"] = new_sizes
 
-    df.to_csv(output_csv, index=False)
+    out_dir = Path(output_csv).parent
+    if str(out_dir) in ("", ".", None):   # handle bare filename like "models_enriched.csv"
+        output_csv = str(Path("data") / Path(output_csv).name)
+        out_dir = Path(output_csv).parent
+    out_dir.mkdir(parents=True, exist_ok=True)
+    df.to_csv(output_csv, index=False, encoding="utf-8")
     print(f"Enriched data saved to {output_csv}")
-    _maybe_seed_db(input_csv, output_csv)
 
-if __name__ == "__main__":
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--input", default="data/models.csv")
-    ap.add_argument("--output", default="models_enriched.csv")
-    args = ap.parse_args()
-    enrich_csv(args.input, args.output)
+    # Optionally seed SQLite DB with minimal rows
+    _maybe_seed_db(output_csv)
 
-
-# Optional: write a minimal presence row into DB for each URL-resolved model
-import os
-from scripts.models_db import init_db, upsert_model
-
-def _maybe_seed_db(input_csv, output_csv):
+# --------------------------
+# Optional DB seeding
+# --------------------------
+def _maybe_seed_db(enriched_csv_path: str) -> None:
     db_path = os.getenv("DB_PATH", "/app/db/models.db")
+    if not db_path:
+        return
+    try:
+        from scripts.models_db import init_db, upsert_model
+    except Exception:
+        # DB module not present; silently skip
+        return
+
     try:
         init_db(db_path)
-        df = pd.read_csv(output_csv)
+        df = pd.read_csv(enriched_csv_path)
         for _, row in df.iterrows():
-            url = row.get("updated_url") or row.get("url")
-            if isinstance(url, str) and url.startswith("https://huggingface.co"):
-                repo_id = extract_model_id(url)
-                upsert_model(db_path, repo_id, {
-                    "canonical_url": f"https://huggingface.co/{repo_id}",
-                    "model_name": repo_id.split('/')[-1],
-                })
-        print(f"[DB] Seeded minimal model rows into {db_path}")
+            url = (row.get("updated_url") or row.get("url") or "").strip()
+            if not is_hf_url(url):
+                continue
+            rid = canonical_repo_id_from_url(url)
+            if not rid:
+                continue
+            upsert_model(db_path, rid, {
+                "canonical_url": f"https://huggingface.co/{rid}",
+                "model_name": rid.split("/")[-1],
+                "model_description": row.get("model_description") or "",
+                "params_raw": row.get("params") or "",
+                "model_size_raw": row.get("model_size") or "",
+            })
+        print(f"[DB] Seeded/updated models table at {db_path}")
     except Exception as e:
         print(f"[DB] seed skipped: {e}")
 
-# Hook enrich_csv call site
+# --------------------------
+# CLI
+# --------------------------
 if __name__ == "__main__":
-    # Already handled by argparse above; append DB seeding after writing CSV
-    pass
+    import argparse
+
+    ap = argparse.ArgumentParser(description="Enrich models CSV with HF metadata (cached).")
+    ap.add_argument("--input", default="data/models.csv", help="Path to input CSV")
+    ap.add_argument("--output", default="data/models_enriched.csv", help="Path to output CSV")
+    args = ap.parse_args()
+
+    enrich_csv(args.input, args.output)

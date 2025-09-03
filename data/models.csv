@@ -2,5 +2,3 @@ model_name,url
 Huggingface-Cohere-Cohere-embed-english-light-v3.0,https://huggingface.co/Cohere/Cohere-embed-english-light-v3.0
 Huggingface-Cohere-Cohere-embed-english-v3.0,https://huggingface.co/Cohere/Cohere-embed-english-v3.0
 Huggingface-Cohere-Cohere-embed-multilingual-v3.0,https://huggingface.co/Cohere/Cohere-embed-multilingual-v3.0
-huggingface-EleutherAI-pythia-12b,https://huggingface.co/EleutherAI/pythia-12b
-huggingface-FinBERT,https://huggingface.co/ProsusAI/finbert/tree/main

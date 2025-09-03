@@ -1,209 +1,124 @@
-version: "3.9"
-
 services:
   minio:
-    image: minio/minio:RELEASE.2024-11-01T00-00-00Z
+    image: minio/minio:latest
     container_name: minio
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     command: server /data --console-address ":9001"
+    # Host ports 19000/19001 to avoid conflicts with anything already on 9000/9001
     ports:
-      - "9000:9000"  # S3 API
-      - "9001:9001"  # Console
+      - "19000:9000"   # host:container (API)
+      - "19001:9001"   # host:container (Web console)
     volumes:
       - minio-data:/data
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  minio-console:
-    image: minio/console:v1.7.0
-    container_name: minio-console
-    depends_on:
-      - minio
-    environment:
-      CONSOLE_MINIO_SERVER: http://minio:9000
-      CONSOLE_MINIO_USER: ${MINIO_ROOT_USER}
-      CONSOLE_MINIO_PASSWORD: ${MINIO_ROOT_PASSWORD}
-    ports:
-      - "9002:9090"
-
+  # Bootstrap client: creates ${MINIO_BUCKET} if missing
   mc:
-    image: minio/mc:RELEASE.2024-11-01T00-00-00Z
+    image: minio/mc:latest
     container_name: minio-mc
     depends_on:
       minio:
-        condition: service_healthy
+        condition: service_started
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
       MINIO_BUCKET: ${MINIO_BUCKET}
-    entrypoint: >
-      /bin/sh -c "
-      mc alias set local http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD} &&
-      (mc ls local/${MINIO_BUCKET} || mc mb -p local/${MINIO_BUCKET}) &&
-      echo 'MinIO bucket ready: ${MINIO_BUCKET}'
-      "
-    restart: "no"
+    entrypoint: ["/bin/sh", "-lc"]
+    command: >
+      mc alias set local http://minio:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD" &&
+      (mc ls "local/$MINIO_BUCKET" || mc mb -p "local/$MINIO_BUCKET") &&
+      echo "MinIO bucket ready: $MINIO_BUCKET"
 
+  # Build-only / utility container (doesn't need to stay up)
   pipeline-image:
     build: .
-    image: models-db-web:
     image: models-pipeline:latest
-    env_file: .env
-    depends_on:
-      - pipeline-image
-    volumes:
-      - db:/app/db
-    ports:
-      - "8080:8080"
-    command: ["worker", "db-web"]
-
-  pipeline:latest
     container_name: pipeline-image
     env_file: .env
     volumes:
-      - cache:/app/cache
-      - db:/app/db
-      - hf_models:/app/hf_models
+      - ./cache:/app/cache
+      - ./hf_models:/app/hf_models
+      - ./db:/app/db
       - ./data:/app/data
-    command: ["worker", "help"]
-    # No ports; this is a job image
+    command: ["help"]
 
-  # Individual task runners
   scraper:
-    image: models-db-web:
     image: models-pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
     volumes:
-      - db:/app/db
-    ports:
-      - "8080:8080"
-    command: ["worker", "db-web"]
-
-  pipeline:latest
-    env_file: .env
-    depends_on:
-      - pipeline-image
-    volumes:
-      - cache:/app/cache
-      - db:/app/db
+      - ./cache:/app/cache
+      - ./db:/app/db
       - ./data:/app/data
-    command: ["worker", "scrape"]
+    command: ["scrape"]
 
   downloader:
-    image: models-db-web:
     image: models-pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
     volumes:
-      - db:/app/db
-    ports:
-      - "8080:8080"
-    command: ["worker", "db-web"]
-
-  pipeline:latest
-    env_file: .env
-    depends_on:
-      - pipeline-image
-    volumes:
-      - cache:/app/cache
-      - db:/app/db
-      - hf_models:/app/hf_models
+      - ./cache:/app/cache
+      - ./hf_models:/app/hf_models
+      - ./db:/app/db
       - ./data:/app/data
-    command: ["worker", "download"]
+    command: ["download"]
 
   metadata:
-    image: models-db-web:
     image: models-pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
     volumes:
-      - db:/app/db
-    ports:
-      - "8080:8080"
-    command: ["worker", "db-web"]
-
-  pipeline:latest
-    env_file: .env
-    depends_on:
-      - pipeline-image
-    volumes:
-      - cache:/app/cache
-      - db:/app/db
+      - ./cache:/app/cache
+      - ./db:/app/db
       - ./data:/app/data
-    command: ["worker", "metadata"]
+    command: ["metadata"]
 
   sync:
-    image: models-db-web:
     image: models-pipeline:latest
-    env_file: .env
-    depends_on:
-      - pipeline-image
-    volumes:
-      - db:/app/db
-    ports:
-      - "8080:8080"
-    command: ["worker", "db-web"]
-
-  pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
       - mc
     volumes:
-      - hf_models:/app/hf_models
-    command: ["worker", "sync"]
+      - ./hf_models:/app/hf_models
+      - ./db:/app/db
+    command: ["sync"]
 
+  # Web dashboard for the SQLite DB
   db-web:
     image: models-pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
     volumes:
-      - db:/app/db
+      - ./db:/app/db
     ports:
       - "8080:8080"
-    command: ["worker", "db-web"]
+    command: ["db-web"]
 
+  # One-off: run the whole pipeline (db-init -> scrape -> download -> metadata -> sync)
   pipeline:
-    image: models-db-web:
     image: models-pipeline:latest
-    env_file: .env
-    depends_on:
-      - pipeline-image
-    volumes:
-      - db:/app/db
-    ports:
-      - "8080:8080"
-    command: ["worker", "db-web"]
-
-  pipeline:latest
     env_file: .env
     depends_on:
       - pipeline-image
       - mc
     volumes:
-      - cache:/app/cache
-      - db:/app/db
-      - hf_models:/app/hf_models
+      - ./cache:/app/cache
+      - ./hf_models:/app/hf_models
+      - ./db:/app/db
       - ./data:/app/data
-    command: ["worker", "all"]
+    command: ["all"]
 
 volumes:
   minio-data:
-  cache:
-  hf_models:
-
-volumes:
-  minio-data:
-  cache:
-  hf_models:
-  db:

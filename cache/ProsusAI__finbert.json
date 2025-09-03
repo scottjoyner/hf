@@ -1,0 +1,201 @@
+{
+  "_id": "621ffdc036468d709f176f71",
+  "id": "ProsusAI/finbert",
+  "private": false,
+  "pipeline_tag": "text-classification",
+  "library_name": "transformers",
+  "tags": [
+    "transformers",
+    "pytorch",
+    "tf",
+    "jax",
+    "bert",
+    "text-classification",
+    "financial-sentiment-analysis",
+    "sentiment-analysis",
+    "en",
+    "arxiv:1908.10063",
+    "autotrain_compatible",
+    "endpoints_compatible",
+    "region:us"
+  ],
+  "downloads": 1362478,
+  "likes": 958,
+  "modelId": "ProsusAI/finbert",
+  "author": "ProsusAI",
+  "sha": "4556d13015211d73dccd3fdd39d39232506f3e43",
+  "lastModified": "2023-05-23T12:43:35.000Z",
+  "gated": false,
+  "disabled": false,
+  "mask_token": "[MASK]",
+  "widgetData": [
+    {
+      "text": "Stocks rallied and the British pound gained."
+    }
+  ],
+  "model-index": null,
+  "config": {
+    "architectures": [
+      "BertForSequenceClassification"
+    ],
+    "model_type": "bert",
+    "tokenizer_config": {
+      "unk_token": "[UNK]",
+      "sep_token": "[SEP]",
+      "pad_token": "[PAD]",
+      "cls_token": "[CLS]",
+      "mask_token": "[MASK]"
+    }
+  },
+  "cardData": {
+    "language": "en",
+    "tags": [
+      "financial-sentiment-analysis",
+      "sentiment-analysis"
+    ],
+    "widget": [
+      {
+        "text": "Stocks rallied and the British pound gained."
+      }
+    ]
+  },
+  "transformersInfo": {
+    "auto_model": "AutoModelForSequenceClassification",
+    "pipeline_tag": "text-classification",
+    "processor": "AutoTokenizer"
+  },
+  "siblings": [
+    {
+      "rfilename": ".gitattributes"
+    },
+    {
+      "rfilename": "README.md"
+    },
+    {
+      "rfilename": "config.json"
+    },
+    {
+      "rfilename": "flax_model.msgpack"
+    },
+    {
+      "rfilename": "pytorch_model.bin"
+    },
+    {
+      "rfilename": "special_tokens_map.json"
+    },
+    {
+      "rfilename": "tf_model.h5"
+    },
+    {
+      "rfilename": "tokenizer_config.json"
+    },
+    {
+      "rfilename": "vocab.txt"
+    }
+  ],
+  "spaces": [
+    "IoannisTr/Tech_Stocks_Trading_Assistant",
+    "EnzoBustos/IC-2022-Classificacao-de-Dados-Financeiros",
+    "Shredder/CONBERT-3",
+    "kumar9/flaskapp",
+    "RobertCastagna/Fin_Research",
+    "Raahulthakur/FinsightX",
+    "Chinar-Q-AI/AI-Assistant-for-Finance",
+    "amgross01/Stocks_Trading_Assistant",
+    "darthPanda/Social_media_sentiment_tracker",
+    "sohomghosh/FinLanSer_Financial_Language_Simplifier",
+    "Shredder/CONBERT-2",
+    "sohomghosh/FLUEnT",
+    "JayLacoma/News_Market_Sentiment_Analysis",
+    "Dhahlan2000/trade-master",
+    "Anupam251272/AI-Financial-Analyst",
+    "angxt/btc-price-movement-predictor",
+    "Rickyheyhey/finbert_market_evaluation",
+    "rajistics/interpet_transformers",
+    "sohomghosh/FinRead",
+    "Shredder/CONBERT",
+    "ESG-TFM-UV/ESG_API_BATCH",
+    "awacke1/HEDIS.Dash.Component.Top.Clinical.Terminology.Vocabulary",
+    "Swindu/ProsusAI-finbert",
+    "Himanshusingh/sec_sentiment_analysis",
+    "TrungTech/finBert",
+    "kudoshinichi/hf-sentiment-models",
+    "jchen1234567/isom5240g15_pt_fin_sent",
+    "bn-skn/ProsusAI-finbert",
+    "davissong01/financial-sentiment-analysis",
+    "mixcard/text-finbert",
+    "sohan-ai/stock-sentiment",
+    "itsnotjord/CyberNews",
+    "parkerjj/BuckLakeAI",
+    "halme/Stock_Price_Forecaster_ID2223",
+    "S6six/stock_sentiment_analysisv1",
+    "atteyarasha/Sentiment_analysis",
+    "Seyomi/multimodal-financial-forecast",
+    "abhilash88/newsscope-ai",
+    "Pavankuamr/Bert-Bot",
+    "Akhil8125/bot-of-bert",
+    "vives/bert_cvent_top_k_sim",
+    "husnu/ASR_to_QA",
+    "kandy/Lab_stat",
+    "Shredder/Prototype",
+    "Shredder/Sample",
+    "wiraindrak/financial-sentiment-classification-indonesia",
+    "miknad2319/CS485-Milestone-2",
+    "Pruthul/CS482-104-Milestone2",
+    "huangtianba/ProsusAI-finbert",
+    "slachitoff/CS-GY_6613_Project",
+    "kya5/CS482-Milestone2",
+    "JKJanosko/Toxicity-Analysis",
+    "2gauravc/ProsusAI-finbert",
+    "kelvinleong/Kt-Demo-Text_classifier-2",
+    "darthPanda/SentimentAnalysisTool",
+    "ateliershen/ProsusAI-finbert",
+    "Ntabukiraniro/Finance",
+    "ac8736/sentiment-analysis-app",
+    "daramaccoille/ProsusAI-finbert",
+    "manvik28/SEC_Sentiment_Analysis",
+    "teragron/ekmek",
+    "alexpaul/ProsusAI-finbert",
+    "justlookup/ProsusAI-finbert",
+    "sdin99/ProsusAI-finbert",
+    "JaCrispy35/financial_sentiment_analysis_advisor",
+    "Prashanthms/aipirate-fin-bot",
+    "TrungTech/Financial_Sentiment_Analysis_with_BERT",
+    "doru-beniamin/Fin_Sent_An",
+    "Learto/Financial_Sentiment_Analyzer",
+    "sagarjana94/aibattleground",
+    "atishayj281/futurefabricators",
+    "Saritad/Maverick-finbert",
+    "kp03/finBert",
+    "gopinathcelestial/ProsusAI-finbert",
+    "lichunming/test1",
+    "fpachisa/StockAnalysis",
+    "Beeniebeen/Sentiment_Analysis",
+    "oceankim/240422_n_11",
+    "suinY00N/sent_suin",
+    "oceankim/sec_sentiment_analysis",
+    "mohd43/text-classification",
+    "mohd43/ProsusAI-finbert",
+    "Namit2111/ProsusAI-finbert",
+    "charanm/finBert-AI",
+    "mikepapajm/ProsusAI-finbert",
+    "Shreyas94/News_Sentiment_Analysis_And_Summarizer",
+    "eaglelandsonce/IntroductionHuggingFace",
+    "Nadia15/ProsusAI-finbert",
+    "jskang4124/ProsusAI-finbert",
+    "ronin4life/ProsusAI-finbert",
+    "sosloan1/ProsusAI-finbert",
+    "Cachoups/FinanceReport",
+    "anatoli72/ProsusAI-finbert",
+    "MelisaRS/Prueba",
+    "ToSeIA/Practica1_HF",
+    "arahimsk/Test_App",
+    "Alan012380912313/ProsusAI-finbert",
+    "pentarosarium/processor",
+    "Akshayram1/Stock2",
+    "Harminder25/test-app"
+  ],
+  "createdAt": "2022-03-02T23:29:04.000Z",
+  "inference": "warm",
+  "usedStorage": 3504463245
+}
