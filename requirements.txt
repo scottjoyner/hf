@@ -6,3 +6,4 @@ python-dotenv
 Flask
 awscli
 sqlite-web
+huggingface-hub
