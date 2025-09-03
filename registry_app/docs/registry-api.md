@@ -352,3 +352,74 @@ This API ships with a Postman collection and environment:
 - **Environment:** `Model Registry - Local.postman_environment.json`
 
 Import both into Postman, set `{{baseUrl}}`, then run **Users → Register** to auto-populate `{{apiKey}}`.
+
+
+
+
+
+
+# Model Registry API (v1)
+
+**Version:** 1.0.0  
+**Base URL:** `https://<your-host>` (dev: `http://localhost:8081`)  
+**Auth:** User key via `x-api-key` header.  
+**Roles:** `developer`, `platform`, `admin`  
+**Admin header:** `x-admin-token: <REGISTRY_ADMIN_TOKEN>`  
+**Time fields:** Unix epoch seconds.
+
+- Swagger UI (when server is running): `/docs`
+- ReDoc: `/redoc`
+- OpenAPI JSON: `/openapi.json`
+
+> Production-ready Registry API: roles, developer uploads & versions, platform grants & manifests, MinIO storage, presigned URLs.
+
+---
+
+## Quick Start
+
+### Developer
+```bash
+BASE=http://localhost:8081
+curl -sS -X POST $BASE/v1/users/register -H 'content-type: application/json'   -d '{"email":"dev@you.com","name":"Dev"}' | tee /tmp/dev.json
+DEV_KEY=$(jq -r .api_key /tmp/dev.json)
+
+curl -sS -X POST $BASE/v1/dev/models -H "x-api-key: $DEV_KEY" -H 'content-type: application/json'   -d '{"repo_id":"acme/finetune-bert","model_name":"Finetune BERT","visibility":"private"}'
+
+curl -sS -X POST $BASE/v1/dev/models/acme/finetune-bert/versions   -H "x-api-key: $DEV_KEY" -H 'content-type: application/json'   -d '{"version":"v1"}'
+```
+
+**Upload via presigned PUT**
+```bash
+curl -sS -X POST "$BASE/v1/dev/models/acme/finetune-bert/versions/v1/uploads/initiate?filename=model.safetensors&expires=900"   -H "x-api-key: $DEV_KEY" | tee /tmp/up.json
+PUT_URL=$(jq -r .url /tmp/up.json)
+curl -sS -X PUT --data-binary @model.safetensors "$PUT_URL"
+curl -sS -X POST "$BASE/v1/dev/models/acme/finetune-bert/versions/v1/uploads/complete"   -H "x-api-key: $DEV_KEY" -H 'content-type: application/json'   -d '{"rfilename":"model.safetensors","size":123456789,"sha256":"deadbeef..."}'
+```
+
+### Admin (platform user & grant)
+```bash
+ADMIN=changeme
+curl -sS -X POST $BASE/v1/admin/users -H "x-admin-token: $ADMIN"   -H 'content-type: application/json'   -d '{"email":"plat@partner.com","name":"Plat","role":"platform"}' | tee /tmp/plat.json
+PLAT_KEY=$(jq -r .api_key /tmp/plat.json); PLAT_ID=$(jq -r .user_id /tmp/plat.json)
+
+NOW=$(date +%s)
+curl -sS -X POST $BASE/v1/admin/grants -H "x-admin-token: $ADMIN"   -H 'content-type: application/json'   -d "{"platform_user_id":$PLAT_ID,"repo_id":"acme/finetune-bert","permitted_from_ts":$NOW}"
+```
+
+### Platform (manifest & download)
+```bash
+curl -sS "$BASE/v1/platform/manifest?presign=true&expires=600" -H "x-api-key: $PLAT_KEY" | jq .items[0]
+curl -sS "$BASE/v1/files/acme/finetune-bert/model.safetensors/download?version=v1&expires=900" -H "x-api-key: $PLAT_KEY"
+```
+
+---
+
+## Endpoints Summary
+
+- **Users:** register, rotate-key, me
+- **Admin:** create users (roles), grants CRUD
+- **Developer:** create models, versions, initiate/complete uploads
+- **Catalog (role-aware):** list models, model detail, list files (presign), direct download, changes
+- **Platform:** bulk manifest (optional presigned URLs)
+
+See full endpoint details in code or Swagger UI.

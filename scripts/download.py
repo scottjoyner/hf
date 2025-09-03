@@ -579,7 +579,7 @@ def download_one(
         revision=revision,
         local_dir=str(target_dir),
         local_dir_use_symlinks=False,
-        allow_patterns=allow_patterns if allow_patterns else None,
+        allow_patterns=None,    # allow_patterns if allow_patterns else None,
         ignore_patterns=None,
         max_workers=8,
         etag_timeout=20,

@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
-import os, sqlite3, time
-from pathlib import Path
-from typing import List, Optional, Any, Dict
+import os, time
+from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI, HTTPException, Query, Depends, Header, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from minio import Minio
 
-# local
 from registry_app.db import (
-    ensure_registry_tables, log_access, user_from_api_key,
-    create_user, rotate_key
+    ensure_registry_tables, connect, log_access,
+    user_from_api_key, create_user, rotate_key,
+    upsert_model, create_version, upsert_file, record_upload,
+    grant_platform_access, revoke_platform_access, list_grants_for_user,
+    user_can_access_repo, resolve_object_key
 )
 
+# ------------------ Settings ------------------
 DB_PATH = os.environ.get("DB_PATH", "/app/db/models.db")
 MINIO_ENDPOINT   = os.environ.get("MINIO_ENDPOINT", "minio:9000")
 MINIO_ACCESS_KEY = os.environ.get("MINIO_ROOT_USER", "")
@@ -21,20 +24,70 @@ MINIO_SECRET_KEY = os.environ.get("MINIO_ROOT_PASSWORD", "")
 MINIO_BUCKET     = os.environ.get("MINIO_BUCKET", "models")
 MINIO_SECURE     = os.environ.get("MINIO_SECURE", "false").strip().lower() == "true"
 ADMIN_TOKEN      = os.environ.get("REGISTRY_ADMIN_TOKEN", "").strip()
+DEFAULT_PRESIGN_EXP = int(os.environ.get("DEFAULT_PRESIGN_EXP", "3600"))
 
-def get_conn() -> sqlite3.Connection:
-    p = Path(DB_PATH); p.parent.mkdir(parents=True, exist_ok=True)
-    c = sqlite3.connect(str(p)); c.row_factory = sqlite3.Row
-    return c
+app = FastAPI(title="Model Registry API", version="1.0.0")
+
+# CORS (tighten for prod domains)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=os.environ.get("CORS_ALLOW_ORIGINS", "*").split(","),
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 _minio: Optional[Minio] = None
 def get_minio() -> Minio:
     global _minio
     if _minio is None:
-        _minio = Minio(MINIO_ENDPOINT, access_key=MINIO_ACCESS_KEY, secret_key=MINIO_SECRET_KEY, secure=MINIO_SECURE)
+        _minio = Minio(
+            MINIO_ENDPOINT,
+            access_key=MINIO_ACCESS_KEY,
+            secret_key=MINIO_SECRET_KEY,
+            secure=MINIO_SECURE
+        )
     return _minio
 
-# ---------- models ----------
+@app.on_event("startup")
+def _startup():
+    ensure_registry_tables()
+
+# ------------------ Auth dependencies ------------------
+
+def current_user(x_api_key: Optional[str] = Header(default=None)):
+    if not x_api_key:
+        raise HTTPException(status_code=401, detail="missing x-api-key")
+    user = user_from_api_key(x_api_key)
+    if not user:
+        raise HTTPException(status_code=401, detail="invalid or revoked api key")
+    return user
+
+def admin_required(x_admin_token: Optional[str] = Header(default=None)):
+    if not ADMIN_TOKEN:
+        raise HTTPException(status_code=503, detail="admin token not configured")
+    if not x_admin_token or x_admin_token != ADMIN_TOKEN:
+        raise HTTPException(status_code=401, detail="invalid admin token")
+    return {"role": "admin"}
+
+def role_required(role: str):
+    def _dep(user=Depends(current_user)):
+        if user["role"] != role and user["role"] != "admin":
+            raise HTTPException(status_code=403, detail=f"{role} role required")
+        return user
+    return _dep
+
+# ------------------ Schemas ------------------
+
+class RegisterIn(BaseModel):
+    email: str
+    name: str
+    # role omitted here (defaults to developer). Admin endpoint can create platform/admin users.
+
+class RegisterOut(BaseModel):
+    user_id: int
+    api_key: str
+
 class ModelRow(BaseModel):
     repo_id: str
     canonical_url: Optional[str] = None
@@ -54,93 +107,161 @@ class ModelRow(BaseModel):
     file_count: Optional[int] = None
     has_safetensors: Optional[int] = None
     has_bin: Optional[int] = None
+    visibility: Optional[str] = "private"
 
 class FileRow(BaseModel):
     rfilename: str
+    version: Optional[str] = None
     size: Optional[int] = None
     sha256: Optional[str] = None
     updated_ts: Optional[int] = None
     object_key: Optional[str] = None
     presigned_url: Optional[str] = None
 
-class Manifest(BaseModel):
-    schema: str = "hf-model-manifest/v1"
+class ManifestEntry(BaseModel):
     repo_id: str
-    updated_ts: int
-    files: List[FileRow]
+    allowed_from_ts: int
+    files: List[FileRow] = Field(default_factory=list)
 
-class ChangeRow(BaseModel):
-    repo_id: str
-    last_update_ts: int
+class PlatformManifest(BaseModel):
+    schema: str = "hf-platform-manifest/v1"
+    generated_ts: int
+    items: List[ManifestEntry]
 
-# ---------- auth dependencies ----------
-def current_user(x_api_key: Optional[str] = Header(default=None)):
-    if not x_api_key:
-        raise HTTPException(status_code=401, detail="missing x-api-key")
-    user = user_from_api_key(x_api_key)
-    if not user:
-        raise HTTPException(status_code=401, detail="invalid or revoked api key")
-    return user
+# ------------------ Utility ------------------
 
-def admin_required(x_admin_token: Optional[str] = Header(default=None)):
-    if not ADMIN_TOKEN:
-        raise HTTPException(status_code=503, detail="admin token not configured")
-    if not x_admin_token or x_admin_token != ADMIN_TOKEN:
-        raise HTTPException(status_code=401, detail="invalid admin token")
-    return {"role": "admin"}
-
-# ---------- helpers ----------
 def _window(since: Optional[int], until: Optional[int], default_days: int = 30) -> (int, int):
     now = int(time.time())
     if until is None: until = now
     if since is None: since = until - default_days * 86400
     return int(since), int(until)
 
-def _object_key_for(c: sqlite3.Connection, repo_id: str, rfilename: str) -> str:
-    row = c.execute("""
-      SELECT object_key FROM uploads
-       WHERE repo_id=? AND rfilename=? AND target IN ('minio','s3')
-       ORDER BY uploaded_ts DESC LIMIT 1""", (repo_id, rfilename)).fetchone()
-    if row and row["object_key"]:
-        return row["object_key"]
-    return f"hf/{repo_id.strip('/')}/{rfilename}"
-
-# ---------- FastAPI ----------
-app = FastAPI(title="Model Registry API", version="0.3.0")
-
-@app.on_event("startup")
-def _startup():
-    ensure_registry_tables()
+# ------------------ Health ------------------
 
 @app.get("/healthz")
 def healthz():
     return {"ok": True, "time": int(time.time())}
 
-# ---------- user endpoints ----------
-class RegisterIn(BaseModel):
-    email: str
-    name: str
+# ------------------ Users ------------------
 
-class RegisterOut(BaseModel):
-    user_id: int
-    api_key: str
-
-@app.post("/v1/users/register", response_model=RegisterOut)
+@app.post("/v1/users/register", response_model=RegisterOut, tags=["users"])
 def register(body: RegisterIn):
-    uid, api_key = create_user(body.email.strip(), body.name.strip())
+    # Public self-serve for developer users
+    uid, api_key = create_user(body.email.strip(), body.name.strip(), role="developer")
     return RegisterOut(user_id=uid, api_key=api_key)
 
-@app.post("/v1/users/rotate-key")
+@app.post("/v1/users/rotate-key", tags=["users"])
 def rotate(user=Depends(current_user)):
     new_key = rotate_key(int(user["user_id"]))
     return {"user_id": int(user["user_id"]), "api_key": new_key}
 
-@app.get("/v1/users/me")
+@app.get("/v1/users/me", tags=["users"])
 def me(user=Depends(current_user)):
-    return {"user_id": int(user["user_id"]), "email": user["email"], "name": user["name"]}
+    return {"user_id": int(user["user_id"]), "email": user["email"], "name": user["name"], "role": user["role"]}
 
-# ---------- model catalog ----------
-@app.get("/v1/models", response_model=List[ModelRow])
+# ------------------ Admin: users & grants ------------------
+
+class AdminCreateUserIn(BaseModel):
+    email: str
+    name: str
+    role: str = Field(regex="^(developer|platform|admin)$")
+
+@app.post("/v1/admin/users", tags=["admin"])
+def admin_create_user(body: AdminCreateUserIn, admin=Depends(admin_required)):
+    uid, key = create_user(body.email.strip(), body.name.strip(), body.role)
+    return {"user_id": uid, "api_key": key, "role": body.role}
+
+class GrantIn(BaseModel):
+    platform_user_id: int
+    repo_id: str
+    permitted_from_ts: int
+    permitted_until_ts: Optional[int] = None
+
+@app.post("/v1/admin/grants", tags=["admin"])
+def admin_grant_access(body: GrantIn, admin=Depends(admin_required)):
+    grant_platform_access(body.platform_user_id, body.repo_id, body.permitted_from_ts, body.permitted_until_ts)
+    return {"ok": True}
+
+@app.delete("/v1/admin/grants", tags=["admin"])
+def admin_revoke_access(platform_user_id: int = Query(...), repo_id: str = Query(...), admin=Depends(admin_required)):
+    revoke_platform_access(platform_user_id, repo_id); return {"ok": True}
+
+@app.get("/v1/admin/grants", tags=["admin"])
+def admin_list_grants(platform_user_id: Optional[int] = Query(None), admin=Depends(admin_required)):
+    if not platform_user_id:
+        return {"detail": "provide platform_user_id"}
+    rows = list_grants_for_user(platform_user_id)
+    return [{"repo_id": r["repo_id"], "permitted_from_ts": int(r["permitted_from_ts"] or 0),
+             "permitted_until_ts": int(r["permitted_until_ts"] or 0) if r["permitted_until_ts"] else None}
+            for r in rows]
+
+# ------------------ Developer: models, versions, uploads ------------------
+
+class DevModelCreate(BaseModel):
+    repo_id: str
+    model_name: Optional[str] = None
+    canonical_url: Optional[str] = None
+    visibility: Optional[str] = Field(default="private", regex="^(private|public)$")
+
+@app.post("/v1/dev/models", tags=["developer"])
+def dev_create_model(body: DevModelCreate, user=Depends(role_required("developer"))):
+    fields = {}
+    if body.model_name: fields["model_name"] = body.model_name
+    if body.canonical_url: fields["canonical_url"] = body.canonical_url
+    if body.visibility: fields["visibility"] = body.visibility
+    upsert_model(repo_id=body.repo_id.strip(), owner_user_id=int(user["user_id"]), fields=fields)
+    return {"ok": True, "repo_id": body.repo_id}
+
+class DevVersionCreate(BaseModel):
+    version: str
+    notes: Optional[str] = None
+
+@app.post("/v1/dev/models/{repo_id}/versions", tags=["developer"])
+def dev_create_version(repo_id: str, body: DevVersionCreate, user=Depends(role_required("developer"))):
+    # ensure ownership
+    if not user_can_access_repo(user, repo_id):  # developers can access their own
+        raise HTTPException(status_code=403, detail="not owner or model missing")
+    vid = create_version(repo_id, body.version, body.notes)
+    if vid < 0:
+        raise HTTPException(status_code=400, detail="could not create version")
+    return {"ok": True, "version": body.version}
+
+class UploadInitOut(BaseModel):
+    object_key: str
+    url: str
+    expires_in: int
+
+@app.post("/v1/dev/models/{repo_id}/versions/{version}/uploads/initiate", response_model=UploadInitOut, tags=["developer"])
+def dev_upload_initiate(repo_id: str, version: str, filename: str = Query(...), expires: int = Query(DEFAULT_PRESIGN_EXP, ge=60, le=86400),
+                        user=Depends(role_required("developer"))):
+    if not user_can_access_repo(user, repo_id):
+        raise HTTPException(status_code=403, detail="not owner or model missing")
+    # deterministic object path (developers)
+    object_key = f"hf/{repo_id.strip('/')}/versions/{version}/{filename}"
+    try:
+        url = get_minio().presigned_put_object(MINIO_BUCKET, object_key, expires=expires)
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"minio presign failed: {e}") from e
+    return UploadInitOut(object_key=object_key, url=url, expires_in=expires)
+
+class UploadCompleteIn(BaseModel):
+    rfilename: str
+    size: Optional[int] = None
+    sha256: Optional[str] = None
+
+@app.post("/v1/dev/models/{repo_id}/versions/{version}/uploads/complete", tags=["developer"])
+def dev_upload_complete(repo_id: str, version: str, body: UploadCompleteIn,
+                        user=Depends(role_required("developer"))):
+    if not user_can_access_repo(user, repo_id):
+        raise HTTPException(status_code=403, detail="not owner or model missing")
+    upsert_file(repo_id, body.rfilename, version=version, size=body.size, sha256=body.sha256, storage_root="minio")
+    record_upload(repo_id, body.rfilename, version=version, object_key=f"hf/{repo_id.strip('/')}/versions/{version}/{body.rfilename}",
+                  bucket=MINIO_BUCKET, target="minio", etag=None)
+    return {"ok": True}
+
+# ------------------ Catalog (role-aware) ------------------
+
+@app.get("/v1/models", response_model=List[ModelRow], tags=["catalog"])
 def list_models(
     q: Optional[str] = Query(None), updated_since: Optional[int] = Query(None),
     limit: int = Query(100, ge=1, le=500), offset: int = Query(0, ge=0),
@@ -149,252 +270,164 @@ def list_models(
     sql = """
     SELECT repo_id, canonical_url, model_name, author, pipeline_tag, license,
            parameters, parameters_readable, downloads, likes, created_at, last_modified,
-           languages, tags, last_update_ts,
-           COALESCE(file_count, NULL) AS file_count,
-           COALESCE(has_safetensors, NULL) AS has_safetensors,
-           COALESCE(has_bin, NULL) AS has_bin
-    FROM models WHERE 1=1
+           languages, tags, last_update_ts, file_count, has_safetensors, has_bin, visibility, owner_user_id
+      FROM models WHERE 1=1
     """
     params: List[Any] = []
     if q:
-        like = f"%{q}%"
-        sql += " AND (repo_id LIKE ? OR model_name LIKE ? OR author LIKE ?)"
-        params += [like, like, like]
+        like = f"%{q}%"; sql += " AND (repo_id LIKE ? OR model_name LIKE ? OR author LIKE ?)"; params += [like, like, like]
     if updated_since:
-        sql += " AND (last_update_ts IS NOT NULL AND last_update_ts > ?)"
-        params.append(updated_since)
-    sql += " ORDER BY last_update_ts DESC NULLS LAST, repo_id ASC LIMIT ? OFFSET ?"
-    params += [limit, offset]
-    with get_conn() as c:
-        rows = c.execute(sql, params).fetchall()
-        return [ModelRow(**dict(r)) for r in rows]
+        sql += " AND (last_update_ts IS NOT NULL AND last_update_ts > ?)"; params.append(updated_since)
 
-@app.get("/v1/models/{repo_id}", response_model=ModelRow)
+    # Role-aware visibility
+    rows: List[Dict[str, Any]] = []
+    with connect(DB_PATH) as c:
+        sql2 = sql + " ORDER BY last_update_ts DESC NULLS LAST, repo_id ASC LIMIT ? OFFSET ?"
+        params2 = params + [limit, offset]
+        for r in c.execute(sql2, params2).fetchall():
+            r = dict(r)
+            if user["role"] == "admin":
+                rows.append(r); continue
+            if user["role"] == "developer":
+                if (r["owner_user_id"] and int(r["owner_user_id"]) == int(user["user_id"])) or (r["visibility"] == "public"):
+                    rows.append(r)
+            elif user["role"] == "platform":
+                if user_can_access_repo(user, r["repo_id"]):
+                    rows.append(r)
+    # Strip owner_user_id before returning
+    return [ModelRow(**{k: v for k, v in row.items() if k != "owner_user_id"}) for row in rows]
+
+@app.get("/v1/models/{repo_id}", response_model=ModelRow, tags=["catalog"])
 def get_model(repo_id: str, user=Depends(current_user)):
-    with get_conn() as c:
+    if not user_can_access_repo(user, repo_id):
+        raise HTTPException(status_code=403, detail="not authorized for this model")
+    with connect(DB_PATH) as c:
         r = c.execute("""
         SELECT repo_id, canonical_url, model_name, author, pipeline_tag, license,
                parameters, parameters_readable, downloads, likes, created_at, last_modified,
-               languages, tags, last_update_ts,
-               COALESCE(file_count, NULL) AS file_count,
-               COALESCE(has_safetensors, NULL) AS has_safetensors,
-               COALESCE(has_bin, NULL) AS has_bin
-        FROM models WHERE repo_id=?""", (repo_id,)).fetchone()
+               languages, tags, last_update_ts, file_count, has_safetensors, has_bin, visibility
+          FROM models WHERE repo_id=?""", (repo_id,)).fetchone()
         if not r: raise HTTPException(status_code=404, detail="model not found")
         return ModelRow(**dict(r))
 
-@app.get("/v1/models/{repo_id}/files", response_model=List[FileRow])
-def list_files(repo_id: str, presign: bool = Query(False), expires: int = Query(3600, ge=60, le=86400),
+@app.get("/v1/models/{repo_id}/files", response_model=List[FileRow], tags=["catalog"])
+def list_files(repo_id: str, version: Optional[str] = Query(None),
+               presign: bool = Query(False), expires: int = Query(DEFAULT_PRESIGN_EXP, ge=60, le=86400),
                user=Depends(current_user), request: Request = None):
-    with get_conn() as c:
-        files = c.execute("""
-         SELECT rfilename, size, sha256, updated_ts FROM files
-          WHERE repo_id=? ORDER BY rfilename ASC""", (repo_id,)).fetchall()
+    if not user_can_access_repo(user, repo_id):
+        raise HTTPException(status_code=403, detail="not authorized for this model")
+    out: List[FileRow] = []
+    with connect(DB_PATH) as c:
+        if version:
+            rows = c.execute("""
+               SELECT rfilename, version, size, sha256, updated_ts
+                 FROM files WHERE repo_id=? AND COALESCE(version,'')=?
+                 ORDER BY rfilename ASC
+            """, (repo_id, version)).fetchall()
+        else:
+            rows = c.execute("""
+               SELECT rfilename, version, size, sha256, updated_ts
+                 FROM files WHERE repo_id=? ORDER BY rfilename ASC
+            """, (repo_id,)).fetchall()
+
         mc = get_minio() if presign else None
-        out: List[FileRow] = []
-        for r in files:
-            obj = _object_key_for(c, repo_id, r["rfilename"])
+        for r in rows:
+            obj = resolve_object_key(c, repo_id, r["rfilename"], version=r["version"])
             url = None
             if presign and mc:
                 try: url = mc.presigned_get_object(MINIO_BUCKET, obj, expires=expires)
                 except Exception: url = None
-            fr = FileRow(rfilename=r["rfilename"], size=r["size"], sha256=r["sha256"],
-                         updated_ts=r["updated_ts"], object_key=obj, presigned_url=url)
-            out.append(fr)
-        # log event
-        ra = request.headers.get("x-forwarded-for") or request.client.host if request else None
-        ua = request.headers.get("user-agent") if request else None
-        log_access(user_id=int(user["user_id"]), api_key_id=int(user["api_key_id"]),
-                   event_type="files_list", repo_id=repo_id, rfilename=None,
-                   object_key=None, size=None, status="ok", remote_addr=ra, user_agent=ua)
-        return out
+            out.append(FileRow(rfilename=r["rfilename"], version=r["version"], size=r["size"],
+                               sha256=r["sha256"], updated_ts=r["updated_ts"], object_key=obj, presigned_url=url))
 
-@app.get("/v1/files/{repo_id:path}/{rfilename:path}/download")
-def direct_download(repo_id: str, rfilename: str, expires: int = Query(3600, ge=60, le=86400),
+        # log
+        if request:
+            ra = request.headers.get("x-forwarded-for") or request.client.host
+            ua = request.headers.get("user-agent")
+            log_access(user_id=int(user["user_id"]), api_key_id=int(user["api_key_id"]),
+                       event_type="files_list", repo_id=repo_id, rfilename=None,
+                       object_key=None, size=None, status="ok", remote_addr=ra, user_agent=ua)
+    return out
+
+@app.get("/v1/files/{repo_id:path}/{rfilename:path}/download", tags=["catalog"])
+def direct_download(repo_id: str, rfilename: str, version: Optional[str] = Query(None),
+                    expires: int = Query(DEFAULT_PRESIGN_EXP, ge=60, le=86400),
                     user=Depends(current_user), request: Request = None):
-    with get_conn() as c:
+    if not user_can_access_repo(user, repo_id):
+        raise HTTPException(status_code=403, detail="not authorized for this model")
+    with connect(DB_PATH) as c:
         row = c.execute("""
-          SELECT rfilename, size, sha256, updated_ts FROM files
-           WHERE repo_id=? AND rfilename=? LIMIT 1""", (repo_id, rfilename)).fetchone()
+          SELECT rfilename, version, size, sha256, updated_ts FROM files
+           WHERE repo_id=? AND rfilename=? AND COALESCE(version,'')=COALESCE(?, '')
+           LIMIT 1""", (repo_id, rfilename, version)).fetchone()
         if not row: raise HTTPException(status_code=404, detail="file not found")
-        obj = _object_key_for(c, repo_id, row["rfilename"])
+        obj = resolve_object_key(c, repo_id, row["rfilename"], version=row["version"])
         try:
             url = get_minio().presigned_get_object(MINIO_BUCKET, obj, expires=expires)
         except Exception as e:
             raise HTTPException(status_code=404, detail=f"object not accessible: {obj}") from e
-        ra = request.headers.get("x-forwarded-for") or request.client.host if request else None
-        ua = request.headers.get("user-agent") if request else None
-        log_access(user_id=int(user["user_id"]), api_key_id=int(user["api_key_id"]),
-                   event_type="download_url_issued", repo_id=repo_id, rfilename=row["rfilename"],
-                   object_key=obj, size=row["size"], status="ok", remote_addr=ra, user_agent=ua)
-        return JSONResponse({"repo_id": repo_id, "rfilename": row["rfilename"],
+        if request:
+            ra = request.headers.get("x-forwarded-for") or request.client.host
+            ua = request.headers.get("user-agent")
+            log_access(user_id=int(user["user_id"]), api_key_id=int(user["api_key_id"]),
+                       event_type="download_url_issued", repo_id=repo_id, rfilename=row["rfilename"],
+                       object_key=obj, size=row["size"], status="ok", remote_addr=ra, user_agent=ua)
+        return JSONResponse({"repo_id": repo_id, "rfilename": row["rfilename"], "version": row["version"],
                              "size": row["size"], "sha256": row["sha256"],
                              "object_key": obj, "url": url, "expires_in": expires})
 
-@app.get("/v1/manifest/{repo_id}", response_model=Manifest)
-def manifest(repo_id: str, presign: bool = Query(False), expires: int = Query(3600, ge=60, le=86400),
-             user=Depends(current_user), request: Request = None):
-    with get_conn() as c:
-        m = c.execute("SELECT last_update_ts FROM models WHERE repo_id=?", (repo_id,)).fetchone()
-        if not m: raise HTTPException(status_code=404, detail="model not found")
-        files = list_files.__wrapped__(repo_id=repo_id, presign=presign, expires=expires, user=user, request=request)
-        ra = request.headers.get("x-forwarded-for") or request.client.host if request else None
-        ua = request.headers.get("user-agent") if request else None
-        log_access(user_id=int(user["user_id"]), api_key_id=int(user["api_key_id"]),
-                   event_type="manifest", repo_id=repo_id, rfilename=None,
-                   object_key=None, size=None, status="ok", remote_addr=ra, user_agent=ua)
-        return Manifest(repo_id=repo_id, updated_ts=m["last_update_ts"] or 0, files=files)
+# ------------------ Platform: bulk manifest ------------------
 
-@app.get("/v1/changes", response_model=List[ChangeRow])
+@app.get("/v1/platform/manifest", response_model=PlatformManifest, tags=["platform"])
+def platform_manifest(presign: bool = Query(False), expires: int = Query(DEFAULT_PRESIGN_EXP, ge=60, le=86400),
+                      user=Depends(role_required("platform"))):
+    now = int(time.time())
+    items: List[ManifestEntry] = []
+    with connect(DB_PATH) as c:
+        # all active grants
+        for g in c.execute("""
+          SELECT repo_id, permitted_from_ts, permitted_until_ts
+            FROM platform_model_grants
+           WHERE platform_user_id=? AND permitted_from_ts<=? AND (permitted_until_ts IS NULL OR permitted_until_ts>=?)
+           ORDER BY repo_id ASC
+        """, (int(user["user_id"]), now, now)).fetchall():
+            repo_id = g["repo_id"]
+            if not user_can_access_repo(user, repo_id, at_ts=now):
+                continue
+            files: List[FileRow] = []
+            rows = c.execute("""
+              SELECT rfilename, version, size, sha256, updated_ts
+                FROM files WHERE repo_id=? ORDER BY rfilename ASC
+            """, (repo_id,)).fetchall()
+            mc = get_minio() if presign else None
+            for r in rows:
+                obj = resolve_object_key(c, repo_id, r["rfilename"], version=r["version"])
+                url = None
+                if presign and mc:
+                    try: url = mc.presigned_get_object(MINIO_BUCKET, obj, expires=expires)
+                    except Exception: url = None
+                files.append(FileRow(rfilename=r["rfilename"], version=r["version"], size=r["size"],
+                                     sha256=r["sha256"], updated_ts=r["updated_ts"],
+                                     object_key=obj, presigned_url=url))
+            items.append(ManifestEntry(repo_id=repo_id, allowed_from_ts=int(g["permitted_from_ts"]), files=files))
+    return PlatformManifest(generated_ts=now, items=items)
+
+# ------------------ Changes (kept) ------------------
+
+class ChangeRow(BaseModel):
+    repo_id: str
+    last_update_ts: int
+
+@app.get("/v1/changes", response_model=List[ChangeRow], tags=["catalog"])
 def changes(since: int = Query(...), limit: int = Query(500, ge=1, le=2000), user=Depends(current_user)):
-    with get_conn() as c:
+    with connect(DB_PATH) as c:
         rows = c.execute("""
           SELECT repo_id, last_update_ts FROM models
            WHERE last_update_ts IS NOT NULL AND last_update_ts > ?
            ORDER BY last_update_ts ASC LIMIT ?""", (since, limit)).fetchall()
-        return [ChangeRow(**dict(r)) for r in rows]
-
-# ---------- NEW: per-user usage ----------
-@app.get("/v1/users/me/usage")
-def my_usage(
-    since: Optional[int] = Query(None),
-    until: Optional[int] = Query(None),
-    top_models_limit: int = Query(20, ge=1, le=200),
-    user=Depends(current_user)
-):
-    since, until = _window(since, until, default_days=30)
-    uid = int(user["user_id"])
-    out: Dict[str, Any] = {"window": {"since": since, "until": until}}
-
-    with get_conn() as c:
-        # totals
-        t = c.execute("""
-          SELECT COUNT(*) AS events,
-                 SUM(CASE WHEN event_type='manifest' THEN 1 ELSE 0 END) AS manifests,
-                 SUM(CASE WHEN event_type='files_list' THEN 1 ELSE 0 END) AS files_list,
-                 SUM(CASE WHEN event_type='download_url_issued' THEN 1 ELSE 0 END) AS downloads,
-                 MAX(ts) AS last_seen_ts
-            FROM access_logs
-           WHERE user_id=? AND ts BETWEEN ? AND ?;
-        """, (uid, since, until)).fetchone()
-        out["totals"] = {k: int(t[k] or 0) for k in ["events","manifests","files_list","downloads"]}
-        out["last_seen_ts"] = int(t["last_seen_ts"] or 0)
-
-        # distincts
-        d_repo = c.execute("""
-          SELECT COUNT(DISTINCT repo_id) AS n FROM access_logs
-           WHERE user_id=? AND repo_id IS NOT NULL AND ts BETWEEN ? AND ?;
-        """, (uid, since, until)).fetchone()
-        out["distinct_models"] = int(d_repo["n"] or 0)
-
-        # top models (by downloads)
-        top = c.execute("""
-          SELECT repo_id, COUNT(*) AS downloads
-            FROM access_logs
-           WHERE user_id=? AND event_type='download_url_issued' AND ts BETWEEN ? AND ?
-           GROUP BY repo_id ORDER BY downloads DESC, repo_id ASC LIMIT ?;
-        """, (uid, since, until, top_models_limit)).fetchall()
-        out["top_models"] = [{"repo_id": r["repo_id"], "downloads": int(r["downloads"])} for r in top]
-
-        # timeseries (daily)
-        ts_rows = c.execute("""
-          SELECT date(ts,'unixepoch') AS day,
-                 COUNT(*) AS events,
-                 SUM(CASE WHEN event_type='download_url_issued' THEN 1 ELSE 0 END) AS downloads
-            FROM access_logs
-           WHERE user_id=? AND ts BETWEEN ? AND ?
-           GROUP BY day ORDER BY day ASC;
-        """, (uid, since, until)).fetchall()
-        out["timeseries_daily"] = [
-            {"day": r["day"], "events": int(r["events"]), "downloads": int(r["downloads"] or 0)} for r in ts_rows
-        ]
-    return out
-
-# ---------- NEW: admin usage dashboard ----------
-@app.get("/v1/admin/usage")
-def admin_usage(
-    since: Optional[int] = Query(None),
-    until: Optional[int] = Query(None),
-    top_users_limit: int = Query(50, ge=1, le=500),
-    top_models_limit: int = Query(100, ge=1, le=1000),
-    filter_user_id: Optional[int] = Query(None),
-    filter_email: Optional[str] = Query(None),
-    admin=Depends(admin_required)
-):
-    since, until = _window(since, until, default_days=30)
-    out: Dict[str, Any] = {"window": {"since": since, "until": until}}
-
-    with get_conn() as c:
-        user_clause = ""
-        params: List[Any] = [since, until]
-
-        # resolve user filter
-        if filter_email and not filter_user_id:
-            row = c.execute("SELECT id FROM users WHERE email=?", (filter_email.strip(),)).fetchone()
-            if row: filter_user_id = int(row["id"])
-        if filter_user_id:
-            user_clause = " AND l.user_id=? "
-            params.append(int(filter_user_id))
-
-        # totals over selection
-        t = c.execute(f"""
-          SELECT COUNT(*) AS events,
-                 SUM(CASE WHEN l.event_type='manifest' THEN 1 ELSE 0 END) AS manifests,
-                 SUM(CASE WHEN l.event_type='files_list' THEN 1 ELSE 0 END) AS files_list,
-                 SUM(CASE WHEN l.event_type='download_url_issued' THEN 1 ELSE 0 END) AS downloads,
-                 MAX(l.ts) AS last_seen_ts
-            FROM access_logs l
-           WHERE l.ts BETWEEN ? AND ? {user_clause};
-        """, tuple(params)).fetchone()
-        out["totals"] = {k: int(t[k] or 0) for k in ["events","manifests","files_list","downloads"]}
-        out["last_seen_ts"] = int(t["last_seen_ts"] or 0)
-
-        # top users (ignored if filtering a single user)
-        if not filter_user_id:
-            rows = c.execute("""
-              SELECT u.id AS user_id, u.email, u.name,
-                     COUNT(*) AS events,
-                     SUM(CASE WHEN l.event_type='download_url_issued' THEN 1 ELSE 0 END) AS downloads,
-                     MAX(l.ts) AS last_seen_ts
-                FROM access_logs l JOIN users u ON u.id=l.user_id
-               WHERE l.ts BETWEEN ? AND ?
-               GROUP BY u.id, u.email, u.name
-               ORDER BY downloads DESC, events DESC
-               LIMIT ?;
-            """, (since, until, top_users_limit)).fetchall()
-            out["top_users"] = [
-                {"user_id": int(r["user_id"]), "email": r["email"], "name": r["name"],
-                 "events": int(r["events"]), "downloads": int(r["downloads"] or 0),
-                 "last_seen_ts": int(r["last_seen_ts"] or 0)}
-                for r in rows
-            ]
-
-        # top models in selection
-        rows = c.execute(f"""
-          SELECT l.repo_id, COUNT(*) AS downloads
-            FROM access_logs l
-           WHERE l.event_type='download_url_issued' AND l.ts BETWEEN ? AND ? {user_clause}
-           GROUP BY l.repo_id
-           ORDER BY downloads DESC, l.repo_id ASC
-           LIMIT ?;
-        """, tuple(params + [top_models_limit])).fetchall()
-        out["top_models"] = [{"repo_id": r["repo_id"], "downloads": int(r["downloads"])} for r in rows]
-
-        # timeseries (daily)
-        rows = c.execute(f"""
-          SELECT date(l.ts,'unixepoch') AS day,
-                 COUNT(*) AS events,
-                 SUM(CASE WHEN l.event_type='download_url_issued' THEN 1 ELSE 0 END) AS downloads
-            FROM access_logs l
-           WHERE l.ts BETWEEN ? AND ? {user_clause}
-           GROUP BY day ORDER BY day ASC;
-        """, tuple(params)).fetchall()
-        out["timeseries_daily"] = [
-            {"day": r["day"], "events": int(r["events"]), "downloads": int(r["downloads"] or 0)}
-            for r in rows
-        ]
-
-    # include filter echo
-    if filter_user_id or filter_email:
-        out["filter"] = {"user_id": filter_user_id, "email": filter_email}
-    return out
+        # role-aware filter
+        out = []
+        for r in rows:
+            if user_can_access_repo(user, r["repo_id"]):
+                out.append(ChangeRow(repo_id=r["repo_id"], last_update_ts=int(r["last_update_ts"] or 0)))
+        return out

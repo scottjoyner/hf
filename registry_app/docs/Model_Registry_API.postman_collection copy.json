@@ -1,0 +1,270 @@
+{
+  "info": {
+    "name": "Model Registry API",
+    "_postman_id": "11111111-2222-3333-4444-555555555555",
+    "description": "Production-ready Model Registry API collection.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "adminToken",
+      "value": "changeme"
+    },
+    {
+      "key": "devApiKey",
+      "value": ""
+    },
+    {
+      "key": "platformApiKey",
+      "value": ""
+    },
+    {
+      "key": "platformUserId",
+      "value": ""
+    },
+    {
+      "key": "repoId",
+      "value": "acme/finetune-bert"
+    },
+    {
+      "key": "version",
+      "value": "v1"
+    },
+    {
+      "key": "filename",
+      "value": "model.safetensors"
+    },
+    {
+      "key": "rfilename",
+      "value": "model.safetensors"
+    },
+    {
+      "key": "expires",
+      "value": "900"
+    },
+    {
+      "key": "limit",
+      "value": "100"
+    },
+    {
+      "key": "now",
+      "value": "1756935458"
+    },
+    {
+      "key": "since30d",
+      "value": "1754343458"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET /healthz",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/healthz"
+      }
+    },
+    {
+      "name": "POST /v1/users/register (dev)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "content-type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/users/register",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\":\"dev@you.com\",\n  \"name\":\"Dev\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST /v1/dev/models",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{devApiKey}}"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/dev/models",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"repo_id\": \"{{repoId}}\",\n  \"model_name\": \"Finetune BERT\",\n  \"visibility\": \"private\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST /v1/dev/models/{repo_id}/versions",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{devApiKey}}"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/dev/models/{{repoId}}/versions",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"version\": \"{{version}}\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST uploads/initiate (PUT presign)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{devApiKey}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/dev/models/{{repoId}}/versions/{{version}}/uploads/initiate?filename={{filename}}&expires={{expires}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "dev",
+            "models",
+            "{{repoId}}",
+            "versions",
+            "{{version}}",
+            "uploads",
+            "initiate"
+          ],
+          "query": [
+            {
+              "key": "filename",
+              "value": "{{filename}}"
+            },
+            {
+              "key": "expires",
+              "value": "{{expires}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "POST uploads/complete",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{devApiKey}}"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/dev/models/{{repoId}}/versions/{{version}}/uploads/complete",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"rfilename\": \"{{rfilename}}\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST /v1/admin/users (platform)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-admin-token",
+            "value": "{{adminToken}}"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/admin/users",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"plat@partner.com\",\n  \"name\": \"Plat\",\n  \"role\": \"platform\"\n}"
+        }
+      }
+    },
+    {
+      "name": "POST /v1/admin/grants",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-admin-token",
+            "value": "{{adminToken}}"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/admin/grants",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"platform_user_id\": {{platformUserId}},\n  \"repo_id\": \"{{repoId}}\",\n  \"permitted_from_ts\": {{now}}\n}"
+        }
+      }
+    },
+    {
+      "name": "GET /v1/platform/manifest (presign=true)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{platformApiKey}}"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/platform/manifest?presign=true&expires={{expires}}"
+      }
+    },
+    {
+      "name": "GET /v1/files/{repo_id}/{rfilename}/download",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{platformApiKey}}"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/files/{{repoId}}/{{rfilename}}/download?version={{version}}&expires={{expires}}"
+      }
+    },
+    {
+      "name": "GET /v1/models (platform)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{platformApiKey}}"
+          }
+        ],
+        "url": "{{baseUrl}}/v1/models?limit={{limit}}&offset=0"
+      }
+    }
+  ]
+}
