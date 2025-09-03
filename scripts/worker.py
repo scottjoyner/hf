@@ -4,6 +4,7 @@ import os
 import shlex
 import sys
 from pathlib import Path
+from urllib.parse import quote
 from subprocess import CalledProcessError, run
 
 # ---------- config helpers ----------
@@ -30,6 +31,10 @@ MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT", "http://minio:9000").strip()
 MINIO_BUCKET   = os.getenv("MINIO_BUCKET", "").strip()
 MINIO_ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY", os.getenv("MINIO_ROOT_USER", "")).strip()
 MINIO_SECRET_KEY = os.getenv("MINIO_SECRET_KEY", os.getenv("MINIO_ROOT_PASSWORD", "")).strip()
+
+MINIO_ALIAS     = os.getenv("MINIO_ALIAS", "minio").strip()  # alias name to use in mc (not a hostname)
+MINIO_PREFIX    = os.getenv("MINIO_PREFIX", "").strip()      # optional subfolder inside the bucket
+MINIO_SECURE    = (os.getenv("MINIO_SECURE", "false").lower() in ("1", "true", "yes"))
 
 # ---------- utils ----------
 
@@ -120,47 +125,119 @@ def step_metadata(write_db: bool = True):
         cmd += ["--write-db", "--db-path", DB_PATH]
     sh(cmd)
 
+
+def _normalize_minio_endpoint(ep: str) -> str:
+    """
+    Accepts 'minio:9000', 'http://minio:9000', or 'https://minio:9000' and returns a proper URL.
+    Respects MINIO_SECURE if scheme is missing.
+    """
+    ep = (ep or "").strip()
+    if ep.startswith("http://") or ep.startswith("https://"):
+        return ep
+    scheme = "https" if MINIO_SECURE else "http"
+    return f"{scheme}://{ep}"
+
+def _minio_env_with_alias(url: str, access_key: str, secret_key: str):
+    """
+    Build MC_HOST_<ALIAS> env so we don't depend on persisted mc config in the container.
+    """
+    ak = quote(access_key, safe="")
+    sk = quote(secret_key, safe="")
+    # url is like http(s)://host:port — we embed creds: http(s)://AK:SK@host:port
+    if "://" not in url:
+        raise ValueError(f"bad MINIO_ENDPOINT (no scheme): {url}")
+    scheme, rest = url.split("://", 1)
+    with_creds = f"{scheme}://{ak}:{sk}@{rest}"
+    env = os.environ.copy()
+    env[f"MC_HOST_{MINIO_ALIAS}"] = with_creds
+    return env
+
+def _path_join_bucket(alias: str, bucket: str, prefix: str = "") -> str:
+    """
+    Build 'alias/bucket[/prefix]' for mc.
+    """
+    if prefix:
+        prefix = prefix.strip("/")
+        return f"{alias}/{bucket}/{prefix}"
+    return f"{alias}/{bucket}"
+
+def _count_local_files(root: Path) -> int:
+    if not root.exists():
+        return 0
+    return sum(1 for _ in root.rglob("*") if _.is_file())
+
+# ---------- REPLACED SYNC STEP ----------
+
 def step_sync():
     """
-    Push OUT_DIR (hf_models) to:
-      - MinIO bucket (via mc), if MINIO_BUCKET + creds are present
-      - S3 bucket (via awscli), if S3_BUCKET + creds are present
+    Push OUT_DIR (/app/hf_models) to MinIO and/or S3.
+    - MinIO via mc using ephemeral env alias (no persistent config).
+    - Optional subfolder prefix via MINIO_PREFIX.
+    Fails fast on auth/permission issues.
     """
     ensure_dirs()
 
-    # ---- MinIO via mc ----
-    if MINIO_BUCKET and MINIO_ENDPOINT and MINIO_ACCESS_KEY and MINIO_SECRET_KEY:
-        try:
-            # Configure mc alias "local"
-            env = {
-                **os.environ,
-                "MC_HOST_local": f"{MINIO_ENDPOINT}",
-                "MC_ACCESS_KEY": MINIO_ACCESS_KEY,
-                "MC_SECRET_KEY": MINIO_SECRET_KEY,
-            }
-            # Safer: set alias with explicit creds
-            sh([
-                "mc", "alias", "set", "local", MINIO_ENDPOINT,
-                MINIO_ACCESS_KEY, MINIO_SECRET_KEY
-            ], check=False, env=env)
+    # --- sanity: do we actually have files to push? ---
+    file_count = _count_local_files(OUT_DIR)
+    info(f"local OUT_DIR={OUT_DIR} files={file_count}")
+    if file_count == 0:
+        info("Nothing to upload from OUT_DIR; skipping sync.")
+        # do not return nonzero; a 'no-op' sync is acceptable
+        # (uncomment next line if you prefer hard failure)
+        # sys.exit(20)
 
-            # Ensure bucket exists, then mirror
-            sh(["mc", "mb", "-p", f"local/{MINIO_BUCKET}"], check=False, env=env)
+    # ---- MinIO via mc (recommended path) ----
+    if MINIO_BUCKET and MINIO_ENDPOINT and MINIO_ACCESS_KEY and MINIO_SECRET_KEY:
+        endpoint_url = _normalize_minio_endpoint(MINIO_ENDPOINT)
+        env = _minio_env_with_alias(endpoint_url, MINIO_ACCESS_KEY, MINIO_SECRET_KEY)
+
+        # Compose remote like:  <ALIAS>/<BUCKET>[/<PREFIX>]
+        remote_root = _path_join_bucket(MINIO_ALIAS, MINIO_BUCKET, "")
+        remote_path = _path_join_bucket(MINIO_ALIAS, MINIO_BUCKET, MINIO_PREFIX)
+
+        info(f"MinIO alias={MINIO_ALIAS} endpoint={endpoint_url} bucket={MINIO_BUCKET} prefix={MINIO_PREFIX or '(none)'}")
+
+        # 1) connectivity check (lists buckets or returns nonzero if no auth)
+        try:
+            sh(["mc", "ls", MINIO_ALIAS], check=True, env=env)
+        except CalledProcessError as e:
+            info(f"❌ Cannot reach MinIO alias '{MINIO_ALIAS}' at {endpoint_url}: {e}")
+            sys.exit(e.returncode)
+
+        # 2) ensure bucket exists (do NOT ignore auth failures)
+        mb = sh(["mc", "mb", "-p", remote_root], check=False, env=env)
+        # exit codes: 0 -> created; nonzero may be 'already exists' or 'denied'
+        if mb.returncode != 0:
+            # Distinguish 'already owned by you' vs auth. Try stat/ls to verify access.
+            ls = sh(["mc", "ls", remote_root], check=False, env=env)
+            if ls.returncode != 0:
+                info("❌ Access denied or bucket not accessible with provided credentials.")
+                info("    Double-check MINIO_* env vars inside the worker container.")
+                # helpful dump (without secrets)
+                info(f"    Debug: endpoint={endpoint_url} bucket={MINIO_BUCKET} alias={MINIO_ALIAS}")
+                sys.exit(21)
+            else:
+                info(f"Bucket exists: {remote_root}")
+
+        # 3) mirror local -> remote (respect prefix if provided)
+        src = str(OUT_DIR) + "/"
+        dst = remote_path + "/"
+        info(f"Mirroring: {src}  →  {dst}")
+        try:
             sh([
                 "mc", "mirror",
                 "--overwrite",
                 "--remove",
-                str(OUT_DIR) + "/",         # trailing slash: copy contents
-                f"local/{MINIO_BUCKET}/"    # trailing slash too
-            ], env=env)
-            info(f"MinIO sync complete → {MINIO_ENDPOINT}/{MINIO_BUCKET}")
-        except FileNotFoundError:
-            info("mc not found in image; skipping MinIO sync")
-
+                src, dst
+            ], check=True, env=env)
+            info(f"✅ MinIO sync complete → {endpoint_url}/{MINIO_BUCKET}{('/'+MINIO_PREFIX) if MINIO_PREFIX else ''}")
+        except CalledProcessError as e:
+            info(f"❌ MinIO mirror failed: {e}")
+            sys.exit(e.returncode)
     else:
         info("MinIO env not fully set; skipping MinIO sync")
 
-    # ---- AWS S3 via awscli ----
+    # ---- Optional: S3 via awscli ----
     if S3_BUCKET and os.getenv("AWS_ACCESS_KEY_ID") and os.getenv("AWS_SECRET_ACCESS_KEY"):
         try:
             sh([
@@ -169,10 +246,13 @@ def step_sync():
                 "--no-progress",
                 "--only-show-errors",
                 "--region", AWS_REGION,
-            ])
-            info(f"S3 sync complete → s3://{S3_BUCKET}/")
+            ], check=True)
+            info(f"✅ S3 sync complete → s3://{S3_BUCKET}/")
         except FileNotFoundError:
             info("aws CLI not found in image; skipping S3 sync")
+        except CalledProcessError as e:
+            info(f"❌ S3 sync failed: {e}")
+            sys.exit(e.returncode)
     else:
         info("S3 env not fully set; skipping S3 sync")
 

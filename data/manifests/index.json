@@ -1,17 +1,17 @@
 {
-  "generated_ts": 1756927840,
+  "generated_ts": 1756929169,
   "items": [
     {
       "repo_id": "Cohere/Cohere-embed-english-light-v3.0",
-      "updated_ts": 1756927587
+      "updated_ts": 1756929168
     },
     {
       "repo_id": "Cohere/Cohere-embed-english-v3.0",
-      "updated_ts": 1756927587
+      "updated_ts": 1756929168
     },
     {
       "repo_id": "Cohere/Cohere-embed-multilingual-v3.0",
-      "updated_ts": 1756927587
+      "updated_ts": 1756929168
     }
   ]
 }

@@ -39,8 +39,10 @@ services:
   worker:
     build: .
     depends_on: [minio, mc]
+    env_file: .env
     volumes:
       - ./data:/app/data
+      - hf_models:/app/hf_models 
   
   pipeline-image:
     build: .
