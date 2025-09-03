@@ -45,7 +45,21 @@
     <tr><td>{{ u['uploaded_at'] }}</td><td>{{ u['storage'] }}</td><td>{{ u['bucket'] }}</td><td>{{ u['key'] }}</td><td class="muted">{{ u['etag'] }}</td></tr>
     {% endfor %}
   </table>
-
+  <table>
+    <thead><tr><th>File</th><th>Size</th><th>SHA256</th><th>Action</th></tr></thead>
+    <tbody>
+    {% for f in files %}
+      <tr>
+        <td>{{ f['rfilename'] }}</td>
+        <td>{{ f['size'] or '' }}</td>
+        <td style="font-family:monospace">{{ f['sha256'] or '' }}</td>
+        <td>
+          <a href="{{ url_for('ui_download', repo_id=m['repo_id'], rfilename=f['rfilename']) }}">Download</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
   <p><a href="/models">Back to Models</a></p>
 </body>
 </html>

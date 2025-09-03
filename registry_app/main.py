@@ -1,433 +1,405 @@
 #!/usr/bin/env python3
-import os, time
-from typing import Any, Dict, List, Optional
+import os, sqlite3, time, hashlib, hmac, re
+from pathlib import Path
+from flask import Flask, g, render_template, request, abort, redirect, url_for, session, send_file, jsonify, make_response
 
-from fastapi import FastAPI, HTTPException, Query, Depends, Header, Request
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
-from minio import Minio
+# ----------------- Config -----------------
+DB_PATH      = os.getenv("DB_PATH", "/app/db/models.db")
+SECRET_KEY   = os.getenv("SECRET_KEY", "dev-secret-change-me")  # set in prod
+SESSION_NAME = os.getenv("SESSION_COOKIE_NAME", "reg_sess")
+# Optional: Enable presign mode later (requires boto3 or minio client)
+ENABLE_PRESIGN = (os.getenv("ENABLE_PRESIGN", "0").lower() in ("1", "true", "yes"))
 
-from registry_app.db import (
-    ensure_registry_tables, connect, log_access,
-    user_from_api_key, create_user, rotate_key,
-    upsert_model, create_version, upsert_file, record_upload,
-    grant_platform_access, revoke_platform_access, list_grants_for_user,
-    user_can_access_repo, resolve_object_key
-)
+app = Flask(__name__, template_folder="webapp/templates", static_folder="webapp/static")
+app.secret_key = SECRET_KEY
+app.config["SESSION_COOKIE_NAME"] = SESSION_NAME
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["SESSION_COOKIE_SECURE"] = os.getenv("SESSION_COOKIE_SECURE", "0") in ("1","true","yes")
 
-# ------------------ Settings ------------------
-DB_PATH = os.environ.get("DB_PATH", "/app/db/models.db")
-MINIO_ENDPOINT   = os.environ.get("MINIO_ENDPOINT", "minio:9000")
-MINIO_ACCESS_KEY = os.environ.get("MINIO_ROOT_USER", "")
-MINIO_SECRET_KEY = os.environ.get("MINIO_ROOT_PASSWORD", "")
-MINIO_BUCKET     = os.environ.get("MINIO_BUCKET", "models")
-MINIO_SECURE     = os.environ.get("MINIO_SECURE", "false").strip().lower() == "true"
-ADMIN_TOKEN      = os.environ.get("REGISTRY_ADMIN_TOKEN", "").strip()
-DEFAULT_PRESIGN_EXP = int(os.environ.get("DEFAULT_PRESIGN_EXP", "3600"))
+# ----------------- DB helpers -----------------
+def get_db():
+    db = getattr(g, "_db", None)
+    if db is None:
+        Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
+        db = g._db = sqlite3.connect(DB_PATH)
+        db.row_factory = sqlite3.Row
+        _ensure_schema(db)
+    return db
 
-app = FastAPI(title="Model Registry API", version="1.0.0")
+@app.teardown_appcontext
+def close_db(_exc):
+    db = getattr(g, "_db", None)
+    if db is not None:
+        db.close()
 
-# CORS (tighten for prod domains)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=os.environ.get("CORS_ALLOW_ORIGINS", "*").split(","),
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+def _ensure_schema(db: sqlite3.Connection):
+    # Existing tables assumed: models, files, uploads
+    # New tables: users, api_keys, permissions, downloads_audit
+    db.executescript("""
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT UNIQUE NOT NULL,
+        name TEXT,
+        role TEXT NOT NULL DEFAULT 'developer', -- 'admin' | 'platform' | 'developer'
+        pw_hash TEXT,                            -- for session login (UI); optional for API-only users
+        active INTEGER NOT NULL DEFAULT 1,
+        created_ts INTEGER NOT NULL DEFAULT (strftime('%s','now'))
+    );
 
-_minio: Optional[Minio] = None
-def get_minio() -> Minio:
-    global _minio
-    if _minio is None:
-        _minio = Minio(
-            MINIO_ENDPOINT,
-            access_key=MINIO_ACCESS_KEY,
-            secret_key=MINIO_SECRET_KEY,
-            secure=MINIO_SECURE
-        )
-    return _minio
+    CREATE TABLE IF NOT EXISTS api_keys (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        key_hash TEXT UNIQUE NOT NULL,          -- SHA256 hex of the raw API key
+        label TEXT,
+        created_ts INTEGER NOT NULL DEFAULT (strftime('%s','now')),
+        last_used_ts INTEGER,
+        revoked INTEGER NOT NULL DEFAULT 0,
+        FOREIGN KEY(user_id) REFERENCES users(id)
+    );
 
-@app.on_event("startup")
-def _startup():
-    ensure_registry_tables()
+    CREATE TABLE IF NOT EXISTS permissions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        repo_id TEXT NOT NULL,                 -- exact repo ('owner/repo') or '*' for all
+        path_prefix TEXT,                      -- optional subpath constraint within repo (prefix match on files.rfilename)
+        can_download INTEGER NOT NULL DEFAULT 1,
+        created_ts INTEGER NOT NULL DEFAULT (strftime('%s','now')),
+        FOREIGN KEY(user_id) REFERENCES users(id)
+    );
 
-# ------------------ Auth dependencies ------------------
+    CREATE TABLE IF NOT EXISTS downloads_audit (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,                       -- nullable for anonymous (should be rare)
+        api_key_id INTEGER,
+        repo_id TEXT NOT NULL,
+        rfilename TEXT NOT NULL,
+        ts INTEGER NOT NULL DEFAULT (strftime('%s','now')),
+        ip TEXT,
+        user_agent TEXT,
+        via TEXT,                              -- 'session' | 'api_key'
+        outcome TEXT,                          -- 'ALLOW' | 'DENY'
+        permission_id INTEGER,                 -- the matched permissions.id (if any)
+        permission_source TEXT,                -- e.g., 'role:admin' | 'role:platform' | 'explicit'
+        message TEXT,
+        FOREIGN KEY(user_id) REFERENCES users(id),
+        FOREIGN KEY(api_key_id) REFERENCES api_keys(id)
+    );
+    """)
+    db.commit()
 
-def current_user(x_api_key: Optional[str] = Header(default=None)):
-    if not x_api_key:
-        raise HTTPException(status_code=401, detail="missing x-api-key")
-    user = user_from_api_key(x_api_key)
-    if not user:
-        raise HTTPException(status_code=401, detail="invalid or revoked api key")
-    return user
+# ----------------- Auth utils -----------------
+def _now() -> int: return int(time.time())
 
-def admin_required(x_admin_token: Optional[str] = Header(default=None)):
-    if not ADMIN_TOKEN:
-        raise HTTPException(status_code=503, detail="admin token not configured")
-    if not x_admin_token or x_admin_token != ADMIN_TOKEN:
-        raise HTTPException(status_code=401, detail="invalid admin token")
-    return {"role": "admin"}
+def _hash_api_key(raw: str) -> str:
+    # Store SHA256 hex of key; lookup compares deterministic hash
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
-def role_required(role: str):
-    def _dep(user=Depends(current_user)):
-        if user["role"] != role and user["role"] != "admin":
-            raise HTTPException(status_code=403, detail=f"{role} role required")
-        return user
-    return _dep
+def current_user():
+    uid = session.get("uid")
+    if not uid:
+        return None
+    db = get_db()
+    u = db.execute("SELECT * FROM users WHERE id=? AND active=1", (uid,)).fetchone()
+    return u
 
-# ------------------ Schemas ------------------
+def require_login():
+    u = current_user()
+    if not u:
+        return redirect(url_for("login", next=request.path))
+    return u
 
-class RegisterIn(BaseModel):
-    email: str
-    name: str
-    # role omitted here (defaults to developer). Admin endpoint can create platform/admin users.
-
-class RegisterOut(BaseModel):
-    user_id: int
-    api_key: str
-
-class ModelRow(BaseModel):
-    repo_id: str
-    canonical_url: Optional[str] = None
-    model_name: Optional[str] = None
-    author: Optional[str] = None
-    pipeline_tag: Optional[str] = None
-    license: Optional[str] = None
-    parameters: Optional[int] = None
-    parameters_readable: Optional[str] = None
-    downloads: Optional[int] = None
-    likes: Optional[int] = None
-    created_at: Optional[str] = None
-    last_modified: Optional[str] = None
-    languages: Optional[str] = None
-    tags: Optional[str] = None
-    last_update_ts: Optional[int] = None
-    file_count: Optional[int] = None
-    has_safetensors: Optional[int] = None
-    has_bin: Optional[int] = None
-    visibility: Optional[str] = "private"
-
-class FileRow(BaseModel):
-    rfilename: str
-    version: Optional[str] = None
-    size: Optional[int] = None
-    sha256: Optional[str] = None
-    updated_ts: Optional[int] = None
-    object_key: Optional[str] = None
-    presigned_url: Optional[str] = None
-
-class ManifestEntry(BaseModel):
-    repo_id: str
-    allowed_from_ts: int
-    files: List[FileRow] = Field(default_factory=list)
-
-class PlatformManifest(BaseModel):
-    schema: str = "hf-platform-manifest/v1"
-    generated_ts: int
-    items: List[ManifestEntry]
-
-# ------------------ Utility ------------------
-
-def _window(since: Optional[int], until: Optional[int], default_days: int = 30) -> (int, int):
-    now = int(time.time())
-    if until is None: until = now
-    if since is None: since = until - default_days * 86400
-    return int(since), int(until)
-
-# ------------------ Health ------------------
-
-@app.get("/healthz")
-def healthz():
-    return {"ok": True, "time": int(time.time())}
-
-# ------------------ Users ------------------
-
-@app.post("/v1/users/register", response_model=RegisterOut, tags=["users"])
-def register(body: RegisterIn):
-    # Public self-serve for developer users
-    uid, api_key = create_user(body.email.strip(), body.name.strip(), role="developer")
-    return RegisterOut(user_id=uid, api_key=api_key)
-
-@app.post("/v1/users/rotate-key", tags=["users"])
-def rotate(user=Depends(current_user)):
-    new_key = rotate_key(int(user["user_id"]))
-    return {"user_id": int(user["user_id"]), "api_key": new_key}
-
-@app.get("/v1/users/me", tags=["users"])
-def me(user=Depends(current_user)):
-    return {"user_id": int(user["user_id"]), "email": user["email"], "name": user["name"], "role": user["role"]}
-
-# ------------------ Admin: users & grants ------------------
-
-class AdminCreateUserIn(BaseModel):
-    email: str
-    name: str
-    role: str = Field(regex="^(developer|platform|admin)$")
-
-@app.post("/v1/admin/users", tags=["admin"])
-def admin_create_user(body: AdminCreateUserIn, admin=Depends(admin_required)):
-    uid, key = create_user(body.email.strip(), body.name.strip(), body.role)
-    return {"user_id": uid, "api_key": key, "role": body.role}
-
-class GrantIn(BaseModel):
-    platform_user_id: int
-    repo_id: str
-    permitted_from_ts: int
-    permitted_until_ts: Optional[int] = None
-
-@app.post("/v1/admin/grants", tags=["admin"])
-def admin_grant_access(body: GrantIn, admin=Depends(admin_required)):
-    grant_platform_access(body.platform_user_id, body.repo_id, body.permitted_from_ts, body.permitted_until_ts)
-    return {"ok": True}
-
-@app.delete("/v1/admin/grants", tags=["admin"])
-def admin_revoke_access(platform_user_id: int = Query(...), repo_id: str = Query(...), admin=Depends(admin_required)):
-    revoke_platform_access(platform_user_id, repo_id); return {"ok": True}
-
-@app.get("/v1/admin/grants", tags=["admin"])
-def admin_list_grants(platform_user_id: Optional[int] = Query(None), admin=Depends(admin_required)):
-    if not platform_user_id:
-        return {"detail": "provide platform_user_id"}
-    rows = list_grants_for_user(platform_user_id)
-    return [{"repo_id": r["repo_id"], "permitted_from_ts": int(r["permitted_from_ts"] or 0),
-             "permitted_until_ts": int(r["permitted_until_ts"] or 0) if r["permitted_until_ts"] else None}
-            for r in rows]
-
-# ------------------ Developer: models, versions, uploads ------------------
-
-class DevModelCreate(BaseModel):
-    repo_id: str
-    model_name: Optional[str] = None
-    canonical_url: Optional[str] = None
-    visibility: Optional[str] = Field(default="private", regex="^(private|public)$")
-
-@app.post("/v1/dev/models", tags=["developer"])
-def dev_create_model(body: DevModelCreate, user=Depends(role_required("developer"))):
-    fields = {}
-    if body.model_name: fields["model_name"] = body.model_name
-    if body.canonical_url: fields["canonical_url"] = body.canonical_url
-    if body.visibility: fields["visibility"] = body.visibility
-    upsert_model(repo_id=body.repo_id.strip(), owner_user_id=int(user["user_id"]), fields=fields)
-    return {"ok": True, "repo_id": body.repo_id}
-
-class DevVersionCreate(BaseModel):
-    version: str
-    notes: Optional[str] = None
-
-@app.post("/v1/dev/models/{repo_id}/versions", tags=["developer"])
-def dev_create_version(repo_id: str, body: DevVersionCreate, user=Depends(role_required("developer"))):
-    # ensure ownership
-    if not user_can_access_repo(user, repo_id):  # developers can access their own
-        raise HTTPException(status_code=403, detail="not owner or model missing")
-    vid = create_version(repo_id, body.version, body.notes)
-    if vid < 0:
-        raise HTTPException(status_code=400, detail="could not create version")
-    return {"ok": True, "version": body.version}
-
-class UploadInitOut(BaseModel):
-    object_key: str
-    url: str
-    expires_in: int
-
-@app.post("/v1/dev/models/{repo_id}/versions/{version}/uploads/initiate", response_model=UploadInitOut, tags=["developer"])
-def dev_upload_initiate(repo_id: str, version: str, filename: str = Query(...), expires: int = Query(DEFAULT_PRESIGN_EXP, ge=60, le=86400),
-                        user=Depends(role_required("developer"))):
-    if not user_can_access_repo(user, repo_id):
-        raise HTTPException(status_code=403, detail="not owner or model missing")
-    # deterministic object path (developers)
-    object_key = f"hf/{repo_id.strip('/')}/versions/{version}/{filename}"
+def _check_password(pw_hash: str, password: str) -> bool:
+    # Simple PBKDF2 via werkzeug (fallback manual) to avoid new deps:
     try:
-        url = get_minio().presigned_put_object(MINIO_BUCKET, object_key, expires=expires)
-    except Exception as e:
-        raise HTTPException(status_code=503, detail=f"minio presign failed: {e}") from e
-    return UploadInitOut(object_key=object_key, url=url, expires_in=expires)
+        from werkzeug.security import check_password_hash
+        return check_password_hash(pw_hash or "", password or "")
+    except Exception:
+        # Very basic fallback: treat stored as 'sha256$hex'
+        if not pw_hash or not password or not pw_hash.startswith("sha256$"):
+            return False
+        _, hexv = pw_hash.split("$", 1)
+        return hmac.compare_digest(hashlib.sha256(password.encode()).hexdigest(), hexv)
 
-class UploadCompleteIn(BaseModel):
-    rfilename: str
-    size: Optional[int] = None
-    sha256: Optional[str] = None
+def _make_password_hash(password: str) -> str:
+    try:
+        from werkzeug.security import generate_password_hash
+        return generate_password_hash(password)
+    except Exception:
+        return "sha256$" + hashlib.sha256(password.encode()).hexdigest()
 
-@app.post("/v1/dev/models/{repo_id}/versions/{version}/uploads/complete", tags=["developer"])
-def dev_upload_complete(repo_id: str, version: str, body: UploadCompleteIn,
-                        user=Depends(role_required("developer"))):
-    if not user_can_access_repo(user, repo_id):
-        raise HTTPException(status_code=403, detail="not owner or model missing")
-    upsert_file(repo_id, body.rfilename, version=version, size=body.size, sha256=body.sha256, storage_root="minio")
-    record_upload(repo_id, body.rfilename, version=version, object_key=f"hf/{repo_id.strip('/')}/versions/{version}/{body.rfilename}",
-                  bucket=MINIO_BUCKET, target="minio", etag=None)
-    return {"ok": True}
+def _auth_from_api_key():
+    # Accept 'Authorization: Bearer <key>' or 'X-API-Key: <key>'
+    raw = None
+    auth = request.headers.get("Authorization","")
+    if auth.startswith("Bearer "):
+        raw = auth.split(" ",1)[1].strip()
+    if not raw:
+        raw = request.headers.get("X-API-Key","").strip()
+    if not raw:
+        return (None, None)  # (user, api_key_row)
 
-# ------------------ Catalog (role-aware) ------------------
+    db = get_db()
+    key_hash = _hash_api_key(raw)
+    k = db.execute("SELECT * FROM api_keys WHERE key_hash=? AND revoked=0", (key_hash,)).fetchone()
+    if not k:
+        return (None, None)
+    u = db.execute("SELECT * FROM users WHERE id=? AND active=1", (k["user_id"],)).fetchone()
+    if not u:
+        return (None, None)
+    # touch last_used_ts
+    db.execute("UPDATE api_keys SET last_used_ts=? WHERE id=?", (_now(), k["id"]))
+    db.commit()
+    return (u, k)
 
-@app.get("/v1/models", response_model=List[ModelRow], tags=["catalog"])
-def list_models(
-    q: Optional[str] = Query(None), updated_since: Optional[int] = Query(None),
-    limit: int = Query(100, ge=1, le=500), offset: int = Query(0, ge=0),
-    user=Depends(current_user)
-):
-    sql = """
-    SELECT repo_id, canonical_url, model_name, author, pipeline_tag, license,
-           parameters, parameters_readable, downloads, likes, created_at, last_modified,
-           languages, tags, last_update_ts, file_count, has_safetensors, has_bin, visibility, owner_user_id
-      FROM models WHERE 1=1
+# ----------------- Permission check + audit -----------------
+def _match_permission(db, user, repo_id: str, rfilename: str):
     """
-    params: List[Any] = []
+    Returns (allowed:bool, permission_id:int|None, source:str)
+    Priority:
+      - admin role => allow (source 'role:admin')
+      - explicit permission rows (most specific path_prefix)
+      - platform role => allow (source 'role:platform')  [bulk access]
+      - else deny
+    """
+    if not user:
+        return (False, None, None)
+
+    role = (user["role"] or "developer").lower()
+    if role == "admin":
+        return (True, None, "role:admin")
+
+    # Explicit rows sorted by specificity (exact repo over '*', longer path_prefix first)
+    rows = db.execute("""
+        SELECT id, repo_id, path_prefix, can_download
+        FROM permissions
+        WHERE user_id=? AND can_download=1
+          AND (repo_id=? OR repo_id='*')
+        ORDER BY (CASE WHEN repo_id=? THEN 0 ELSE 1 END),
+                 (CASE WHEN path_prefix IS NULL THEN 0 ELSE 1 END) DESC,
+                 LENGTH(COALESCE(path_prefix,'')) DESC
+    """, (user["id"], repo_id, repo_id)).fetchall()
+
+    for pr in rows:
+        pfx = pr["path_prefix"]
+        if (pfx is None) or rfilename.startswith(pfx):
+            return (True, pr["id"], "explicit")
+
+    if role == "platform":
+        return (True, None, "role:platform")
+
+    return (False, None, None)
+
+def _audit(db, *, user_id, api_key_id, repo_id, rfilename, outcome, via, permission_id, permission_source, message=None):
+    db.execute("""
+        INSERT INTO downloads_audit (user_id, api_key_id, repo_id, rfilename, ts, ip, user_agent, via, outcome, permission_id, permission_source, message)
+        VALUES (?, ?, ?, ?, strftime('%s','now'), ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        user_id, api_key_id, repo_id, rfilename,
+        request.remote_addr, request.headers.get("User-Agent",""),
+        via, outcome, permission_id, permission_source, message
+    ))
+    db.commit()
+
+# ----------------- Core pages -----------------
+@app.route("/")
+def index():
+    db = get_db()
+    m_count = db.execute("SELECT COUNT(*) c FROM models").fetchone()["c"]
+    f_count = db.execute("SELECT COUNT(*) c FROM files").fetchone()["c"]
+    u_count = db.execute("SELECT COUNT(*) c FROM uploads").fetchone()["c"]
+    latest = db.execute("SELECT repo_id, last_modified, downloads FROM models ORDER BY last_modified DESC LIMIT 10").fetchall()
+    top = db.execute("SELECT repo_id, downloads FROM models ORDER BY downloads DESC LIMIT 10").fetchall()
+    user = current_user()
+    return render_template("index.html", m_count=m_count, f_count=f_count, u_count=u_count, latest=latest, top=top, user=user)
+
+@app.route("/models")
+def models():
+    q = request.args.get("q","").strip()
+    db = get_db()
     if q:
-        like = f"%{q}%"; sql += " AND (repo_id LIKE ? OR model_name LIKE ? OR author LIKE ?)"; params += [like, like, like]
-    if updated_since:
-        sql += " AND (last_update_ts IS NOT NULL AND last_update_ts > ?)"; params.append(updated_since)
+        rows = db.execute("SELECT * FROM models WHERE repo_id LIKE ? OR model_name LIKE ? ORDER BY last_modified DESC",
+                          (f"%{q}%", f"%{q}%")).fetchall()
+    else:
+        rows = db.execute("SELECT * FROM models ORDER BY last_modified DESC LIMIT 200").fetchall()
+    return render_template("models.html", rows=rows, q=q, user=current_user())
 
-    # Role-aware visibility
-    rows: List[Dict[str, Any]] = []
-    with connect(DB_PATH) as c:
-        sql2 = sql + " ORDER BY last_update_ts DESC NULLS LAST, repo_id ASC LIMIT ? OFFSET ?"
-        params2 = params + [limit, offset]
-        for r in c.execute(sql2, params2).fetchall():
-            r = dict(r)
-            if user["role"] == "admin":
-                rows.append(r); continue
-            if user["role"] == "developer":
-                if (r["owner_user_id"] and int(r["owner_user_id"]) == int(user["user_id"])) or (r["visibility"] == "public"):
-                    rows.append(r)
-            elif user["role"] == "platform":
-                if user_can_access_repo(user, r["repo_id"]):
-                    rows.append(r)
-    # Strip owner_user_id before returning
-    return [ModelRow(**{k: v for k, v in row.items() if k != "owner_user_id"}) for row in rows]
+@app.route("/models/<path:repo_id>")
+def model_detail(repo_id):
+    db = get_db()
+    m = db.execute("SELECT * FROM models WHERE repo_id=?", (repo_id,)).fetchone()
+    if not m:
+        abort(404)
+    files = db.execute("SELECT * FROM files WHERE repo_id=? ORDER BY rfilename", (repo_id,)).fetchall()
+    # your original query used 'uploaded_at' but schema uses 'uploaded_ts'
+    uploads = db.execute("SELECT * FROM uploads WHERE repo_id=? ORDER BY uploaded_ts DESC", (repo_id,)).fetchall()
+    return render_template("model_detail.html", m=m, files=files, uploads=uploads, user=current_user())
 
-@app.get("/v1/models/{repo_id}", response_model=ModelRow, tags=["catalog"])
-def get_model(repo_id: str, user=Depends(current_user)):
-    if not user_can_access_repo(user, repo_id):
-        raise HTTPException(status_code=403, detail="not authorized for this model")
-    with connect(DB_PATH) as c:
-        r = c.execute("""
-        SELECT repo_id, canonical_url, model_name, author, pipeline_tag, license,
-               parameters, parameters_readable, downloads, likes, created_at, last_modified,
-               languages, tags, last_update_ts, file_count, has_safetensors, has_bin, visibility
-          FROM models WHERE repo_id=?""", (repo_id,)).fetchone()
-        if not r: raise HTTPException(status_code=404, detail="model not found")
-        return ModelRow(**dict(r))
+@app.route("/files")
+def files_page():
+    db = get_db()
+    rows = db.execute("SELECT * FROM files ORDER BY created_ts DESC LIMIT 500").fetchall()
+    return render_template("files.html", rows=rows, user=current_user())
 
-@app.get("/v1/models/{repo_id}/files", response_model=List[FileRow], tags=["catalog"])
-def list_files(repo_id: str, version: Optional[str] = Query(None),
-               presign: bool = Query(False), expires: int = Query(DEFAULT_PRESIGN_EXP, ge=60, le=86400),
-               user=Depends(current_user), request: Request = None):
-    if not user_can_access_repo(user, repo_id):
-        raise HTTPException(status_code=403, detail="not authorized for this model")
-    out: List[FileRow] = []
-    with connect(DB_PATH) as c:
-        if version:
-            rows = c.execute("""
-               SELECT rfilename, version, size, sha256, updated_ts
-                 FROM files WHERE repo_id=? AND COALESCE(version,'')=?
-                 ORDER BY rfilename ASC
-            """, (repo_id, version)).fetchall()
-        else:
-            rows = c.execute("""
-               SELECT rfilename, version, size, sha256, updated_ts
-                 FROM files WHERE repo_id=? ORDER BY rfilename ASC
-            """, (repo_id,)).fetchall()
+# ----------------- UI Auth -----------------
+@app.route("/login", methods=["GET","POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html", next=request.args.get("next","/"), user=current_user())
+    email = (request.form.get("email","") or "").strip().lower()
+    password = request.form.get("password","") or ""
+    next_url = request.form.get("next","/")
 
-        mc = get_minio() if presign else None
-        for r in rows:
-            obj = resolve_object_key(c, repo_id, r["rfilename"], version=r["version"])
-            url = None
-            if presign and mc:
-                try: url = mc.presigned_get_object(MINIO_BUCKET, obj, expires=expires)
-                except Exception: url = None
-            out.append(FileRow(rfilename=r["rfilename"], version=r["version"], size=r["size"],
-                               sha256=r["sha256"], updated_ts=r["updated_ts"], object_key=obj, presigned_url=url))
+    db = get_db()
+    u = db.execute("SELECT * FROM users WHERE email=? AND active=1", (email,)).fetchone()
+    if not u or not _check_password(u["pw_hash"] or "", password):
+        return render_template("login.html", error="Invalid credentials", next=next_url, user=None), 401
 
-        # log
-        if request:
-            ra = request.headers.get("x-forwarded-for") or request.client.host
-            ua = request.headers.get("user-agent")
-            log_access(user_id=int(user["user_id"]), api_key_id=int(user["api_key_id"]),
-                       event_type="files_list", repo_id=repo_id, rfilename=None,
-                       object_key=None, size=None, status="ok", remote_addr=ra, user_agent=ua)
-    return out
+    session["uid"] = u["id"]
+    return redirect(next_url or "/")
 
-@app.get("/v1/files/{repo_id:path}/{rfilename:path}/download", tags=["catalog"])
-def direct_download(repo_id: str, rfilename: str, version: Optional[str] = Query(None),
-                    expires: int = Query(DEFAULT_PRESIGN_EXP, ge=60, le=86400),
-                    user=Depends(current_user), request: Request = None):
-    if not user_can_access_repo(user, repo_id):
-        raise HTTPException(status_code=403, detail="not authorized for this model")
-    with connect(DB_PATH) as c:
-        row = c.execute("""
-          SELECT rfilename, version, size, sha256, updated_ts FROM files
-           WHERE repo_id=? AND rfilename=? AND COALESCE(version,'')=COALESCE(?, '')
-           LIMIT 1""", (repo_id, rfilename, version)).fetchone()
-        if not row: raise HTTPException(status_code=404, detail="file not found")
-        obj = resolve_object_key(c, repo_id, row["rfilename"], version=row["version"])
-        try:
-            url = get_minio().presigned_get_object(MINIO_BUCKET, obj, expires=expires)
-        except Exception as e:
-            raise HTTPException(status_code=404, detail=f"object not accessible: {obj}") from e
-        if request:
-            ra = request.headers.get("x-forwarded-for") or request.client.host
-            ua = request.headers.get("user-agent")
-            log_access(user_id=int(user["user_id"]), api_key_id=int(user["api_key_id"]),
-                       event_type="download_url_issued", repo_id=repo_id, rfilename=row["rfilename"],
-                       object_key=obj, size=row["size"], status="ok", remote_addr=ra, user_agent=ua)
-        return JSONResponse({"repo_id": repo_id, "rfilename": row["rfilename"], "version": row["version"],
-                             "size": row["size"], "sha256": row["sha256"],
-                             "object_key": obj, "url": url, "expires_in": expires})
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
-# ------------------ Platform: bulk manifest ------------------
+# ----------------- UI Download (session) -----------------
+@app.route("/download/<path:repo_id>/<path:rfilename>")
+def ui_download(repo_id, rfilename):
+    user = require_login()
+    if not isinstance(user, sqlite3.Row):
+        return user  # redirect to login
 
-@app.get("/v1/platform/manifest", response_model=PlatformManifest, tags=["platform"])
-def platform_manifest(presign: bool = Query(False), expires: int = Query(DEFAULT_PRESIGN_EXP, ge=60, le=86400),
-                      user=Depends(role_required("platform"))):
-    now = int(time.time())
-    items: List[ManifestEntry] = []
-    with connect(DB_PATH) as c:
-        # all active grants
-        for g in c.execute("""
-          SELECT repo_id, permitted_from_ts, permitted_until_ts
-            FROM platform_model_grants
-           WHERE platform_user_id=? AND permitted_from_ts<=? AND (permitted_until_ts IS NULL OR permitted_until_ts>=?)
-           ORDER BY repo_id ASC
-        """, (int(user["user_id"]), now, now)).fetchall():
-            repo_id = g["repo_id"]
-            if not user_can_access_repo(user, repo_id, at_ts=now):
-                continue
-            files: List[FileRow] = []
-            rows = c.execute("""
-              SELECT rfilename, version, size, sha256, updated_ts
-                FROM files WHERE repo_id=? ORDER BY rfilename ASC
-            """, (repo_id,)).fetchall()
-            mc = get_minio() if presign else None
-            for r in rows:
-                obj = resolve_object_key(c, repo_id, r["rfilename"], version=r["version"])
-                url = None
-                if presign and mc:
-                    try: url = mc.presigned_get_object(MINIO_BUCKET, obj, expires=expires)
-                    except Exception: url = None
-                files.append(FileRow(rfilename=r["rfilename"], version=r["version"], size=r["size"],
-                                     sha256=r["sha256"], updated_ts=r["updated_ts"],
-                                     object_key=obj, presigned_url=url))
-            items.append(ManifestEntry(repo_id=repo_id, allowed_from_ts=int(g["permitted_from_ts"]), files=files))
-    return PlatformManifest(generated_ts=now, items=items)
+    db = get_db()
+    f = db.execute("SELECT * FROM files WHERE repo_id=? AND rfilename=?", (repo_id, rfilename)).fetchone()
+    if not f:
+        abort(404)
 
-# ------------------ Changes (kept) ------------------
+    allowed, perm_id, source = _match_permission(db, user, repo_id, rfilename)
+    if not allowed:
+        _audit(db, user_id=user["id"], api_key_id=None, repo_id=repo_id, rfilename=rfilename,
+               outcome="DENY", via="session", permission_id=perm_id, permission_source=source, message="UI download denied")
+        abort(403)
 
-class ChangeRow(BaseModel):
-    repo_id: str
-    last_update_ts: int
+    # For now, stream from local path; later you can presign to S3/MinIO and redirect.
+    local_path = f["local_path"]
+    if not local_path or not Path(local_path).exists():
+        _audit(db, user_id=user["id"], api_key_id=None, repo_id=repo_id, rfilename=rfilename,
+               outcome="DENY", via="session", permission_id=perm_id, permission_source=source, message="File missing on disk")
+        abort(404)
 
-@app.get("/v1/changes", response_model=List[ChangeRow], tags=["catalog"])
-def changes(since: int = Query(...), limit: int = Query(500, ge=1, le=2000), user=Depends(current_user)):
-    with connect(DB_PATH) as c:
-        rows = c.execute("""
-          SELECT repo_id, last_update_ts FROM models
-           WHERE last_update_ts IS NOT NULL AND last_update_ts > ?
-           ORDER BY last_update_ts ASC LIMIT ?""", (since, limit)).fetchall()
-        # role-aware filter
-        out = []
-        for r in rows:
-            if user_can_access_repo(user, r["repo_id"]):
-                out.append(ChangeRow(repo_id=r["repo_id"], last_update_ts=int(r["last_update_ts"] or 0)))
-        return out
+    _audit(db, user_id=user["id"], api_key_id=None, repo_id=repo_id, rfilename=rfilename,
+           outcome="ALLOW", via="session", permission_id=perm_id, permission_source=source, message="UI download")
+    # You can add etag/last-mod headers if desired
+    return send_file(local_path, as_attachment=True)
+
+# ----------------- API Download (API key) -----------------
+@app.route("/api/files/<path:repo_id>/<path:rfilename>/download", methods=["GET"])
+def api_download(repo_id, rfilename):
+    user, key = _auth_from_api_key()
+    db = get_db()
+
+    if not user or not key:
+        # audit anonymous attempt with DENY if file exists
+        _audit(db, user_id=None, api_key_id=None, repo_id=repo_id, rfilename=rfilename,
+               outcome="DENY", via="api_key", permission_id=None, permission_source=None, message="Missing/invalid API key")
+        return jsonify({"error":"unauthorized"}), 401
+
+    f = db.execute("SELECT * FROM files WHERE repo_id=? AND rfilename=?", (repo_id, rfilename)).fetchone()
+    if not f:
+        _audit(db, user_id=user["id"], api_key_id=key["id"], repo_id=repo_id, rfilename=rfilename,
+               outcome="DENY", via="api_key", permission_id=None, permission_source=None, message="File not found")
+        return jsonify({"error":"not_found"}), 404
+
+    allowed, perm_id, source = _match_permission(db, user, repo_id, rfilename)
+    if not allowed:
+        _audit(db, user_id=user["id"], api_key_id=key["id"], repo_id=repo_id, rfilename=rfilename,
+               outcome="DENY", via="api_key", permission_id=perm_id, permission_source=source, message="Policy denies download")
+        return jsonify({"error":"forbidden"}), 403
+
+    local_path = f["local_path"]
+    if not local_path or not Path(local_path).exists():
+        _audit(db, user_id=user["id"], api_key_id=key["id"], repo_id=repo_id, rfilename=rfilename,
+               outcome="DENY", via="api_key", permission_id=perm_id, permission_source=source, message="File missing on disk")
+        return jsonify({"error":"not_found"}), 404
+
+    # Option A (default): stream file (keeps lineage in this service)
+    _audit(db, user_id=user["id"], api_key_id=key["id"], repo_id=repo_id, rfilename=rfilename,
+           outcome="ALLOW", via="api_key", permission_id=perm_id, permission_source=source, message="API download")
+    return send_file(local_path, as_attachment=True)
+
+    # Option B: if you enable presign later, audit here and return JSON with URL or 302 redirect
+
+
+# ----------------- Admin helpers (optional) -----------------
+@app.route("/admin/seed", methods=["POST"])
+def admin_seed():
+    """
+    One-time helper to create a first admin and (optionally) a platform user + wildcard permission.
+    Env:
+      SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD
+    """
+    db = get_db()
+    email = (os.getenv("SEED_ADMIN_EMAIL","") or "").strip().lower()
+    pw    = os.getenv("SEED_ADMIN_PASSWORD","") or ""
+    if not email or not pw:
+        return jsonify({"error":"set SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD envs"}), 400
+
+    existing = db.execute("SELECT id FROM users WHERE email=?", (email,)).fetchone()
+    if existing:
+        return jsonify({"status":"exists", "user_id": existing["id"]}), 200
+
+    db.execute("INSERT INTO users(email, name, role, pw_hash, active) VALUES(?,?,?,?,1)",
+               (email, email.split("@")[0], "admin", _make_password_hash(pw)))
+    db.commit()
+    uid = db.execute("SELECT id FROM users WHERE email=?", (email,)).fetchone()["id"]
+    return jsonify({"status":"created", "user_id": uid}), 201
+
+@app.route("/admin/api-keys", methods=["POST"])
+def admin_create_api_key():
+    """
+    Admin can mint an API key for a user.
+    JSON body: { "user_email": "...", "label": "build-agent-1" }
+    Returns: {"api_key": "<raw-once>", "key_id": ...}
+    """
+    u = current_user()
+    if not u or (u["role"] or "") not in ("admin","platform"):
+        return jsonify({"error":"admin_only"}), 403
+
+    data = request.get_json(force=True, silent=True) or {}
+    email = (data.get("user_email","") or "").strip().lower()
+    label = (data.get("label","") or "").strip()
+    if not email:
+        return jsonify({"error":"user_email required"}), 400
+
+    db = get_db()
+    user = db.execute("SELECT * FROM users WHERE email=? AND active=1", (email,)).fetchone()
+    if not user:
+        return jsonify({"error":"no such user"}), 404
+
+    # generate raw key and hash
+    raw = hashlib.sha256(os.urandom(32)).hexdigest()  # 64-hex chars, good enough
+    key_hash = _hash_api_key(raw)
+    db.execute("INSERT INTO api_keys(user_id, key_hash, label) VALUES(?,?,?)", (user["id"], key_hash, label))
+    db.commit()
+    kid = db.execute("SELECT last_insert_rowid() AS id").fetchone()["id"]
+    return jsonify({"api_key": raw, "key_id": kid}), 201
+
+# ----------------- Minimal JSON view for audits (optional) -----------------
+@app.route("/api/audits", methods=["GET"])
+def api_audits():
+    u = current_user()
+    if not u or (u["role"] or "") not in ("admin","platform"):
+        return jsonify({"error":"forbidden"}), 403
+    db = get_db()
+    rows = db.execute("""
+      SELECT a.id, a.ts, a.repo_id, a.rfilename, a.via, a.outcome, a.permission_source,
+             u.email AS user_email, k.label AS api_key_label, a.ip
+      FROM downloads_audit a
+      LEFT JOIN users u ON a.user_id=u.id
+      LEFT JOIN api_keys k ON a.api_key_id=k.id
+      ORDER BY a.ts DESC LIMIT 500
+    """).fetchall()
+    return jsonify([dict(r) for r in rows])
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080, debug=False)

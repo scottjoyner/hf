@@ -1,0 +1,5 @@
+{% if user %}
+  <span>Hi, {{ user['email'] }} ({{ user['role'] }})</span> | <a href="{{ url_for('logout') }}">Logout</a>
+{% else %}
+  <a href="{{ url_for('login', next=request.path) }}">Login</a>
+{% endif %}
