@@ -11,13 +11,26 @@ import time
 import re
 from pathlib import Path
 from typing import Any, Dict, Iterable, Optional, Tuple, List
-
-# NEW: huggingface hub (make sure in requirements.txt)
+# --- Hugging Face imports (version-agnostic) ---
 try:
-    from huggingface_hub import snapshot_download, HfHubHTTPError
-except Exception as _e:
+    from huggingface_hub import snapshot_download
+    try:
+        # Newer public path
+        from huggingface_hub.errors import HfHubHTTPError
+    except Exception:
+        try:
+            # Older internal path
+            from huggingface_hub.utils._errors import HfHubHTTPError
+        except Exception:
+            # Fallback: define a compatible exception
+            class HfHubHTTPError(Exception):
+                pass
+except Exception:
     snapshot_download = None
-    HfHubHTTPError = Exception
+    class HfHubHTTPError(Exception):
+        pass
+
+
 
 # ---------------------------------------------------------------------
 # Logging
@@ -559,7 +572,7 @@ def download_one(
             "huggingface_hub is not available. Add `huggingface_hub` to requirements.txt."
         )
     target_dir.mkdir(parents=True, exist_ok=True)
-    LOG.info("Downloading %s (rev=%s) patterns=%s -> %s", repo_id, revision, allow_patterns or "(all)", target_dir)
+    LOG.info("Downloading %s (rev=%s) patterns=%s -> %s", repo_id, revision, "(all)", target_dir)
     local_path = snapshot_download(
         repo_id=repo_id,
         repo_type="model",
