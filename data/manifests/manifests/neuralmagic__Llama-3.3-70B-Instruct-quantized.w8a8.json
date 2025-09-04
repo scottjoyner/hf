@@ -1,0 +1,6 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "neuralmagic/Llama-3.3-70B-Instruct-quantized.w8a8",
+  "updated_ts": 1756952832,
+  "files": []
+}

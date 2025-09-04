@@ -1,0 +1,455 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "mixedbread-ai/mxbai-embed-large-v1",
+  "updated_ts": 1756952832,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 101,
+      "sha256": "8e0ca1a55c12fcea439ea8f092150978b941437bf3608200940bd54367a2dfd2",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/1_Pooling/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.metadata",
+      "size": 101,
+      "sha256": "e6d9fbf485195e7a2a3d3dcc67a19ea4055410d60f46e39c2d865ac676c7be36",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/1_Pooling/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/LICENSE.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/LICENSE.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/LICENSE.metadata",
+      "size": 101,
+      "sha256": "d861d9f1072d5eb0655d14072452e963bfcdbf7f948596c895637bb6431b0d5a",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/LICENSE.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "8af899c668f47360ad46dedc7692782c588bcac4325d387ae1f235489d6277f1",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 101,
+      "sha256": "e889ac1d18d00b069733753743289290bfce583dccd18f0501438b1a9d20fbca",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/config_sentence_transformers.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.metadata",
+      "size": 101,
+      "sha256": "076291b003a663ec9457f9b4bb555199a6920d91241fb31e51ff08a824cbc4be",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/config_sentence_transformers.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/gguf/mxbai-embed-large-v1-f16.gguf.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/gguf/mxbai-embed-large-v1-f16.gguf.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/gguf/mxbai-embed-large-v1-f16.gguf.metadata",
+      "size": 124,
+      "sha256": "0ef777dede01829d9060451b8f670323e42837d7f02203eace814ef965695aa9",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/gguf/mxbai-embed-large-v1-f16.gguf.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/model.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.metadata",
+      "size": 125,
+      "sha256": "b2958d2fac4b02582e2037747fafa918726abcd53c950218338f5ef32f98c26e",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/model.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/modules.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.metadata",
+      "size": 101,
+      "sha256": "aa706905161ab313d28f2d3e15cae874b95b7e4c6470dbc719ec3d418b226754",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/modules.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/onnx/model.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.metadata",
+      "size": 125,
+      "sha256": "6fe54c1c3d2a75d81ee9d837dba3c614165fb493bd219c4b599eba46f305e637",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/onnx/model.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_fp16.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/onnx/model_fp16.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_fp16.onnx.metadata",
+      "size": 125,
+      "sha256": "2efd8c9fc1c925eb46c483d334ea5b486cfc2f57f0d5eda6505b862f94dd83c9",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/onnx/model_fp16.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_quantized.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/onnx/model_quantized.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_quantized.onnx.metadata",
+      "size": 123,
+      "sha256": "b1c71cfb4b0f9e2cc346961e20c6d50b21255ca89ffe3a7d01c7c9d86059b55f",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/onnx/model_quantized.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model.bin.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/openvino/openvino_model.bin.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model.bin.metadata",
+      "size": 125,
+      "sha256": "059e996b9cbfda4fddfa08c2ad8475165e5552ca0365f012e83d455d0eb26f6d",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/openvino/openvino_model.bin.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model.xml.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/openvino/openvino_model.xml.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model.xml.metadata",
+      "size": 101,
+      "sha256": "c729b21bf3bc9191f27d9a7e3599a32e09a32a31a0e8081754d7e275af8760ef",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/openvino/openvino_model.xml.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model_qint8_quantized.bin.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/openvino/openvino_model_qint8_quantized.bin.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model_qint8_quantized.bin.metadata",
+      "size": 125,
+      "sha256": "eb982844991f0a5b25d7b727b417e61222932c9fee815063e279ddc4904123af",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/openvino/openvino_model_qint8_quantized.bin.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model_qint8_quantized.xml.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/openvino/openvino_model_qint8_quantized.xml.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model_qint8_quantized.xml.metadata",
+      "size": 101,
+      "sha256": "35f365251bbed6fe2b3b64302f8f479d23ad975bb13745f6dfcc2fa2aabbbeb7",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/openvino/openvino_model_qint8_quantized.xml.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_bert_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/sentence_bert_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_bert_config.json.metadata",
+      "size": 101,
+      "sha256": "75cf241fb3202e681f6b4bcd21224cc829da08aa374df5c9f77f2fa9a1e049ae",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/sentence_bert_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/special_tokens_map.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
+      "size": 101,
+      "sha256": "2dc5f59d6cd74a8b934825fbca4cac65b4eb145797aab702024a6fa267bd3903",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/special_tokens_map.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
+      "size": 101,
+      "sha256": "08dd9eee45de929f41ac2b148ffc55be0e1b6cb8c2a7bd0143cf7d131ad2ac4e",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 101,
+      "sha256": "607061ac8ee676fae742888e1901ec5bf09668208c42ca5597c6f5f338944bfc",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.txt.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/vocab.txt.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.txt.metadata",
+      "size": 101,
+      "sha256": "cd8c2ab64247e9b0bd51256e9bc706d202f10e0dc6593afb837aa137d3b13594",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.cache/huggingface/download/vocab.txt.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1585,
+      "sha256": "1461a4c509129897271a90f7cb35c5ec294cfecff518fe015e37371e4364f53e",
+      "updated_ts": 1756953154,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/.gitattributes"
+    },
+    {
+      "rfilename": "1_Pooling/config.json",
+      "size": 297,
+      "sha256": "13e69897522ee8255104483ed9f219465d1be3936654a54a318758738052789e",
+      "updated_ts": 1756953187,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/1_Pooling/config.json"
+    },
+    {
+      "rfilename": "LICENSE",
+      "size": 10762,
+      "sha256": "4b0dfefcb74f1e50a8df72a9f2bf0088753f8568bc479387292469b4948705d4",
+      "updated_ts": 1756953158,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/LICENSE"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 114275,
+      "sha256": "2b3788fb62bddbaec7e63931ca7a6bb8884f08485d89c993f12f5d8add61f3be",
+      "updated_ts": 1756953158,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/README.md"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 677,
+      "sha256": "ce13f118fc183c005236901d2662ced752de632ebb161e6af800aadda2d176f7",
+      "updated_ts": 1756953158,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/config.json"
+    },
+    {
+      "rfilename": "config_sentence_transformers.json",
+      "size": 266,
+      "sha256": "6229fc7b7366a1324ced5df4561f60c2cb9bf7959fee47a6ff276724c29598c5",
+      "updated_ts": 1756953154,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/config_sentence_transformers.json"
+    },
+    {
+      "rfilename": "gguf/mxbai-embed-large-v1-f16.gguf",
+      "size": 669603712,
+      "sha256": "819c2adf5ce6df2b6bd2ae4ca90d2a69f060afeb438d0c171db57daa02e39c3d",
+      "updated_ts": 1756953176,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/gguf/mxbai-embed-large-v1-f16.gguf"
+    },
+    {
+      "rfilename": "model.safetensors",
+      "size": 670328392,
+      "sha256": "36bfa45da00eb762ef9feebe4cff315ec779efadd08da11846bef5ba5b59b8f8",
+      "updated_ts": 1756953158,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/model.safetensors"
+    },
+    {
+      "rfilename": "modules.json",
+      "size": 229,
+      "sha256": "8f4b264b80206c830bebbdcae377e137925650a433b689343a63bdc9b3145460",
+      "updated_ts": 1756953154,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/modules.json"
+    },
+    {
+      "rfilename": "onnx/model.onnx",
+      "size": 1336854282,
+      "sha256": "adb53ed475faa339bfad3bd2bdb7e6a30b4f47280ade9811f81bef7953f9ab77",
+      "updated_ts": 1756953171,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/onnx/model.onnx"
+    },
+    {
+      "rfilename": "onnx/model_fp16.onnx",
+      "size": 668828772,
+      "sha256": "b08af11a60452474f6958853f339296f970aac697a49b98da923d0c36cc6c6b1",
+      "updated_ts": 1756953162,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/onnx/model_fp16.onnx"
+    },
+    {
+      "rfilename": "onnx/model_quantized.onnx",
+      "size": 336983163,
+      "sha256": "11bda26d2ee754b20d46c90d0fae7eb5a71e0f947e74261afd6ad640ebbcfa7f",
+      "updated_ts": 1756953164,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/onnx/model_quantized.onnx"
+    },
+    {
+      "rfilename": "openvino/openvino_model.bin",
+      "size": 1336373408,
+      "sha256": "d2715fe5d778475f06156e6de07353f8e5e73800985159bfd7bf7081c284d87a",
+      "updated_ts": 1756953186,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/openvino/openvino_model.bin"
+    },
+    {
+      "rfilename": "openvino/openvino_model.xml",
+      "size": 707313,
+      "sha256": "a41742392c4051743c144db7066faab14e7d4518aab387c26a3a3e9239df498f",
+      "updated_ts": 1756953178,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/openvino/openvino_model.xml"
+    },
+    {
+      "rfilename": "openvino/openvino_model_qint8_quantized.bin",
+      "size": 336759312,
+      "sha256": "61df334e52dacadebc1cdadd3974be4ec70a339329830a1df67c7ba4f196c7ae",
+      "updated_ts": 1756953178,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/openvino/openvino_model_qint8_quantized.bin"
+    },
+    {
+      "rfilename": "openvino/openvino_model_qint8_quantized.xml",
+      "size": 1308665,
+      "sha256": "6acc3e475f042ef5bb4eece03c0e8e8886fec696651cd30f1a378232ac8813b8",
+      "updated_ts": 1756953187,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/openvino/openvino_model_qint8_quantized.xml"
+    },
+    {
+      "rfilename": "sentence_bert_config.json",
+      "size": 53,
+      "sha256": "ec8e29d6dcb61b611b7d3fdd2982c4524e6ad985959fa7194eacfb655a8d0d51",
+      "updated_ts": 1756953158,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/sentence_bert_config.json"
+    },
+    {
+      "rfilename": "special_tokens_map.json",
+      "size": 695,
+      "sha256": "5d5b662e421ea9fac075174bb0688ee0d9431699900b90662acd44b2a350503a",
+      "updated_ts": 1756953154,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/special_tokens_map.json"
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "size": 711396,
+      "sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+      "updated_ts": 1756953158,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/tokenizer.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 1242,
+      "sha256": "0b29c7bfc889e53b36d9dd3e686dd4300f6525110eaa98c76a5dafceb2029f53",
+      "updated_ts": 1756953158,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/tokenizer_config.json"
+    },
+    {
+      "rfilename": "vocab.txt",
+      "size": 231508,
+      "sha256": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+      "updated_ts": 1756953158,
+      "object_key": "hf/mixedbread-ai/mxbai-embed-large-v1/vocab.txt"
+    }
+  ]
+}

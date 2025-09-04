@@ -1,0 +1,644 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "sentence-transformers/all-MiniLM-L6-v2",
+  "updated_ts": 1756952832,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 101,
+      "sha256": "25184eeebe4dc3942b4a38431aa0cdaa3ef91c65ad4d1fe2b97b205214495232",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/1_Pooling/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.metadata",
+      "size": 101,
+      "sha256": "12e4401ce719b8fd3de132b86f60e9745197cfa3cb21b30ea5dc8539cf6cfeab",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/1_Pooling/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "3c7fc8776da5f6a681d6d8c500b2173730ec028b48a80c9e92a8abeffc6c5af1",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 100,
+      "sha256": "f2c4287618c051b4842666a0dc83bf0c53c6b81f258504644002873555682cfd",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/config_sentence_transformers.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.metadata",
+      "size": 100,
+      "sha256": "5e81592fe848741161510e142b926acacacb2caf114cfd4175002dc51ebb4153",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/config_sentence_transformers.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/data_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/data_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/data_config.json.metadata",
+      "size": 99,
+      "sha256": "8431a652faa91ea9718367833458d4422d31b85786e8e16233a9071cf8ad6f7e",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/data_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/model.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.metadata",
+      "size": 125,
+      "sha256": "6c300adb9ba2add2b157812cdc341af546685be6e9a259c2b8276527148c1ffa",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/model.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/modules.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.metadata",
+      "size": 101,
+      "sha256": "4221fc8c91dfcfbebd19265acdc5e5da5c17dbfb11099c73da806f4d2a3bc632",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/modules.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.metadata",
+      "size": 125,
+      "sha256": "2b08ee8310eb7c3562841438088906c7836dee11220a1c18ff460bab8a6f6f0d",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_O1.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_O1.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_O1.onnx.metadata",
+      "size": 125,
+      "sha256": "f1ff8cc76d945ff4fed758b003d21e625e589662fd8076207ccfce0a5f338b1c",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_O1.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_O2.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_O2.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_O2.onnx.metadata",
+      "size": 125,
+      "sha256": "2fa107249bc3c032efff3f2ec25ae11b7061924ff31e461b8d7da2478bfb2435",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_O2.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_O3.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_O3.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_O3.onnx.metadata",
+      "size": 124,
+      "sha256": "7ba735cb7c23e3bfd7f39392a02817b03cfbba675a9b33e157052fdab65f1885",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_O3.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_O4.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_O4.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_O4.onnx.metadata",
+      "size": 124,
+      "sha256": "f32c7055b005211a681efb03dee1a6f8dffdd88fc9c90bcff8364a823a123ab1",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_O4.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_qint8_arm64.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_qint8_arm64.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_qint8_arm64.onnx.metadata",
+      "size": 125,
+      "sha256": "57b2eba15b2028f8bda9eeba4fda999ad7bc4225e3ce1ec0b9081a837634c09f",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_qint8_arm64.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_qint8_avx512.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_qint8_avx512.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_qint8_avx512.onnx.metadata",
+      "size": 123,
+      "sha256": "e080c9601c9884a7ef4bc14694456155082f054c8fa541d4e85289d177f2d079",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_qint8_avx512.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_qint8_avx512_vnni.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_qint8_avx512_vnni.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_qint8_avx512_vnni.onnx.metadata",
+      "size": 125,
+      "sha256": "c7c73ff6bddcf0417c1a4911cb4a02fb65c06179f2c37b66d3ce8e3a60fbe064",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_qint8_avx512_vnni.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_quint8_avx2.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_quint8_avx2.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_quint8_avx2.onnx.metadata",
+      "size": 125,
+      "sha256": "10551f24a29aafa13ae0d810508cf642c4d0e82196eb3a13669e06b527a28dcb",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_quint8_avx2.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model.bin.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/openvino/openvino_model.bin.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model.bin.metadata",
+      "size": 124,
+      "sha256": "81ba99fefbc507cbfee796e4bf664403a7d948c98fb57303c9072df8cfe71077",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/openvino/openvino_model.bin.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model.xml.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/openvino/openvino_model.xml.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model.xml.metadata",
+      "size": 101,
+      "sha256": "234aee3515381085d1da73f8696835b9850a5dc7ba9d29692c006285789128be",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/openvino/openvino_model.xml.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model_qint8_quantized.bin.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/openvino/openvino_model_qint8_quantized.bin.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model_qint8_quantized.bin.metadata",
+      "size": 125,
+      "sha256": "e8e42d771c22e58fe50bd9d8ea4fe9dbb0f65bcd8488ae1f6de7eee75a78e0eb",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/openvino/openvino_model_qint8_quantized.bin.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model_qint8_quantized.xml.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/openvino/openvino_model_qint8_quantized.xml.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/openvino/openvino_model_qint8_quantized.xml.metadata",
+      "size": 101,
+      "sha256": "92863a6486c2ed0442a0c7058dd0ad82dc53902755e84e74cd696e010ce2d2bc",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/openvino/openvino_model_qint8_quantized.xml.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/pytorch_model.bin.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.metadata",
+      "size": 125,
+      "sha256": "02b4eb8ff8e5506419bf65c625af9473becc85e8dd3c679f3deba513cb6221eb",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/pytorch_model.bin.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/rust_model.ot.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/rust_model.ot.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/rust_model.ot.metadata",
+      "size": 124,
+      "sha256": "108a9c6fe702ed4e165a9565230249322fb67b9b8ad68b02bdd03c599c5e9451",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/rust_model.ot.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_bert_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/sentence_bert_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_bert_config.json.metadata",
+      "size": 99,
+      "sha256": "ca65ecbe5da75cee30ae973d6222cac1f78d12850c3d414fde121bc4b50b66cb",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/sentence_bert_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/special_tokens_map.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
+      "size": 101,
+      "sha256": "0c55fb1cbebfac05ae08e989636a7db47fe575da9d0eea4f5843809277992fca",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/special_tokens_map.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tf_model.h5.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/tf_model.h5.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tf_model.h5.metadata",
+      "size": 124,
+      "sha256": "f8aad9830cb7a6c47c816c3ea1a4863aac54a4b0935dbed9dbba69963d0c7fe9",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/tf_model.h5.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
+      "size": 101,
+      "sha256": "a77dacf1cddb8510d31be71cba67bf058579133b1838e6483012df03acb5f936",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 100,
+      "sha256": "e80b13636b7841accb4fd944ddab88b92d2955f8684108abdf95dd7f0929534b",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/train_script.py.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/train_script.py.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/train_script.py.metadata",
+      "size": 101,
+      "sha256": "4d667ffbf905d28b2905174d89268920580309d84abbd2649764f8b3bb831568",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/train_script.py.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.txt.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/vocab.txt.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.txt.metadata",
+      "size": 101,
+      "sha256": "8820c59990e794fa64e812a63f9db0f89532f06d8d1aafccaaa6f4d35393667a",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.cache/huggingface/download/vocab.txt.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1229,
+      "sha256": "98ccb431c012ebfe976280fbd45aea4cec7409935868ccecf3954370f96732a1",
+      "updated_ts": 1756953037,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/.gitattributes"
+    },
+    {
+      "rfilename": "1_Pooling/config.json",
+      "size": 190,
+      "sha256": "4be450dde3b0273bb9787637cfbd28fe04a7ba6ab9d36ac48e92b11e350ffc23",
+      "updated_ts": 1756953043,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/1_Pooling/config.json"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 10454,
+      "sha256": "7dfc82496ec33f906b5b0d6750c1e2397da6530c74d1ae3568c55bc2739125e7",
+      "updated_ts": 1756953039,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/README.md"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 612,
+      "sha256": "953f9c0d463486b10a6871cc2fd59f223b2c70184f49815e7efbcab5d8908b41",
+      "updated_ts": 1756953039,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/config.json"
+    },
+    {
+      "rfilename": "config_sentence_transformers.json",
+      "size": 116,
+      "sha256": "061ca9d39661d6c6d6de5ba27f79a1cd5770ea247f8d46412a68a498dc5ac9f3",
+      "updated_ts": 1756953038,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/config_sentence_transformers.json"
+    },
+    {
+      "rfilename": "data_config.json",
+      "size": 39265,
+      "sha256": "32edcb108fc2516b920734a862ae0692bcae1c5d45d5f8d972cb0d53434a4c54",
+      "updated_ts": 1756953038,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/data_config.json"
+    },
+    {
+      "rfilename": "model.safetensors",
+      "size": 90868376,
+      "sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+      "updated_ts": 1756953039,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/model.safetensors"
+    },
+    {
+      "rfilename": "modules.json",
+      "size": 349,
+      "sha256": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+      "updated_ts": 1756953037,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/modules.json"
+    },
+    {
+      "rfilename": "onnx/model.onnx",
+      "size": 90405214,
+      "sha256": "6fd5d72fe4589f189f8ebc006442dbb529bb7ce38f8082112682524616046452",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/onnx/model.onnx"
+    },
+    {
+      "rfilename": "onnx/model_O1.onnx",
+      "size": 90360328,
+      "sha256": "1391c6fc20b5530250bc15cbe1f47578ffeca55ab0551d335cc668b6299a88ec",
+      "updated_ts": 1756953040,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/onnx/model_O1.onnx"
+    },
+    {
+      "rfilename": "onnx/model_O2.onnx",
+      "size": 90326566,
+      "sha256": "1de3905029190b398c7d300b530e320cf4b5e7d3dfb9af1429ebd73fd9a16faf",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/onnx/model_O2.onnx"
+    },
+    {
+      "rfilename": "onnx/model_O3.onnx",
+      "size": 90326497,
+      "sha256": "a44f671e364dddbac31f203f07b91be6b0a35e51936e5ebfab65b6d9538b83ff",
+      "updated_ts": 1756953041,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/onnx/model_O3.onnx"
+    },
+    {
+      "rfilename": "onnx/model_O4.onnx",
+      "size": 45212349,
+      "sha256": "1667d7f3ba669048b13a96ee3a44456d5e42c8f44588ae8b603430e16160c485",
+      "updated_ts": 1756953041,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/onnx/model_O4.onnx"
+    },
+    {
+      "rfilename": "onnx/model_qint8_arm64.onnx",
+      "size": 23026053,
+      "sha256": "4278337fd0ff3c68bfb6291042cad8ab363e1d9fbc43dcb499fe91c871902474",
+      "updated_ts": 1756953040,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/onnx/model_qint8_arm64.onnx"
+    },
+    {
+      "rfilename": "onnx/model_qint8_avx512.onnx",
+      "size": 23026053,
+      "sha256": "4278337fd0ff3c68bfb6291042cad8ab363e1d9fbc43dcb499fe91c871902474",
+      "updated_ts": 1756953040,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/onnx/model_qint8_avx512.onnx"
+    },
+    {
+      "rfilename": "onnx/model_qint8_avx512_vnni.onnx",
+      "size": 23026053,
+      "sha256": "4278337fd0ff3c68bfb6291042cad8ab363e1d9fbc43dcb499fe91c871902474",
+      "updated_ts": 1756953039,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/onnx/model_qint8_avx512_vnni.onnx"
+    },
+    {
+      "rfilename": "onnx/model_quint8_avx2.onnx",
+      "size": 23046789,
+      "sha256": "b941bf19f1f1283680f449fa6a7336bb5600bdcd5f84d10ddc5cd72218a0fd21",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/onnx/model_quint8_avx2.onnx"
+    },
+    {
+      "rfilename": "openvino/openvino_model.bin",
+      "size": 90265744,
+      "sha256": "8b86cab4722e2aefab310cf96d4d5a9eb3b187f7d9670a082afc55c7fa0d392a",
+      "updated_ts": 1756953043,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/openvino/openvino_model.bin"
+    },
+    {
+      "rfilename": "openvino/openvino_model.xml",
+      "size": 211315,
+      "sha256": "f87dd1482b2a745f8c699b81ddd9cbcad666a193be4693abcea44b7ac8c67c1e",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/openvino/openvino_model.xml"
+    },
+    {
+      "rfilename": "openvino/openvino_model_qint8_quantized.bin",
+      "size": 22933664,
+      "sha256": "c92ea4af3c6bc7b4a0f3b3d61b147c850f4dbdd7c9e7beee0c0c70dc12da289b",
+      "updated_ts": 1756953042,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/openvino/openvino_model_qint8_quantized.bin"
+    },
+    {
+      "rfilename": "openvino/openvino_model_qint8_quantized.xml",
+      "size": 368006,
+      "sha256": "a19425e3f56f7736f752923f0a0b5a8d61c7878017f02e1fc9086615391105dd",
+      "updated_ts": 1756953043,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/openvino/openvino_model_qint8_quantized.xml"
+    },
+    {
+      "rfilename": "pytorch_model.bin",
+      "size": 90888945,
+      "sha256": "c3a85f238711653950f6a79ece63eb0ea93d76f6a6284be04019c53733baf256",
+      "updated_ts": 1756953037,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/pytorch_model.bin"
+    },
+    {
+      "rfilename": "rust_model.ot",
+      "size": 90887379,
+      "sha256": "2d98d96d278348988f2744e6445b8bc16d921c3f6e17c667362f3cb353007aea",
+      "updated_ts": 1756953038,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/rust_model.ot"
+    },
+    {
+      "rfilename": "sentence_bert_config.json",
+      "size": 53,
+      "sha256": "fc1993fde0a95c24ec6c022539d41cf6e2f7c9721e5415d6fb6897472a9cd4b7",
+      "updated_ts": 1756953039,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/sentence_bert_config.json"
+    },
+    {
+      "rfilename": "special_tokens_map.json",
+      "size": 112,
+      "sha256": "303df45a03609e4ead04bc3dc1536d0ab19b5358db685b6f3da123d05ec200e3",
+      "updated_ts": 1756953038,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/special_tokens_map.json"
+    },
+    {
+      "rfilename": "tf_model.h5",
+      "size": 91005696,
+      "sha256": "24c06a7429b843d46e40c6b167122053921bf94dce2e5550ea5c07fabc597646",
+      "updated_ts": 1756953038,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/tf_model.h5"
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "size": 466247,
+      "sha256": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037",
+      "updated_ts": 1756953039,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/tokenizer.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 350,
+      "sha256": "acb92769e8195aabd29b7b2137a9e6d6e25c476a4f15aa4355c233426c61576b",
+      "updated_ts": 1756953039,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/tokenizer_config.json"
+    },
+    {
+      "rfilename": "train_script.py",
+      "size": 13156,
+      "sha256": "f9b98b9d203d728cbf93ccdbae84131ab926541b56196f11d1385fed0b4d1a07",
+      "updated_ts": 1756953038,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/train_script.py"
+    },
+    {
+      "rfilename": "vocab.txt",
+      "size": 231508,
+      "sha256": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+      "updated_ts": 1756953039,
+      "object_key": "hf/sentence-transformers/all-MiniLM-L6-v2/vocab.txt"
+    }
+  ]
+}

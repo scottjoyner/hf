@@ -1,0 +1,420 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "snowflake/snowflake-arctic-embed-m",
+  "updated_ts": 1756952832,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 100,
+      "sha256": "785d6f5ef343045b3cc1871d2816d588e0f3d63e9e6c373a2beaf912ad0e9a14",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/1_Pooling/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.metadata",
+      "size": 100,
+      "sha256": "2dc177b58b75c6adba3e8fa05b052270eb87a7790900ac29603c66d04324904b",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/1_Pooling/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "7f9578cc2b830f982acb8d8f1bca5aeaf37cf53ebdeca5d827010231ec24a6b7",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 101,
+      "sha256": "2b355edb7bf48fc4e59f90fe6b81a5199f4d70fd943d321f2e95d8b4094cf0e4",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/config_sentence_transformers.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.metadata",
+      "size": 101,
+      "sha256": "d19a8c65c49f76c8b6c47495d1b20704794d91fa2a43f709102ac3d9eba3a1e6",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/config_sentence_transformers.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/model.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.metadata",
+      "size": 125,
+      "sha256": "9f2397dbe7c4157b6a971d0d497d4e59813ef91bf0f83636d785dfe58ee65005",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/model.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/modules.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.metadata",
+      "size": 101,
+      "sha256": "ab8cf85479f441d806b4adc8a7c30f961866c0fc4a36102df510b5fa4c159a31",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/modules.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/IuXaCLyVmSJ4y0oHM-5RwAC8YxI=.4cfc22160ddd52bac43697b6b84a4b29ea25a82db23841c27436dbddcfd5f88a.incomplete",
+      "size": 110084023,
+      "sha256": "111c68ab49636df97c14266defd789a41eb4d737df03da9a0bec7d16f1ab6029",
+      "updated_ts": 1756953089,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/IuXaCLyVmSJ4y0oHM-5RwAC8YxI=.4cfc22160ddd52bac43697b6b84a4b29ea25a82db23841c27436dbddcfd5f88a.incomplete"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.metadata",
+      "size": 124,
+      "sha256": "ffe0788476a6adf40ee20254e6fed5763c7246b3ccb7a9983c3e09ee59af14c4",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_bnb4.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_bnb4.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_bnb4.onnx.metadata",
+      "size": 125,
+      "sha256": "63a19f4ccadc2ad2897e2175086c9b063edfe38b9ac80987877f9b0d76b2630e",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_bnb4.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_fp16.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_fp16.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_fp16.onnx.metadata",
+      "size": 125,
+      "sha256": "dc597327958549a8ee5ddbd34aa132c84e813e472c037cf160b63b2a04b9a6c0",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_fp16.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_int8.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_int8.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_int8.onnx.metadata",
+      "size": 125,
+      "sha256": "06b83d7b61565ee3ea98e30feac99994890424d810bf35b117c45da73754b33d",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_int8.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_q4.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_q4.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_q4.onnx.metadata",
+      "size": 125,
+      "sha256": "0894db0c77237cf2d0d8b1a28d64cc5939bd30dc006721ac5d030dd634caff42",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_q4.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_quantized.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_quantized.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_quantized.onnx.metadata",
+      "size": 125,
+      "sha256": "7ef819bdb0f1f7bdc130178bc95e65e1aa4ee07ea2c53f35ba136fcbca53a6e0",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_quantized.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_uint8.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_uint8.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_uint8.onnx.metadata",
+      "size": 125,
+      "sha256": "3a056c52b5a62f2199b07e056204902aa17cb93748369dc79f26fa66227c7a8a",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/onnx/model_uint8.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_bert_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/sentence_bert_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_bert_config.json.metadata",
+      "size": 101,
+      "sha256": "4f1742c42f29df9e89be4a819a1818d03ae2a8cee4082a72d2e4fadc65dda6af",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/sentence_bert_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/special_tokens_map.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
+      "size": 101,
+      "sha256": "87ad3bf763f355f3f2bd554c751267ca2c191f54fe60705b330d775348a82c47",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/special_tokens_map.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
+      "size": 100,
+      "sha256": "1df68379664368ecaa0504dca2db7569d5d238625ab0e639b0c85bcd3fe61642",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 101,
+      "sha256": "165683a04b1277b63bb4e88f25f3d0553a46673c506e1e0a09742fabbe09b0aa",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.txt.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/vocab.txt.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.txt.metadata",
+      "size": 101,
+      "sha256": "88bff7d35da14f235f95a43662e042dde382a8a5e117a0a2357157e0830c40cb",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.cache/huggingface/download/vocab.txt.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1519,
+      "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+      "updated_ts": 1756953114,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/.gitattributes"
+    },
+    {
+      "rfilename": "1_Pooling/config.json",
+      "size": 296,
+      "sha256": "d02ebf56344d20f773449b15d0c10ee9a86a9178f3b3c9bfecb8b87d4350ce38",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/1_Pooling/config.json"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 85521,
+      "sha256": "5813aa53e5ba789d1e5f64904b0ec5ca529f981327b5417f6f88d4438cd31eb3",
+      "updated_ts": 1756953119,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/README.md"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 738,
+      "sha256": "2e26193d0d00a8c709c379fd840bd6c41789b25add0d324d841d0788d61b7e0e",
+      "updated_ts": 1756953119,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/config.json"
+    },
+    {
+      "rfilename": "config_sentence_transformers.json",
+      "size": 252,
+      "sha256": "26a4caecbc808973e5b3b3a04484db1389078b0458254e4dd617ff361e2f378a",
+      "updated_ts": 1756953114,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/config_sentence_transformers.json"
+    },
+    {
+      "rfilename": "model.safetensors",
+      "size": 435588776,
+      "sha256": "059905097862be303c51fc88d6976d27e3006ac59786cc750478043c4eb91b3a",
+      "updated_ts": 1756953119,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/model.safetensors"
+    },
+    {
+      "rfilename": "modules.json",
+      "size": 349,
+      "sha256": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+      "updated_ts": 1756953114,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/modules.json"
+    },
+    {
+      "rfilename": "onnx/model.onnx",
+      "size": 435811541,
+      "sha256": "564e6c65ee0c739a486702e9e3e9b33c3f697c19c34dbe886bce9eec497ce971",
+      "updated_ts": 1756953129,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/onnx/model.onnx"
+    },
+    {
+      "rfilename": "onnx/model_bnb4.onnx",
+      "size": 143859863,
+      "sha256": "c6e8ef5f4d93b03c99da91e8b4d38bf5606db8118e344d465dae408b30107772",
+      "updated_ts": 1756953134,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/onnx/model_bnb4.onnx"
+    },
+    {
+      "rfilename": "onnx/model_fp16.onnx",
+      "size": 218108238,
+      "sha256": "7f8fcebda72ae4eec54769f42727c5c7484b271358d423bf610db7327093cb08",
+      "updated_ts": 1756953121,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/onnx/model_fp16.onnx"
+    },
+    {
+      "rfilename": "onnx/model_int8.onnx",
+      "size": 110084023,
+      "sha256": "e46017484d369593d6bb830936fde2175ce21e1ba1ddf002f23e3212d87c824a",
+      "updated_ts": 1756953131,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/onnx/model_int8.onnx"
+    },
+    {
+      "rfilename": "onnx/model_q4.onnx",
+      "size": 149167751,
+      "sha256": "a1fa572089a82803eeb2b821b28edfe8414ae84b7cd91ddf552a1cae1095fb63",
+      "updated_ts": 1756953122,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/onnx/model_q4.onnx"
+    },
+    {
+      "rfilename": "onnx/model_quantized.onnx",
+      "size": 110084023,
+      "sha256": "e46017484d369593d6bb830936fde2175ce21e1ba1ddf002f23e3212d87c824a",
+      "updated_ts": 1756953123,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/onnx/model_quantized.onnx"
+    },
+    {
+      "rfilename": "onnx/model_uint8.onnx",
+      "size": 110084023,
+      "sha256": "4cfc22160ddd52bac43697b6b84a4b29ea25a82db23841c27436dbddcfd5f88a",
+      "updated_ts": 1756953132,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/onnx/model_uint8.onnx"
+    },
+    {
+      "rfilename": "sentence_bert_config.json",
+      "size": 107,
+      "sha256": "4dfc17a899f3ea25b5c8e9034a1d0d9ebd96eca0868b015a89d1d748c38e4b2f",
+      "updated_ts": 1756953119,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/sentence_bert_config.json"
+    },
+    {
+      "rfilename": "special_tokens_map.json",
+      "size": 695,
+      "sha256": "5d5b662e421ea9fac075174bb0688ee0d9431699900b90662acd44b2a350503a",
+      "updated_ts": 1756953114,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/special_tokens_map.json"
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "size": 711649,
+      "sha256": "91f1def9b9391fdabe028cd3f3fcc4efd34e5d1f08c3bf2de513ebb5911a1854",
+      "updated_ts": 1756953119,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/tokenizer.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 1381,
+      "sha256": "0e83e9d7206b3ade43f8f2aeef523cf5d5b4a25b67af21b273de21972c0f58b7",
+      "updated_ts": 1756953119,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/tokenizer_config.json"
+    },
+    {
+      "rfilename": "vocab.txt",
+      "size": 231508,
+      "sha256": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+      "updated_ts": 1756953119,
+      "object_key": "hf/snowflake/snowflake-arctic-embed-m/vocab.txt"
+    }
+  ]
+}

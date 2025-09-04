@@ -1,0 +1,6 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "microsoft/trocr-base-handwritten",
+  "updated_ts": 1756952832,
+  "files": []
+}

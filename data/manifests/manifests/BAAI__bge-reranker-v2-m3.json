@@ -1,0 +1,287 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "BAAI/bge-reranker-v2-m3",
+  "updated_ts": 1756952832,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 101,
+      "sha256": "d906d7c0f0368bd99c3a3e070255fe7192139a5f5e9453132bb0310313df31cc",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 100,
+      "sha256": "5e8a7268f6818a1aebbaaef5976f8f4244ba773f949d3ef7604760c31d029b16",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/assets/BEIR-bge-en-v1.5.png.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/assets/BEIR-bge-en-v1.5.png.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/assets/BEIR-bge-en-v1.5.png.metadata",
+      "size": 101,
+      "sha256": "cf90ce1bdb6ee2827bd219b8dccb41d082c381ae6f931b20a9a8d19830b3b85e",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/assets/BEIR-bge-en-v1.5.png.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/assets/BEIR-e5-mistral.png.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/assets/BEIR-e5-mistral.png.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/assets/BEIR-e5-mistral.png.metadata",
+      "size": 101,
+      "sha256": "31bf05aaf36d9f5e98fbfcfce4fe85e4e1d506a3b7661c324e16a17250a6e7b0",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/assets/BEIR-e5-mistral.png.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/assets/CMTEB-retrieval-bge-zh-v1.5.png.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/assets/CMTEB-retrieval-bge-zh-v1.5.png.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/assets/CMTEB-retrieval-bge-zh-v1.5.png.metadata",
+      "size": 101,
+      "sha256": "1d1a85558b91b1dd4070250cbb5ce5c11c7bbea7bb724ef4d38075b78a46feec",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/assets/CMTEB-retrieval-bge-zh-v1.5.png.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/assets/llama-index.png.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/assets/llama-index.png.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/assets/llama-index.png.metadata",
+      "size": 101,
+      "sha256": "3c2ea7c2e43de3031a9823a5a42839f0697961e9094ebc354e4f32239147003b",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/assets/llama-index.png.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/assets/miracl-bge-m3.png.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/assets/miracl-bge-m3.png.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/assets/miracl-bge-m3.png.metadata",
+      "size": 101,
+      "sha256": "efef59f8a7582f60e8ee8392269106211f4803f9b246669a6e14160cc46dd4eb",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/assets/miracl-bge-m3.png.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 101,
+      "sha256": "e4f30eefd52fdda7020079bb8f7e7caa3ef5143393d7d06ee73683dff370507a",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/model.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.metadata",
+      "size": 125,
+      "sha256": "936a30ce34ce4c54e0aef48ab4f59eaed4bbde0df580cad9be5312a18e54852a",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/model.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentencepiece.bpe.model.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/sentencepiece.bpe.model.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentencepiece.bpe.model.metadata",
+      "size": 125,
+      "sha256": "96de466e4d54165a0fe24513a121c671b91b63aab4df9405c15bcbaa14b21e6d",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/sentencepiece.bpe.model.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/special_tokens_map.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
+      "size": 101,
+      "sha256": "2181ebf530a149563d40af0d2d29ecfb3352a5cd4fa38ecfff00e56db4f820e5",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/special_tokens_map.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
+      "size": 124,
+      "sha256": "01cbc273e11945c904a382775e8631ae6ac6d07d703a245d4d9d4e0f8b2193b7",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 100,
+      "sha256": "b80b0bdc78eea4b0292ce779f922807c308ae2c478267d895a7b6e07f8e30b38",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1570,
+      "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930",
+      "updated_ts": 1756953451,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/.gitattributes"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 17229,
+      "sha256": "c887aa6dd2598f908bf0582ca7068cc816585c7a1b6a07df305b631ede0cb174",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/README.md"
+    },
+    {
+      "rfilename": "assets/BEIR-bge-en-v1.5.png",
+      "size": 56374,
+      "sha256": "c1e57bfc0bb87408ac0d5084acce36a26914a2ea19f2f9f3560e71be9d4daef6",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/assets/BEIR-bge-en-v1.5.png"
+    },
+    {
+      "rfilename": "assets/BEIR-e5-mistral.png",
+      "size": 40223,
+      "sha256": "5119f2d1b364f79eaa2954bd5efb4a7e56364ee8748571964d800f85683280c4",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/assets/BEIR-e5-mistral.png"
+    },
+    {
+      "rfilename": "assets/CMTEB-retrieval-bge-zh-v1.5.png",
+      "size": 51484,
+      "sha256": "ce02a58c566da5f733b6928cc968865e4d472c8a276546bfce5d0f4452050ed4",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/assets/CMTEB-retrieval-bge-zh-v1.5.png"
+    },
+    {
+      "rfilename": "assets/llama-index.png",
+      "size": 106473,
+      "sha256": "62c4fbdeeb44296da80bdd2f0a7a6b5e44f3492072af84fdf3ed99d01a53e596",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/assets/llama-index.png"
+    },
+    {
+      "rfilename": "assets/miracl-bge-m3.png",
+      "size": 52028,
+      "sha256": "98f40bf0ba104f3efa52ef76da1434fb776834cdc732e6b29d2550672ea2df1b",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/assets/miracl-bge-m3.png"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 795,
+      "sha256": "13dcd6c31d9fec9d1d8e158702072f62d7fa7d312a64b9fe057bec9a08cfe41a",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/config.json"
+    },
+    {
+      "rfilename": "model.safetensors",
+      "size": 2271071852,
+      "sha256": "d9e3e081faff1eefb84019509b2f5558fd74c1a05a2c7db22f74174fcedb5286",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/model.safetensors"
+    },
+    {
+      "rfilename": "sentencepiece.bpe.model",
+      "size": 5069051,
+      "sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+      "updated_ts": 1756953451,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/sentencepiece.bpe.model"
+    },
+    {
+      "rfilename": "special_tokens_map.json",
+      "size": 964,
+      "sha256": "8c785abebea9ae3257b61681b4e6fd8365ceafde980c21970d001e834cf10835",
+      "updated_ts": 1756953451,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/special_tokens_map.json"
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "size": 17098273,
+      "sha256": "69564b696052886ed0ac63fa393e928384e0f8caada38c1f4864a9bfbf379c15",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/tokenizer.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 1173,
+      "sha256": "7e4c1cc848840aeccdd763458c18dd525eb0f795c992e00ebe9c28554e7db2d4",
+      "updated_ts": 1756953463,
+      "object_key": "hf/BAAI/bge-reranker-v2-m3/tokenizer_config.json"
+    }
+  ]
+}

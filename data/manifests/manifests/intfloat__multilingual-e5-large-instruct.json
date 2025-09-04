@@ -1,0 +1,413 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "intfloat/multilingual-e5-large-instruct",
+  "updated_ts": 1756952832,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 100,
+      "sha256": "3d168dd281927dcbf98b8cfc0c6b098e5d75e06f983c62fb2b2e609373337874",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952957,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/1_Pooling/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.metadata",
+      "size": 101,
+      "sha256": "c5b698729fcd47595f56a7f38a12cb969566a6a56b34a349eb2dee89eb8f23ea",
+      "updated_ts": 1756952957,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/1_Pooling/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "aca51b26295e2b63bd8bcd8e4e36c23b28604ed082d466b9c7dacd42f9fa2010",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 99,
+      "sha256": "811824b681af757c9ba8b039de03e460433569bf1ac805458ccf54a8ac231b0b",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/config_sentence_transformers.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.metadata",
+      "size": 100,
+      "sha256": "5f8cc5784343d229bc199f889614c2de9f2ec616edc0bef9283f8384141155bd",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/config_sentence_transformers.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/model.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.metadata",
+      "size": 124,
+      "sha256": "8f606dca59332b1e2632e429a269d6cd1250d74a30a398d07c63004ee411230c",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/model.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/modules.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.metadata",
+      "size": 101,
+      "sha256": "5969806074a0a01c50026ec3d6b5a47704ff5b72ae35c6cdea70f05b207f535f",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/modules.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/config.json.metadata",
+      "size": 100,
+      "sha256": "59c6face97057d272fb2b25816856371edcd0f3fb8f4f427e613c5321cec90e8",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/model.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.metadata",
+      "size": 125,
+      "sha256": "cc548123740a09bb1f7c63f22a886eb2c5500d7c83706ea6edb5d182f0043e85",
+      "updated_ts": 1756952957,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/model.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx_data.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/model.onnx_data.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx_data.metadata",
+      "size": 125,
+      "sha256": "f7fa5d436b076e9f84edca199f77b8fae0099cbd06423c98350b064b830475ad",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/model.onnx_data.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/sentencepiece.bpe.model.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/sentencepiece.bpe.model.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/sentencepiece.bpe.model.metadata",
+      "size": 124,
+      "sha256": "a54498d6c75eebcd4eec7c09bb31f51fffad687037a1e1ce2cf7a2f13a6aab82",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/sentencepiece.bpe.model.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/special_tokens_map.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/special_tokens_map.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/special_tokens_map.json.metadata",
+      "size": 101,
+      "sha256": "0a2e6b8fa09e26d48717283f9fb968347a429f50db3734a2db7e306addaa99e8",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/special_tokens_map.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952957,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/tokenizer.json.metadata",
+      "size": 124,
+      "sha256": "138a95624fd6a9662665514949e7d70e7da10eaa7fe6d0a0b3c40ff70deb00af",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/tokenizer_config.json.metadata",
+      "size": 101,
+      "sha256": "75b12a6761caf8f8cf1bf7fab0f5c7d11d9aea14e7cbaabb88c5ed93f254112b",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/onnx/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_xlm-roberta_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/sentence_xlm-roberta_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_xlm-roberta_config.json.metadata",
+      "size": 101,
+      "sha256": "4f797a386ca3c0db353e6cb277759232bf0f8a5938e6da0577eda7e93447ac10",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/sentence_xlm-roberta_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentencepiece.bpe.model.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/sentencepiece.bpe.model.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentencepiece.bpe.model.metadata",
+      "size": 125,
+      "sha256": "e79c2f1544d1154a55388de72846a0525921ccafa7d240bfc920ad495b4073eb",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/sentencepiece.bpe.model.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/special_tokens_map.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
+      "size": 99,
+      "sha256": "ca77c40b36b0c5c3ede1c5b2a036cc048b3d2d213e36a7758565b60cc7e4cd56",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/special_tokens_map.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
+      "size": 125,
+      "sha256": "f772b3e61878d4e533d61870d61df6c46c3629635ce57b22c3ec21458433ffef",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 101,
+      "sha256": "b77d56fda87f42c34b6d9eb4e83f015b063242fc6a8ebc1577d8144834722dc9",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1627,
+      "sha256": "7363a8ebd782ede400e72bb3e88c19248478eb6f280a7376d398fc2f22707b9a",
+      "updated_ts": 1756952929,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/.gitattributes"
+    },
+    {
+      "rfilename": "1_Pooling/config.json",
+      "size": 271,
+      "sha256": "aa629215c1d83e73d9c51184e566f2c53456bc742f936984355a2990c8c8d046",
+      "updated_ts": 1756952957,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/1_Pooling/config.json"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 140205,
+      "sha256": "41676700d80691ac2f4397ee2b546ef58f9e3236af2f3d0770ab0fa61940ce51",
+      "updated_ts": 1756952939,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/README.md"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 690,
+      "sha256": "d185df634c872f06fc6dcb3bad4375d3c447234baea8a6e548103f653b595a35",
+      "updated_ts": 1756952939,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/config.json"
+    },
+    {
+      "rfilename": "config_sentence_transformers.json",
+      "size": 128,
+      "sha256": "7e16d286cc304f7d34ffb4e21fa1a11f227cf2b6d49cb615aa44d87723d17e28",
+      "updated_ts": 1756952929,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/config_sentence_transformers.json"
+    },
+    {
+      "rfilename": "model.safetensors",
+      "size": 1119825680,
+      "sha256": "dd6b6e4f52db0a7aff83a13d10e6c5342ef9f6ab799bad3221f4b35ef390fa85",
+      "updated_ts": 1756952939,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/model.safetensors"
+    },
+    {
+      "rfilename": "modules.json",
+      "size": 349,
+      "sha256": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+      "updated_ts": 1756952929,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/modules.json"
+    },
+    {
+      "rfilename": "onnx/config.json",
+      "size": 763,
+      "sha256": "3762389b621283a0466d96f699fc1a0f160de49c4b50adcc87b537931e458ba3",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/onnx/config.json"
+    },
+    {
+      "rfilename": "onnx/model.onnx",
+      "size": 686499,
+      "sha256": "e3aeea5355352d826bd952a9a96fab206c6c72d1a429c8773c9da5ac16e44af5",
+      "updated_ts": 1756952939,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/onnx/model.onnx"
+    },
+    {
+      "rfilename": "onnx/model.onnx_data",
+      "size": 2235367440,
+      "sha256": "4c13ca44e40a7ee86b461398cdee003d656e39f3fa87e1b3152fbada3e61b506",
+      "updated_ts": 1756952956,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/onnx/model.onnx_data"
+    },
+    {
+      "rfilename": "onnx/sentencepiece.bpe.model",
+      "size": 5069051,
+      "sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+      "updated_ts": 1756952939,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/onnx/sentencepiece.bpe.model"
+    },
+    {
+      "rfilename": "onnx/special_tokens_map.json",
+      "size": 964,
+      "sha256": "8c785abebea9ae3257b61681b4e6fd8365ceafde980c21970d001e834cf10835",
+      "updated_ts": 1756952939,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/onnx/special_tokens_map.json"
+    },
+    {
+      "rfilename": "onnx/tokenizer.json",
+      "size": 17082756,
+      "sha256": "f59925fcb90c92b894cb93e51bb9b4a6105c5c249fe54ce1c704420ac39b81af",
+      "updated_ts": 1756952940,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/onnx/tokenizer.json"
+    },
+    {
+      "rfilename": "onnx/tokenizer_config.json",
+      "size": 1182,
+      "sha256": "49f06d15a18f81855c338f8ab6241ca2e502a65b62968be69b74f094489f8175",
+      "updated_ts": 1756952939,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/onnx/tokenizer_config.json"
+    },
+    {
+      "rfilename": "sentence_xlm-roberta_config.json",
+      "size": 53,
+      "sha256": "ec8e29d6dcb61b611b7d3fdd2982c4524e6ad985959fa7194eacfb655a8d0d51",
+      "updated_ts": 1756952929,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/sentence_xlm-roberta_config.json"
+    },
+    {
+      "rfilename": "sentencepiece.bpe.model",
+      "size": 5069051,
+      "sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+      "updated_ts": 1756952929,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/sentencepiece.bpe.model"
+    },
+    {
+      "rfilename": "special_tokens_map.json",
+      "size": 964,
+      "sha256": "8c785abebea9ae3257b61681b4e6fd8365ceafde980c21970d001e834cf10835",
+      "updated_ts": 1756952929,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/special_tokens_map.json"
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "size": 17082756,
+      "sha256": "f59925fcb90c92b894cb93e51bb9b4a6105c5c249fe54ce1c704420ac39b81af",
+      "updated_ts": 1756952939,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/tokenizer.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 1182,
+      "sha256": "49f06d15a18f81855c338f8ab6241ca2e502a65b62968be69b74f094489f8175",
+      "updated_ts": 1756952939,
+      "object_key": "hf/intfloat/multilingual-e5-large-instruct/tokenizer_config.json"
+    }
+  ]
+}
