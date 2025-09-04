@@ -1,0 +1,35 @@
+name: Mirror Hugging Face -> Internal S3
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "27 */6 * * *"  # every 6 hours
+
+jobs:
+  mirror:
+    runs-on: self-hosted  # runner with approved internet access
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          pip install -r mirror/requirements.txt
+      - name: Configure env
+        run: |
+          cp .env.example .env
+          # You can also rely on Actions secrets instead:
+          # echo "HF_TOKEN=${{ secrets.HF_TOKEN }}" >> .env
+          # echo "MINIO_ACCESS_KEY=${{ secrets.MINIO_ACCESS_KEY }}" >> .env
+          # echo "MINIO_SECRET_KEY=${{ secrets.MINIO_SECRET_KEY }}" >> .env
+      - name: Run mirror (dry-run)
+        run: |
+          . .venv/bin/activate
+          DRY_RUN=true python mirror/mirror_hf_to_minio.py
+      - name: Run mirror (upload)
+        run: |
+          . .venv/bin/activate
+          python mirror/mirror_hf_to_minio.py

@@ -245,7 +245,29 @@ docker compose run --rm sync
 ```
 
 ---
+# OPENSHIFT
 
+# 0) Build & push your images to a cluster-accessible registry
+export PIPELINE_IMAGE="quay.io/YOU/models-pipeline:1.0.0"
+export REGISTRY_IMAGE="quay.io/YOU/models-registry:1.0.0"
+
+# 1) Have a .env with at least:
+# MINIO_ROOT_USER=...
+# MINIO_ROOT_PASSWORD=...
+# MINIO_BUCKET=models
+# REGISTRY_ADMIN_TOKEN=...   (for your registry app)
+
+# 2) Log into your OpenShift cluster
+oc login ...
+
+# 3) Apply core resources and run the pipeline once
+bash run_os_pipeline.sh \
+  --namespace models-pipeline \
+  --apply \
+  --run-once \
+  --show-urls \
+  --pipeline-image "$PIPELINE_IMAGE" \
+  --registry-image "$REGISTRY_IMAGE"
 
 
 ---

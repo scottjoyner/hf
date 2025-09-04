@@ -1,0 +1,16 @@
+[Unit]
+Description=Mirror Hugging Face repos to internal S3/MinIO
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/internal-model-mirror
+Environment="PYTHONUNBUFFERED=1"
+ExecStart=%h/internal-model-mirror/.venv/bin/python mirror/mirror_hf_to_minio.py
+Restart=on-failure
+RestartSec=10s
+
+# Add approved proxy if required by policy:
+# Environment="HTTPS_PROXY=http://corp-proxy.example:3128"
+# Environment="HTTP_PROXY=http://corp-proxy.example:3128"

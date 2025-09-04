@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-using-internal-models
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-app
+  template:
+    metadata:
+      labels:
+        app: model-app
+    spec:
+      containers:
+        - name: app
+          image: yourorg/yourimage:latest
+          env:
+            # Point your app to the internal mirror (MinIO)
+            - name: MODEL_BASE_URL
+              value: "http://minio:9000"
+            - name: MODEL_BUCKET
+              value: "models"
+            - name: MODEL_PREFIX
+              value: "mirrors/hf"
+            # If your org has an APPROVED egress proxy and this pod is allowed to use it,
+            # uncomment these. Otherwise, leave them unset.
+            # - name: HTTP_PROXY
+            #   value: "http://corp-proxy.example:3128"
+            # - name: HTTPS_PROXY
+            #   value: "http://corp-proxy.example:3128"
+            - name: NO_PROXY
+              value: "localhost,127.0.0.1,minio,minio:9000,.svc,.cluster.local"
+          # Example: mount a CA bundle if your proxy uses TLS interception
+          volumeMounts:
+            - name: ca-bundle
+              mountPath: /etc/ssl/certs/custom
+              readOnly: true
+      volumes:
+        - name: ca-bundle
+          configMap:
+            name: org-ca-bundle
