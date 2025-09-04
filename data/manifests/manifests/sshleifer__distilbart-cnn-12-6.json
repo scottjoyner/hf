@@ -1,0 +1,6 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "sshleifer/distilbart-cnn-12-6",
+  "updated_ts": 1756952833,
+  "files": []
+}

@@ -1,0 +1,308 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "baai/bge-small-en-v1.5",
+  "updated_ts": 1756952832,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 101,
+      "sha256": "f31d2839f33006ec56bb2c094ff6ea1faf95efcfcd2cc7ac3d97bbeffbef631a",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/1_Pooling/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.metadata",
+      "size": 100,
+      "sha256": "ec5d70b5aa855b12b48d7773bad8fb726661c259f4b308f962b641b33768c944",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/1_Pooling/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "24eef4d447c149ce44311b002fb1649423acdfee7524206fb3b72b1144d2d4e0",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 101,
+      "sha256": "6233d79054828dd955c99a7e0870aa21784f1c9a167ba444d14e86568cf5d38d",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/config_sentence_transformers.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.metadata",
+      "size": 101,
+      "sha256": "0edcbf6447e781b4bad1487b1a29a8d09bca84442fdde7b976af395be3b89c5c",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/config_sentence_transformers.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/model.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.metadata",
+      "size": 125,
+      "sha256": "2e8752a53a1c0949a4c2cfc6dfd2209377267467fdd21098bf27b4d17d6ba084",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/model.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/modules.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.metadata",
+      "size": 101,
+      "sha256": "05b250add34a32270e2861a0e02739c4210d1e66c7a22523823f3fff8be6a56a",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/modules.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/onnx/model.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.metadata",
+      "size": 125,
+      "sha256": "0c5df9ea1ff9b6e0bc06aafa820da7110225fb8e6d60aeded13840bc3057b0f6",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/onnx/model.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/pytorch_model.bin.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.metadata",
+      "size": 125,
+      "sha256": "9b65fd4cda4800d2fb15ce6c52ad2512890617ed490195403ce00d28f51d6558",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/pytorch_model.bin.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_bert_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/sentence_bert_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_bert_config.json.metadata",
+      "size": 100,
+      "sha256": "1c4160a2dd6e74ce02a563db0deb518fe2f2a67e5923ab90b7d224f083207f6a",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/sentence_bert_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/special_tokens_map.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
+      "size": 101,
+      "sha256": "e519e8b08aec50de13c3c78e3def4c129ec6850fbce5bdf6fbea0ffbbbed26c5",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/special_tokens_map.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
+      "size": 100,
+      "sha256": "d9539841186bbab978c102a7cf03d8129274d0f76b693d3860fd57500f731852",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 101,
+      "sha256": "d71f02532ddc82ae463eaf40be4670b158f11575cb4d940279f896fd31e16cea",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.txt.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/vocab.txt.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.txt.metadata",
+      "size": 101,
+      "sha256": "b467cfa4127c4e5084537354d280145047aaf7057d8baf95627e4bfd29df451f",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/.cache/huggingface/download/vocab.txt.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1519,
+      "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+      "updated_ts": 1756952958,
+      "object_key": "hf/baai/bge-small-en-v1.5/.gitattributes"
+    },
+    {
+      "rfilename": "1_Pooling/config.json",
+      "size": 190,
+      "sha256": "d1caf60c96f5fba2157c0c26b76d80818fad6cf0b8eb5e73ec372ff9818eba5c",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/1_Pooling/config.json"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 94783,
+      "sha256": "ddb964361a55c6e5dfca6361615854b260c9c960205d04c7520151aaa1d75837",
+      "updated_ts": 1756952959,
+      "object_key": "hf/baai/bge-small-en-v1.5/README.md"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 743,
+      "sha256": "094f8e891b932f2000c92cfc663bac4c62069f5d8af5b5278c4306aef3084750",
+      "updated_ts": 1756952959,
+      "object_key": "hf/baai/bge-small-en-v1.5/config.json"
+    },
+    {
+      "rfilename": "config_sentence_transformers.json",
+      "size": 124,
+      "sha256": "940d5f50db195fa6e5e6a4f122c095f77880de259d74b14a65779ed48bdd7c56",
+      "updated_ts": 1756952958,
+      "object_key": "hf/baai/bge-small-en-v1.5/config_sentence_transformers.json"
+    },
+    {
+      "rfilename": "model.safetensors",
+      "size": 133466304,
+      "sha256": "3c9f31665447c8911517620762200d2245a2518d6e7208acc78cd9db317e21ad",
+      "updated_ts": 1756952959,
+      "object_key": "hf/baai/bge-small-en-v1.5/model.safetensors"
+    },
+    {
+      "rfilename": "modules.json",
+      "size": 349,
+      "sha256": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+      "updated_ts": 1756952958,
+      "object_key": "hf/baai/bge-small-en-v1.5/modules.json"
+    },
+    {
+      "rfilename": "onnx/model.onnx",
+      "size": 133093490,
+      "sha256": "828e1496d7fabb79cfa4dcd84fa38625c0d3d21da474a00f08db0f559940cf35",
+      "updated_ts": 1756952960,
+      "object_key": "hf/baai/bge-small-en-v1.5/onnx/model.onnx"
+    },
+    {
+      "rfilename": "pytorch_model.bin",
+      "size": 133508397,
+      "sha256": "84868a67d847f7f37d1df745b73a4c20b5bc0a797c87a23b265f8a0131728b88",
+      "updated_ts": 1756952958,
+      "object_key": "hf/baai/bge-small-en-v1.5/pytorch_model.bin"
+    },
+    {
+      "rfilename": "sentence_bert_config.json",
+      "size": 52,
+      "sha256": "84e39fda68ccbff05bfa723ae9c0e70e23e2ec373b76e0f8c6e71af72a693cbf",
+      "updated_ts": 1756952959,
+      "object_key": "hf/baai/bge-small-en-v1.5/sentence_bert_config.json"
+    },
+    {
+      "rfilename": "special_tokens_map.json",
+      "size": 125,
+      "sha256": "b6d346be366a7d1d48332dbc9fdf3bf8960b5d879522b7799ddba59e76237ee3",
+      "updated_ts": 1756952958,
+      "object_key": "hf/baai/bge-small-en-v1.5/special_tokens_map.json"
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "size": 711396,
+      "sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+      "updated_ts": 1756952959,
+      "object_key": "hf/baai/bge-small-en-v1.5/tokenizer.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 366,
+      "sha256": "9261e7d79b44c8195c1cada2b453e55b00aeb81e907a6664974b4d7776172ab3",
+      "updated_ts": 1756952959,
+      "object_key": "hf/baai/bge-small-en-v1.5/tokenizer_config.json"
+    },
+    {
+      "rfilename": "vocab.txt",
+      "size": 231508,
+      "sha256": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+      "updated_ts": 1756952959,
+      "object_key": "hf/baai/bge-small-en-v1.5/vocab.txt"
+    }
+  ]
+}

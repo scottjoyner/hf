@@ -1,0 +1,392 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "avsolatorio/GIST-all-MiniLM-L6-v2",
+  "updated_ts": 1756952832,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 101,
+      "sha256": "d4316f3400a7de92d0347a4ae568aa14a6c6819e96f06f2c58712134c1f08fee",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/1_Pooling/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/1_Pooling/config.json.metadata",
+      "size": 101,
+      "sha256": "8ad3b34330b65d3c203ac8728587f4ce1eae5a4bfd42b1de21644b3b858c50e7",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/1_Pooling/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/DEVELOP.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/DEVELOP.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/DEVELOP.md.metadata",
+      "size": 101,
+      "sha256": "9c92eb8eb83954e68e85c1bdf6482b9613c8f89097077f4a6f692b7650353189",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/DEVELOP.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "68ea032e462b3741f9f94ca6aafd8394a6fecadc213c5c4eab85b2a2c47b34fd",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/commit-info.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/commit-info.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/commit-info.json.metadata",
+      "size": 101,
+      "sha256": "31441b6c660c957e602124fb72743f34be275593285ac3555d2bf7c336458fbc",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/commit-info.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 101,
+      "sha256": "40683b70814d1091b0bcfb99978a81b7782d160e03ac55acce3d3b0111658a85",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/config_sentence_transformers.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.metadata",
+      "size": 101,
+      "sha256": "ba7774c64a347c6c322fc1912a15503e3d1c9a52bde46677445b92285ffedb18",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/config_sentence_transformers.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/model.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.metadata",
+      "size": 124,
+      "sha256": "1cdc0975e55a17cec43ce4b54fd29e20588a8dfa885c5ae88b5e36ea2d6c8cab",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/model.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/modules.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/modules.json.metadata",
+      "size": 100,
+      "sha256": "4d121a0abab390b01f53320c4e6fe76fd28059617df264a781ba046b81bd5afd",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/modules.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model.onnx.metadata",
+      "size": 125,
+      "sha256": "330f190a09d37bf45f45a2b53893d83dc350b926b29619f7c0028c546d68cff1",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_quantized.onnx.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_quantized.onnx.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/model_quantized.onnx.metadata",
+      "size": 125,
+      "sha256": "f323261389aef58fbcfd0d26a062f611e4166844f4d4747c40284d60a15d4ede",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/onnx/model_quantized.onnx.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/ort_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/onnx/ort_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/onnx/ort_config.json.metadata",
+      "size": 101,
+      "sha256": "34a86303368e29ef0ceb2180a26dfe35571d55afb649d0699d78eb9f7fddb778",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/onnx/ort_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/pytorch_model.bin.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.metadata",
+      "size": 125,
+      "sha256": "f241de9e8e5e563cada003614bfe7bfa1841fe95b350e9cf9085bc490363bc4e",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/pytorch_model.bin.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_bert_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/sentence_bert_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentence_bert_config.json.metadata",
+      "size": 101,
+      "sha256": "77aebeff1d3175b846f203925561fa60f222f8f93889b765c64e5591d9d916b3",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/sentence_bert_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/special_tokens_map.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
+      "size": 101,
+      "sha256": "ff0e362d4e4ded6531a9b81b14f3e99f407170800a2c4f59a7ea0a0c662ac067",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/special_tokens_map.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
+      "size": 101,
+      "sha256": "0ac08ae8cd9cde8f47170d7825d122e429369ba8c784a7fc223622b21cfcc75a",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 101,
+      "sha256": "4cdeaf85e348602a450ce5f82d21923a9c39f639d61d7ee0cc737656340248b9",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.txt.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/vocab.txt.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.txt.metadata",
+      "size": 101,
+      "sha256": "c265c4db8cb6194edd384af58296b321d8784e44b27490549fa48f4a7d32598f",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.cache/huggingface/download/vocab.txt.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1519,
+      "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+      "updated_ts": 1756952966,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/.gitattributes"
+    },
+    {
+      "rfilename": "1_Pooling/config.json",
+      "size": 190,
+      "sha256": "4be450dde3b0273bb9787637cfbd28fe04a7ba6ab9d36ac48e92b11e350ffc23",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/1_Pooling/config.json"
+    },
+    {
+      "rfilename": "DEVELOP.md",
+      "size": 1160,
+      "sha256": "7bbef9399f9355c54ba705bc99bd5a779635a2f5897ea1b4c18eb9e24c9205d6",
+      "updated_ts": 1756952966,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/DEVELOP.md"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 68326,
+      "sha256": "64e19907b38bb320d6e50807d0fc3267f55d530b5fe04c2e16f9f6ff3dcdfb66",
+      "updated_ts": 1756952967,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/README.md"
+    },
+    {
+      "rfilename": "commit-info.json",
+      "size": 230,
+      "sha256": "f6225cff7cd044ae945ef342a2b4e3f3a831225e0ff4a759b1858b46a0a07c55",
+      "updated_ts": 1756952966,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/commit-info.json"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 673,
+      "sha256": "d865406466e6b3042d34026206a81bfcd2f4afeff81875a5632330f9a4543011",
+      "updated_ts": 1756952967,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/config.json"
+    },
+    {
+      "rfilename": "config_sentence_transformers.json",
+      "size": 116,
+      "sha256": "061ca9d39661d6c6d6de5ba27f79a1cd5770ea247f8d46412a68a498dc5ac9f3",
+      "updated_ts": 1756952966,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/config_sentence_transformers.json"
+    },
+    {
+      "rfilename": "model.safetensors",
+      "size": 90864192,
+      "sha256": "53fd66a5d3df4fe4c211ed94cde5e6b50f2bffd0a96307556d54fd83d367143b",
+      "updated_ts": 1756952967,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/model.safetensors"
+    },
+    {
+      "rfilename": "modules.json",
+      "size": 349,
+      "sha256": "84e40c8e006c9b1d6c122e02cba9b02458120b5fb0c87b746c41e0207cf642cf",
+      "updated_ts": 1756952966,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/modules.json"
+    },
+    {
+      "rfilename": "onnx/model.onnx",
+      "size": 90430986,
+      "sha256": "4665ec1dc3c0294434754445d80c1250ca19a3a2a794acb2d1bb7be642944ec4",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/onnx/model.onnx"
+    },
+    {
+      "rfilename": "onnx/model_quantized.onnx",
+      "size": 22964709,
+      "sha256": "facf49258f0de9fe5bf686a64b91d329544ff0ea7214eba99ba71c2895708f5f",
+      "updated_ts": 1756952967,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/onnx/model_quantized.onnx"
+    },
+    {
+      "rfilename": "onnx/ort_config.json",
+      "size": 830,
+      "sha256": "ec64afe4f55bdfaad81e90a484a624e02137788c653c11ffde77c0d0ef452e5b",
+      "updated_ts": 1756952968,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/onnx/ort_config.json"
+    },
+    {
+      "rfilename": "pytorch_model.bin",
+      "size": 90886182,
+      "sha256": "2a0ee768290d3ab985aacdfb7930a9a37381791117bfcf6aa02bdec69e231fb3",
+      "updated_ts": 1756952966,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/pytorch_model.bin"
+    },
+    {
+      "rfilename": "sentence_bert_config.json",
+      "size": 53,
+      "sha256": "ec8e29d6dcb61b611b7d3fdd2982c4524e6ad985959fa7194eacfb655a8d0d51",
+      "updated_ts": 1756952967,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/sentence_bert_config.json"
+    },
+    {
+      "rfilename": "special_tokens_map.json",
+      "size": 695,
+      "sha256": "5d5b662e421ea9fac075174bb0688ee0d9431699900b90662acd44b2a350503a",
+      "updated_ts": 1756952966,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/special_tokens_map.json"
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "size": 711661,
+      "sha256": "da0e79933b9ed51798a3ae27893d3c5fa4a201126cef75586296df9b4d2c62a0",
+      "updated_ts": 1756952967,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/tokenizer.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 1433,
+      "sha256": "bd2e06a5b20fd1b13ca988bedc8763d332d242381b4fbc98f8fead4524158f79",
+      "updated_ts": 1756952967,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/tokenizer_config.json"
+    },
+    {
+      "rfilename": "vocab.txt",
+      "size": 231508,
+      "sha256": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
+      "updated_ts": 1756952967,
+      "object_key": "hf/avsolatorio/GIST-all-MiniLM-L6-v2/vocab.txt"
+    }
+  ]
+}

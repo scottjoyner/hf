@@ -1,0 +1,6 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "distil-whisper/distil-large-v3.5",
+  "updated_ts": 1756952833,
+  "files": []
+}
