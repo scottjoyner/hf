@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-web
+  namespace: ${NS}
+  labels: { app: db-web }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: db-web } }
+  template:
+    metadata:
+      labels: { app: db-web }
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: db-web
+          image: ${PIPELINE_IMAGE}
+          args: ["db-web"]
+          ports: [{ containerPort: 8080 }]
+          envFrom:
+            - configMapRef: { name: models-pipeline-config }
+            - secretRef:    { name: models-pipeline-secrets }
+          volumeMounts:
+            - { name: db, mountPath: /app/db }
+          readinessProbe:
+            tcpSocket: { port: 8080 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket: { port: 8080 }
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          resources:
+            requests: { cpu: "100m", memory: "128Mi" }
+            limits:   { cpu: "500m", memory: "512Mi" }
+      volumes:
+        - name: db
+          persistentVolumeClaim: { claimName: db-pvc }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-web
+  namespace: ${NS}
+  labels: { app: db-web }
+spec:
+  selector: { app: db-web }
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: db-web
+  namespace: ${NS}
+spec:
+  to: { kind: Service, name: db-web }
+  port: { targetPort: http }
+  tls: { termination: edge }

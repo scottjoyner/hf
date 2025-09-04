@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: models-registry
+  namespace: ${NS}
+  labels: { app: models-registry }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: models-registry } }
+  template:
+    metadata:
+      labels: { app: models-registry }
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: models-registry
+          image: ${REGISTRY_IMAGE}
+          ports: [{ containerPort: 8081 }]
+          envFrom:
+            - configMapRef: { name: models-pipeline-config }
+            - secretRef:    { name: models-pipeline-secrets }
+          volumeMounts:
+            - { name: db,        mountPath: /app/db }
+            - { name: hfmodels,  mountPath: /app/hf_models }
+          readinessProbe:
+            tcpSocket: { port: 8081 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket: { port: 8081 }
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          resources:
+            requests: { cpu: "100m", memory: "128Mi" }
+            limits:   { cpu: "500m", memory: "512Mi" }
+      volumes:
+        - name: db
+          persistentVolumeClaim: { claimName: db-pvc }
+        - name: hfmodels
+          persistentVolumeClaim: { claimName: hf-models-pvc }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: models-registry
+  namespace: ${NS}
+  labels: { app: models-registry }
+spec:
+  selector: { app: models-registry }
+  ports:
+    - name: http
+      port: 8081
+      targetPort: 8081
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: models-registry
+  namespace: ${NS}
+spec:
+  to: { kind: Service, name: models-registry }
+  port: { targetPort: http }
+  tls: { termination: edge }

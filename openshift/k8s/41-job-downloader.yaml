@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: downloader-
+  namespace: ${NS}
+  labels: { app: models-pipeline, job: downloader }
+spec:
+  backoffLimit: 1
+  template:
+    metadata:
+      labels: { app: models-pipeline, job: downloader }
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: downloader
+          image: ${PIPELINE_IMAGE}
+          args: ["download"]
+          envFrom:
+            - configMapRef: { name: models-pipeline-config }
+            - secretRef:    { name: models-pipeline-secrets }
+          volumeMounts:
+            - { name: cache,     mountPath: /app/cache }
+            - { name: hfmodels,  mountPath: /app/hf_models }
+            - { name: db,        mountPath: /app/db }
+            - { name: data,      mountPath: /app/data }
+          resources:
+            requests: { cpu: "200m", memory: "256Mi" }
+            limits:   { cpu: "2000m", memory: "2Gi" }
+      volumes:
+        - name: cache
+          persistentVolumeClaim: { claimName: cache-pvc }
+        - name: hfmodels
+          persistentVolumeClaim: { claimName: hf-models-pvc }
+        - name: db
+          persistentVolumeClaim: { claimName: db-pvc }
+        - name: data
+          persistentVolumeClaim: { claimName: data-pvc }

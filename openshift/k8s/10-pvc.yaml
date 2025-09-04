@@ -1,0 +1,50 @@
+# NOTE: These use RWX for multi-writer. If your cluster doesn't support RWX,
+# change to ReadWriteOnce and avoid concurrent writers across replicas.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-pvc
+  namespace: ${NS}
+spec:
+  accessModes: ["ReadWriteMany"]
+  resources: { requests: { storage: 5Gi } }
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hf-models-pvc
+  namespace: ${NS}
+spec:
+  accessModes: ["ReadWriteMany"]
+  resources: { requests: { storage: 30Gi } }
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-pvc
+  namespace: ${NS}
+spec:
+  accessModes: ["ReadWriteMany"]
+  resources: { requests: { storage: 10Gi } }
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cache-pvc
+  namespace: ${NS}
+spec:
+  accessModes: ["ReadWriteMany"]
+  resources: { requests: { storage: 10Gi } }
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minio-data-pvc
+  namespace: ${NS}
+spec:
+  accessModes: ["ReadWriteMany"]
+  resources: { requests: { storage: 50Gi } }
