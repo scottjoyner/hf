@@ -1,160 +1,160 @@
 {
   "schema": "hf-model-manifest/v1",
   "repo_id": "Cohere/Cohere-embed-multilingual-v3.0",
-  "updated_ts": 1756939865,
+  "updated_ts": 1756949108,
   "files": [
     {
       "rfilename": ".cache/huggingface/.gitignore",
       "size": 1,
       "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
-      "updated_ts": 1756939625,
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/.gitignore"
     },
     {
       "rfilename": ".cache/huggingface/download/.gitattributes.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756939625,
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/.gitattributes.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
       "size": 101,
-      "sha256": "498c910abeda7d65aed6c41ffd790b56f490d0914650d207aa8709f46be626e4",
-      "updated_ts": 1756939625,
+      "sha256": "14a7bbdb4443216a851f6429f9c4b648a16e23e636775996b6dbad2dfcf03e69",
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/.gitattributes.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/README.md.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756939625,
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/README.md.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/README.md.metadata",
-      "size": 100,
-      "sha256": "b5d6ba4b56f27906a96bb340830785e81e2b2e5753833d14dc4e5b925ae614df",
-      "updated_ts": 1756939625,
+      "size": 101,
+      "sha256": "2913c6fc2c287dd48f38d3debe7c1f1887843237c2bbf57a52c5a7003cddf033",
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/README.md.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/config.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756939625,
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/config.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/config.json.metadata",
-      "size": 100,
-      "sha256": "6665df473853ff8e6f632ed83abd2f6f930144a9197dd51f9cf6d3eacd371540",
-      "updated_ts": 1756939625,
+      "size": 101,
+      "sha256": "ec54200904d1cfb30b72abe286f25902635419028824ecd38223ddd6e8775ddb",
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/config.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/sentencepiece.bpe.model.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756939625,
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/sentencepiece.bpe.model.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/sentencepiece.bpe.model.metadata",
-      "size": 124,
-      "sha256": "9dc9b051836e33691434bc3cd1f1f58d1d67e958fed753d1f7ec5461e57b6629",
-      "updated_ts": 1756939625,
+      "size": 125,
+      "sha256": "8bf1962c58b029152e191a3f456080546730bb11c6aae8c24e65eca76d9b8a61",
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/sentencepiece.bpe.model.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756939625,
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/special_tokens_map.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
-      "size": 101,
-      "sha256": "18550ec0bf06181d4a63ad6d9cd382205e16fcd842ebee00ef022f7727d891d5",
-      "updated_ts": 1756939625,
+      "size": 99,
+      "sha256": "2faf8a4f03b9f2234940ce8ef8373078b29398909033c89beeb7df5db8cb3854",
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/special_tokens_map.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756939625,
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/tokenizer.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
       "size": 125,
-      "sha256": "835815971ef3f9b32b03983ff15cbf0a9c0fc9494cd91a62f8cc6dd7cf9953e3",
-      "updated_ts": 1756939625,
+      "sha256": "261654f621a9c866ad51ca5ecf448e34c2bc60debb27076ef0b3bc5e813431bf",
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/tokenizer.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756939625,
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/tokenizer_config.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
       "size": 101,
-      "sha256": "39279aebb12894b1208202adbac82260583582a186f74fcccc2a7a4e961a4338",
-      "updated_ts": 1756939625,
+      "sha256": "31826d6751e70610f8ceca7353178e3a300cfbd9c7a70e2e2e82d0c42a7b6485",
+      "updated_ts": 1756949106,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.cache/huggingface/download/tokenizer_config.json.metadata"
     },
     {
       "rfilename": ".gitattributes",
       "size": "",
       "sha256": "34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930",
-      "updated_ts": 1756939865,
+      "updated_ts": 1756949109,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/.gitattributes"
     },
     {
       "rfilename": "README.md",
       "size": "",
       "sha256": "4f609e3e357d4db60b5a9248411f83fa9151ae9605459c6d6b43d0f159235741",
-      "updated_ts": 1756939865,
+      "updated_ts": 1756949109,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/README.md"
     },
     {
       "rfilename": "config.json",
       "size": "",
       "sha256": "b80dacacb5acbcd7356f729bdf7ed0ba5f4ee852fa61b87af14f685d7b8bad83",
-      "updated_ts": 1756939865,
+      "updated_ts": 1756949109,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/config.json"
     },
     {
       "rfilename": "sentencepiece.bpe.model",
       "size": "",
       "sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
-      "updated_ts": 1756939865,
+      "updated_ts": 1756949109,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/sentencepiece.bpe.model"
     },
     {
       "rfilename": "special_tokens_map.json",
       "size": "",
       "sha256": "06e405a36dfe4b9604f484f6a1e619af1a7f7d09e34a8555eb0b77b66318067f",
-      "updated_ts": 1756939865,
+      "updated_ts": 1756949109,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/special_tokens_map.json"
     },
     {
       "rfilename": "tokenizer.json",
       "size": "",
       "sha256": "62c24cdc13d4c9952d63718d6c9fa4c287974249e16b7ade6d5a85e7bbb75626",
-      "updated_ts": 1756939865,
+      "updated_ts": 1756949109,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/tokenizer.json"
     },
     {
       "rfilename": "tokenizer_config.json",
       "size": "",
       "sha256": "4259974eb341eb2743c342301e5127799482f33eb3f82993658095491e16ec35",
-      "updated_ts": 1756939865,
+      "updated_ts": 1756949109,
       "object_key": "hf/Cohere/Cohere-embed-multilingual-v3.0/tokenizer_config.json"
     }
   ]
