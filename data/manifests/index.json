@@ -1,9 +1,89 @@
 {
-  "generated_ts": 1756956068,
+  "generated_ts": 1757029822,
   "items": [
     {
+      "repo_id": "BAAI/bge-reranker-v2-m3",
+      "updated_ts": 1756956075
+    },
+    {
       "repo_id": "Cohere/Cohere-embed-english-light-v3.0",
-      "updated_ts": 0
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "Helsinki-NLP/opus-mt-en-es",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "Qwen/Qwen2-VL-7B-Instruct",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "Qwen/Qwen2.5-7B-Instruct",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "avsolatorio/GIST-all-MiniLM-L6-v2",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "baai/bge-small-en-v1.5",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "distil-whisper/distil-large-v3.5",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "intfloat/e5-base",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "intfloat/multilingual-e5-large-instruct",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "jinaai/jina-embedding-s-en-v1",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "keremberke/yolov8m-table-extraction",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "microsoft/trocr-base-handwritten",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "mixedbread-ai/mxbai-embed-large-v1",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "naver-clova-ix/donut-base",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "nomic-ai/nomic-embed-text-v1.5",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "openai/gpt-oss-20b",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "sentence-transformers/all-MiniLM-L6-v2",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "sshleifer/distilbart-cnn-12-6",
+      "updated_ts": 1756956075
+    },
+    {
+      "repo_id": "urchade/gliner_large-v2.1",
+      "updated_ts": 1756956075
     }
   ]
 }

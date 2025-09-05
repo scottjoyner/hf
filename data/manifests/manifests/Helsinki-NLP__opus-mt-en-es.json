@@ -1,6 +1,273 @@
 {
   "schema": "hf-model-manifest/v1",
   "repo_id": "Helsinki-NLP/opus-mt-en-es",
-  "updated_ts": 1756952833,
-  "files": []
+  "updated_ts": 1756956075,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 101,
+      "sha256": "a4e479af18dc344ea959b263920dffb4bbf31c7111a9be6f57f663a9b5319f12",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "49bc792822649b265355afe2a11e07dcf2ecbe6fdba6199ac036bc6b5eeffc00",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 101,
+      "sha256": "be44781994be569a766b73935eae978c8e9d863016ce791fd556d3cf0c34b8ff",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/flax_model.msgpack.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/flax_model.msgpack.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/flax_model.msgpack.metadata",
+      "size": 125,
+      "sha256": "ffdfcfd47920e57bd8e637d12553ba845b52ee3fac19ac7968b117cded8cc0ce",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/flax_model.msgpack.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/gPcsVCQDYDHk-_n0G9uADl7PXIM=.14b5e0865da9b6764e18b637e7c7e34b04be927dc41a1ba97bff23962c2f5857.incomplete",
+      "size": 220200960,
+      "sha256": "e16e1d2c7677df869ecfdd47a2190ed3788554025b140c01f209403937ecaa6b",
+      "updated_ts": 1756956501,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/gPcsVCQDYDHk-_n0G9uADl7PXIM=.14b5e0865da9b6764e18b637e7c7e34b04be927dc41a1ba97bff23962c2f5857.incomplete"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/generation_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/generation_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/generation_config.json.metadata",
+      "size": 101,
+      "sha256": "73ebabb4b46155914de21eb5c053094a6e6e78a2993dcbeffec9bcc93271dd3f",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/generation_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/metadata.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/metadata.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/metadata.json.metadata",
+      "size": 100,
+      "sha256": "b996ab19d80c52f3afce812f69e556a15ebb440e8cf2eab37b980f9e876def80",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/metadata.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/pytorch_model.bin.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.metadata",
+      "size": 125,
+      "sha256": "d0a75b7daf6f6cd4e3665f22f9723e4bde3e2ce8a3f59f85c66ca82b3cdf0e87",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/pytorch_model.bin.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/source.spm.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/source.spm.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/source.spm.metadata",
+      "size": 100,
+      "sha256": "e29f2483755fb3c5fabe09ab5899e724f6de697b1f7708eae788f8c7405d416a",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/source.spm.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/target.spm.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/target.spm.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/target.spm.metadata",
+      "size": 100,
+      "sha256": "bd07d80075cd92343a2b81e922d985fd4ca4338694519fd0bab955ffc43d370a",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/target.spm.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tf_model.h5.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/tf_model.h5.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tf_model.h5.metadata",
+      "size": 125,
+      "sha256": "99ec0f74f79549465141defbafa6bcd3001aff2e5728ba6bea82d4d53d202a93",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/tf_model.h5.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 101,
+      "sha256": "b2f2955182fb43ed54147b574b4a3e1ea494263c4e216260812a5e963824f46d",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/vocab.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.json.metadata",
+      "size": 101,
+      "sha256": "bf47bdb810b57f056f1d6d9de6025f4b45020399dbff557a4a259da522512121",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.cache/huggingface/download/vocab.json.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 391,
+      "sha256": "f049f7c0d16eaffe605baca479013bcb7a3847077cf6e548ba7b228831cf9c38",
+      "updated_ts": 1756956509,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/.gitattributes"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 2401,
+      "sha256": "7831f4fa1eda04c91a5aa7b57006db58355c78337a552c5ff0252d0c049710d8",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/README.md"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 1473,
+      "sha256": "666ad3c2943674b6a789e311d221e44ec23e27f1bd9727930754bf773ec8e464",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/config.json"
+    },
+    {
+      "rfilename": "flax_model.msgpack",
+      "size": 309944974,
+      "sha256": "14b5e0865da9b6764e18b637e7c7e34b04be927dc41a1ba97bff23962c2f5857",
+      "updated_ts": 1756956509,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/flax_model.msgpack"
+    },
+    {
+      "rfilename": "generation_config.json",
+      "size": 293,
+      "sha256": "837839ed0534a27084f9b980fc33f47729052dd89cb26cca7ac830765ed30e49",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/generation_config.json"
+    },
+    {
+      "rfilename": "metadata.json",
+      "size": 1090,
+      "sha256": "82932808efc32e328fa7f94c85f5a8c2d6c82d2d3b029a926f2042b3ebab5512",
+      "updated_ts": 1756956512,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/metadata.json"
+    },
+    {
+      "rfilename": "pytorch_model.bin",
+      "size": 312087523,
+      "sha256": "befce0f620e8e63f83bbb7f0818eb51d541cba28057a7cc14b00466d85c4994c",
+      "updated_ts": 1756956506,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/pytorch_model.bin"
+    },
+    {
+      "rfilename": "source.spm",
+      "size": 801636,
+      "sha256": "4dd547c24816a335e7b0b2e63376a8f1b3cbfc671eda5ab808dd44fdadaa8791",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/source.spm"
+    },
+    {
+      "rfilename": "target.spm",
+      "size": 825924,
+      "sha256": "e236ee6d866b635c0142114f8647f39831f9d92534aa2aad75c942f6a78ad0e3",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/target.spm"
+    },
+    {
+      "rfilename": "tf_model.h5",
+      "size": 312580600,
+      "sha256": "9c0f86262f3ac03867ced8dd0b8ed83f7f2a39972f7249f60bf34ff8ea9e8765",
+      "updated_ts": 1756956512,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/tf_model.h5"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 44,
+      "sha256": "9859e3f8f73e2f50ab3e5cc2de432645347432956df4772d33209a346dd97f3b",
+      "updated_ts": 1756956512,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/tokenizer_config.json"
+    },
+    {
+      "rfilename": "vocab.json",
+      "size": 1590040,
+      "sha256": "257f346d7a6b2ecceafcca8ba05648ce2fd68dfaf105fb0e913dca7198f3f6d5",
+      "updated_ts": 1756956513,
+      "object_key": "hf/Helsinki-NLP/opus-mt-en-es/vocab.json"
+    }
+  ]
 }

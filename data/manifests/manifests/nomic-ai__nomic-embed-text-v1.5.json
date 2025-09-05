@@ -1,433 +1,433 @@
 {
   "schema": "hf-model-manifest/v1",
   "repo_id": "nomic-ai/nomic-embed-text-v1.5",
-  "updated_ts": 1756952832,
+  "updated_ts": 1756956075,
   "files": [
     {
       "rfilename": ".cache/huggingface/.gitignore",
       "size": 1,
       "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/.gitignore"
     },
     {
       "rfilename": ".cache/huggingface/download/.gitattributes.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/.gitattributes.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
       "size": 100,
       "sha256": "dd171b63e021903d808a5be06d755f2e06d2c38f5de9b76f98f0bf8714ddcc86",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/.gitattributes.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/1_Pooling/config.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/1_Pooling/config.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/1_Pooling/config.json.metadata",
       "size": 101,
       "sha256": "1ce1ef173b13fbcd2bd99979314240feffb129838590a6085c405214ac44690c",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/1_Pooling/config.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/README.md.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/README.md.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/README.md.metadata",
       "size": 101,
       "sha256": "15a2c887befcb929fa15630f1f06c9a2da1faaaec15ce7faed3d86bfd05e45c5",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/README.md.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/config.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/config.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/config.json.metadata",
       "size": 100,
       "sha256": "4a69ea5a7fcce984a73b303b64bbfabbd0ddd2ec3223ad6ef2531fde7ab83f7d",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/config.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/config_sentence_transformers.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/config_sentence_transformers.json.metadata",
       "size": 100,
       "sha256": "a4fd1e9561eba9bf7af9390d5e650c6a85b8b567cad5d03d18e83119b9440262",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/config_sentence_transformers.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/model.safetensors.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/model.safetensors.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/model.safetensors.metadata",
       "size": 125,
       "sha256": "07bdc3112bd03719b0d647df3758e0a86aea3e8b158623226eea54af96e24f4c",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/model.safetensors.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/modules.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/modules.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/modules.json.metadata",
       "size": 100,
       "sha256": "2b117e1079a77577a6a780ace0e9ed4e96da14e3904a395882c4126ad1af1a0f",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/modules.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model.onnx.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model.onnx.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model.onnx.metadata",
       "size": 125,
       "sha256": "2a69613f84105137215d916e99750d2b91ba3e631eb0c2c67e80fc00eab20905",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model.onnx.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_bnb4.onnx.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_bnb4.onnx.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_bnb4.onnx.metadata",
       "size": 124,
       "sha256": "5e2ec5352326b95d5dd3d61f314d6b19217046b074deb3a9afabf6c52deef356",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_bnb4.onnx.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_fp16.onnx.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_fp16.onnx.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_fp16.onnx.metadata",
       "size": 125,
       "sha256": "e2e253f6aaccf170339d6e744f889ef39e946f92c863586e18202433ad0cdf0b",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_fp16.onnx.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_int8.onnx.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_int8.onnx.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_int8.onnx.metadata",
       "size": 125,
       "sha256": "dac7cbcd7274216bcf3500f00cac0cb551117a38df785e60eef2fb30944ee2fb",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_int8.onnx.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_q4.onnx.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_q4.onnx.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_q4.onnx.metadata",
       "size": 125,
       "sha256": "c329a6eb9c230a599713814a475d3a5447b2cbab149ad345d8106445a9d1c8ee",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_q4.onnx.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_q4f16.onnx.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_q4f16.onnx.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_q4f16.onnx.metadata",
       "size": 125,
       "sha256": "cb80cca66437606af099fcc388290d8a90e532fb0fb1ef76814de8dcc40ac147",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_q4f16.onnx.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_quantized.onnx.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_quantized.onnx.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_quantized.onnx.metadata",
       "size": 125,
       "sha256": "582fc0be33e3f0e5de92206732033f225451668f321c838898b4061497492dca",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_quantized.onnx.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_uint8.onnx.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_uint8.onnx.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/onnx/model_uint8.onnx.metadata",
       "size": 125,
       "sha256": "1c9131117c3f32984c99f8bf582ac4359e9946a60f6abddbeac821d3c8eef816",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/onnx/model_uint8.onnx.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/sentence_bert_config.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/sentence_bert_config.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/sentence_bert_config.json.metadata",
       "size": 100,
       "sha256": "a2668f561162ec781dae6bd0ccde25f56ad57593be2cf3ce2215b4c0eba46b2a",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/sentence_bert_config.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/special_tokens_map.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
       "size": 101,
       "sha256": "ed71548949678e4cc7c482b1619762206210863d9a22734d5e5d08ceed049f35",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/special_tokens_map.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/tokenizer.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
       "size": 101,
       "sha256": "817b024c279f419502dfe227bd5238b9aed34800a7c1b09ba9e988002b78b340",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/tokenizer.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/tokenizer_config.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
       "size": 101,
       "sha256": "c0e32885dfb28ded69619fb9e3b376b110ca5b17f04478cea58a60d4288073c4",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/tokenizer_config.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/vocab.txt.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/vocab.txt.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/vocab.txt.metadata",
       "size": 100,
       "sha256": "192e1dd9e0c78484e459a6e8ed52bc203b543d1c09974020f8f7389619b1be66",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.cache/huggingface/download/vocab.txt.metadata"
     },
     {
       "rfilename": ".gitattributes",
       "size": 1519,
       "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
-      "updated_ts": 1756953014,
+      "updated_ts": 1756956120,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/.gitattributes"
     },
     {
       "rfilename": "1_Pooling/config.json",
       "size": 286,
       "sha256": "3d6180f7233df2f529d65ea60c8db4af614fb78cbe99fd81103dcfeb9f8166a5",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956134,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/1_Pooling/config.json"
     },
     {
       "rfilename": "README.md",
       "size": 71781,
       "sha256": "e3bbf37091199c402d25e3ef84de912cc67d02ea6fc11430b119ebea21b757ec",
-      "updated_ts": 1756953017,
+      "updated_ts": 1756956123,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/README.md"
     },
     {
       "rfilename": "config.json",
       "size": 2331,
       "sha256": "0168e0883705b0bf8f2b381e10f45a9f3e1ef4b13869b43c160e4c8a70ddf442",
-      "updated_ts": 1756953017,
+      "updated_ts": 1756956123,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/config.json"
     },
     {
       "rfilename": "config_sentence_transformers.json",
       "size": 140,
       "sha256": "482f42ca954f5a8d55bccbb437b8d6eb721ce19059c78330c815045ddd1a87eb",
-      "updated_ts": 1756953014,
+      "updated_ts": 1756956120,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/config_sentence_transformers.json"
     },
     {
       "rfilename": "model.safetensors",
       "size": 546938168,
       "sha256": "9e7d262b1fe5ea350782829496efa831901b77486bbde1cea54a4c822d010d5c",
-      "updated_ts": 1756953017,
+      "updated_ts": 1756956123,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/model.safetensors"
     },
     {
       "rfilename": "modules.json",
       "size": 255,
       "sha256": "f93c503b32fa7bc2e186843f0add961caa14eb68f7be516e327df3cadbcd541a",
-      "updated_ts": 1756953014,
+      "updated_ts": 1756956120,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/modules.json"
     },
     {
       "rfilename": "onnx/model.onnx",
       "size": 547310275,
       "sha256": "147d5aa88c2101237358e17796cf3a227cead1ec304ec34b465bb08e9d952965",
-      "updated_ts": 1756953025,
+      "updated_ts": 1756956130,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/onnx/model.onnx"
     },
     {
       "rfilename": "onnx/model_bnb4.onnx",
       "size": 158035801,
       "sha256": "eb81cef4642ae7a81cd135c08d9622d85cff3fa25d5adabb3561fba908a48b75",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/onnx/model_bnb4.onnx"
     },
     {
       "rfilename": "onnx/model_fp16.onnx",
       "size": 273859028,
       "sha256": "cf5b5a86edb00f895561803cfc04729090a958340b8ca2ad76c143f565f6bb04",
-      "updated_ts": 1756953019,
+      "updated_ts": 1756956125,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/onnx/model_fp16.onnx"
     },
     {
       "rfilename": "onnx/model_int8.onnx",
       "size": 137296292,
       "sha256": "b4342336debaea79de872370664b0aaeb67dea4605513d00ee236ea871a81f27",
-      "updated_ts": 1756953026,
+      "updated_ts": 1756956131,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/onnx/model_int8.onnx"
     },
     {
       "rfilename": "onnx/model_q4.onnx",
       "size": 165113221,
       "sha256": "314976b7b9fba83283f9c8a29ee680a159fa485f52104e3fa39d3d5858337003",
-      "updated_ts": 1756953021,
+      "updated_ts": 1756956126,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/onnx/model_q4.onnx"
     },
     {
       "rfilename": "onnx/model_q4f16.onnx",
       "size": 111076526,
       "sha256": "3dbab6709d866709a8f9df237fe9a008bd9ccfc30e32e4b8f7f5e085cdb68bf1",
-      "updated_ts": 1756953028,
+      "updated_ts": 1756956133,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/onnx/model_q4f16.onnx"
     },
     {
       "rfilename": "onnx/model_quantized.onnx",
       "size": 137296292,
       "sha256": "b4342336debaea79de872370664b0aaeb67dea4605513d00ee236ea871a81f27",
-      "updated_ts": 1756953022,
+      "updated_ts": 1756956127,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/onnx/model_quantized.onnx"
     },
     {
       "rfilename": "onnx/model_uint8.onnx",
       "size": 137296322,
       "sha256": "f7ee635388c995ea16eeeb50bc82269533b740be291ab13dc86df8977b5c31df",
-      "updated_ts": 1756953027,
+      "updated_ts": 1756956132,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/onnx/model_uint8.onnx"
     },
     {
       "rfilename": "sentence_bert_config.json",
       "size": 120,
       "sha256": "9f40185cc7d04eb95cfc50571d1abde0dce45fb59d9c1321ef4b599d152cef4d",
-      "updated_ts": 1756953017,
+      "updated_ts": 1756956123,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/sentence_bert_config.json"
     },
     {
       "rfilename": "special_tokens_map.json",
       "size": 695,
       "sha256": "5d5b662e421ea9fac075174bb0688ee0d9431699900b90662acd44b2a350503a",
-      "updated_ts": 1756953014,
+      "updated_ts": 1756956120,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/special_tokens_map.json"
     },
     {
       "rfilename": "tokenizer.json",
       "size": 711396,
       "sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
-      "updated_ts": 1756953017,
+      "updated_ts": 1756956123,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/tokenizer.json"
     },
     {
       "rfilename": "tokenizer_config.json",
       "size": 1191,
       "sha256": "d7e0000bcc80134debd2222220427e6bf5fa20a669f40a0d0d1409cc18e0a9bc",
-      "updated_ts": 1756953017,
+      "updated_ts": 1756956123,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/tokenizer_config.json"
     },
     {
       "rfilename": "vocab.txt",
       "size": 231508,
       "sha256": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3",
-      "updated_ts": 1756953017,
+      "updated_ts": 1756956123,
       "object_key": "hf/nomic-ai/nomic-embed-text-v1.5/vocab.txt"
     }
   ]

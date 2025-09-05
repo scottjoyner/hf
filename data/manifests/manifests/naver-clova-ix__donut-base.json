@@ -1,6 +1,245 @@
 {
   "schema": "hf-model-manifest/v1",
   "repo_id": "naver-clova-ix/donut-base",
-  "updated_ts": 1756952832,
-  "files": []
+  "updated_ts": 1756956075,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 101,
+      "sha256": "8a036220b9f2c3ba35d95ee33940eec6c2f6af5c050840ce182217eaa0ad0160",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitignore.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/.gitignore.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitignore.metadata",
+      "size": 101,
+      "sha256": "34e97d968a16cfc6010dbf8be7610db4c6962ce384f68ce376c4bccff2dadd91",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/.gitignore.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "e0bd7f0da9a3007a89ae5903dbdb64d12e6915d96ce1c185fdc847ea3235cb44",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/added_tokens.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/added_tokens.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/added_tokens.json.metadata",
+      "size": 100,
+      "sha256": "76d04015cb3dd86a1467d2e281f02e36448c15e91acba587d4fe6ca2c5ba75fe",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/added_tokens.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 101,
+      "sha256": "c617b9c7dd01929c96383c7bb52734087191586f6842acf56f7803881025bdb6",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/preprocessor_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/preprocessor_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/preprocessor_config.json.metadata",
+      "size": 101,
+      "sha256": "3eb37fe7e735e25dc3455dd7f00771d94f5009f564fbdad5b1863dc0f928c509",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/preprocessor_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/pytorch_model.bin.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.metadata",
+      "size": 123,
+      "sha256": "0fcfd4d3e1dfc046cd5b3b48b1793dcdafedec98cacaa25cbfc985041cfbfdc0",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/pytorch_model.bin.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentencepiece.bpe.model.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/sentencepiece.bpe.model.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/sentencepiece.bpe.model.metadata",
+      "size": 125,
+      "sha256": "a793ed8975e666b2dfa95f41afb0dafd63130aed7e66afb0e135d03f9191eacd",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/sentencepiece.bpe.model.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/special_tokens_map.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
+      "size": 100,
+      "sha256": "c04ddce42f8c4406dcdfde0b678b80c99555cbfb817ce5312ff1214fb96bc701",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/special_tokens_map.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
+      "size": 101,
+      "sha256": "a84c1de9787544c3e4816ac702ff98000665a3cc4efde95e495c6a45caa1d7b4",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 100,
+      "sha256": "d4fb47c0bba0fb0268cbd58ac77b5f20184b65a1b5e70c7ccbb91919c5f33c48",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1344,
+      "sha256": "2fbac4a6eee9de0c0cdc3d6abd18beedcae4fb8c1dd9fe2270044b95fc0f8650",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/.gitattributes"
+    },
+    {
+      "rfilename": ".gitignore",
+      "size": 10,
+      "sha256": "cf237c7aff44efbe6e502e645c3e06da03a69d7bdeb43392108ef3348143417e",
+      "updated_ts": 1756956378,
+      "object_key": "hf/naver-clova-ix/donut-base/.gitignore"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 2197,
+      "sha256": "d371890110941e3218408714f0d746f0c0beab3c860a6573d6e93c3c43af46cd",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/README.md"
+    },
+    {
+      "rfilename": "added_tokens.json",
+      "size": 71,
+      "sha256": "01de563cc20356afb31f67f73ec3e603d7dc8fa34f1211e4e096a85198486576",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/added_tokens.json"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 4742,
+      "sha256": "99df7199ba7abaa21719c474045d9bc9b1d0913a29f75a3cc8e6dff53a01c6a6",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/config.json"
+    },
+    {
+      "rfilename": "preprocessor_config.json",
+      "size": 362,
+      "sha256": "16c05b40e0427fa76397c3f4ef4a6c0653119874ce106d1de5a989088f0cf5be",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/preprocessor_config.json"
+    },
+    {
+      "rfilename": "pytorch_model.bin",
+      "size": 809168699,
+      "sha256": "749f6e487d0cdbd7362d8b6a909174b93506d8631da0d15a6108bb6512ad5f48",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/pytorch_model.bin"
+    },
+    {
+      "rfilename": "sentencepiece.bpe.model",
+      "size": 1296245,
+      "sha256": "cb9e3dce4c326195d08fc3dd0f7e2eee1da8595c847bf4c1a9c78b7a82d47e2d",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/sentencepiece.bpe.model"
+    },
+    {
+      "rfilename": "special_tokens_map.json",
+      "size": 355,
+      "sha256": "3f8273f4fb0dbec71247f4a7499a05be4bb898e452e6dcd4d6b39a4a5010dc3f",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/special_tokens_map.json"
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "size": 4011031,
+      "sha256": "6f462e51a599283723d97c3e6e4327461c27be74eb1b078b7b6e27423b5696ef",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/tokenizer.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 518,
+      "sha256": "9a7d4c24159d533b4625358c84a425d6a5ec9e498af5c2e9e5c9a6957930f909",
+      "updated_ts": 1756956387,
+      "object_key": "hf/naver-clova-ix/donut-base/tokenizer_config.json"
+    }
+  ]
 }

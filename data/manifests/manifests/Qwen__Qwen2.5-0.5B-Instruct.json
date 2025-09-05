@@ -1,0 +1,231 @@
+{
+  "schema": "hf-model-manifest/v1",
+  "repo_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "updated_ts": 1756956075,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 101,
+      "sha256": "47bc8d9dc57cea86474bbce318ecc3c9c658af0e3478620951f779e4a89f6d79",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/LICENSE.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/LICENSE.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/LICENSE.metadata",
+      "size": 101,
+      "sha256": "e6c64884aa41d188cef9e3b9eb050464c2e8b22ed2a9c9b1cad1ba24ab0f3b4e",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/LICENSE.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "e65f1d1c03925892eac766b31bf97b8a6f664f1240ae1753bfc15d3aeb59f79d",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 101,
+      "sha256": "dbcd6671a811c005cecd8a655b0aec3f95afeae0b7b24a947194567ae092e39b",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/generation_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/generation_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/generation_config.json.metadata",
+      "size": 101,
+      "sha256": "ba86bb5b057c2967d9442fd64d15624d095e901a898beb7a564862a2200f638c",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/generation_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/merges.txt.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/merges.txt.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/merges.txt.metadata",
+      "size": 101,
+      "sha256": "aaf00646035fcc54e793cbd7c6b0c0a7694b42c987da8617c7fb6b50df2670c0",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/merges.txt.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/model.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.metadata",
+      "size": 125,
+      "sha256": "68f1d6a0b0a1c805d0754778edfd03402e5c9faa154e2b064288c6c385616fe3",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/model.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
+      "size": 100,
+      "sha256": "5c177a5379817ae5d8f667b960a9daf651ffe23fb9234100bd9d218f5b455a4b",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 101,
+      "sha256": "43446e5abfcb6ea718dfe123e4688cb79843d1dd2efe1acdfa0f0445ea9a5d52",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/vocab.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.json.metadata",
+      "size": 100,
+      "sha256": "f7737cefc8bb0f0ce2d868ce7def85f1f842e4a82ca5d126f2c5dd3aed2a2a14",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/vocab.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/xGOKKLRSlIhH692hSVvI1-gpoa8=.fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe.incomplete",
+      "size": 125874604,
+      "sha256": "c411bc9279f961f5eb0d36ea9a8c7e5f972c801c2a3b7d8a4bb2fca159ac31d1",
+      "updated_ts": 1756956338,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.cache/huggingface/download/xGOKKLRSlIhH692hSVvI1-gpoa8=.fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe.incomplete"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1519,
+      "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+      "updated_ts": 1756956365,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/.gitattributes"
+    },
+    {
+      "rfilename": "LICENSE",
+      "size": 11343,
+      "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/LICENSE"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 4917,
+      "sha256": "b19c806a904db6dc878a0462e70b551f6b7ac78dfbb88c2eb966ca2b9109ae15",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/README.md"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 659,
+      "sha256": "18e18afcaccafade98daf13a54092927904649e1dd4eba8299ab717d5d94ff45",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/config.json"
+    },
+    {
+      "rfilename": "generation_config.json",
+      "size": 242,
+      "sha256": "e558847a8b4402616f1273797b015104dc266fe4b520056fca88823ba8f8ebe6",
+      "updated_ts": 1756956377,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/generation_config.json"
+    },
+    {
+      "rfilename": "merges.txt",
+      "size": 1671839,
+      "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+      "updated_ts": 1756956365,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/merges.txt"
+    },
+    {
+      "rfilename": "model.safetensors",
+      "size": 988097824,
+      "sha256": "fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe",
+      "updated_ts": 1756956377,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/model.safetensors"
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "size": 7031645,
+      "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/tokenizer.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 7305,
+      "sha256": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583",
+      "updated_ts": 1756956377,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/tokenizer_config.json"
+    },
+    {
+      "rfilename": "vocab.json",
+      "size": 2776833,
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "updated_ts": 1756956378,
+      "object_key": "hf/Qwen/Qwen2.5-0.5B-Instruct/vocab.json"
+    }
+  ]
+}

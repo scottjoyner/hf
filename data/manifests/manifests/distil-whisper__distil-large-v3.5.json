@@ -1,6 +1,392 @@
 {
   "schema": "hf-model-manifest/v1",
   "repo_id": "distil-whisper/distil-large-v3.5",
-  "updated_ts": 1756952833,
-  "files": []
+  "updated_ts": 1756956075,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 100,
+      "sha256": "64ab04c22509d6fdea6517530c6cd8531de2b6504f9c1153e2c3f052a8a98597",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitignore.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/.gitignore.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitignore.metadata",
+      "size": 100,
+      "sha256": "620f42a875768f16cc74ad425fa27a1a9dfd5d66416f5b2672b4885a75f198b9",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/.gitignore.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "81ccb14f5468ba88d9bf0ca85afbe3c034d5e25ad38619b41c92bcf2fb0307c5",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/added_tokens.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/added_tokens.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/added_tokens.json.metadata",
+      "size": 101,
+      "sha256": "757b05411963be5ed7d5fe732de52a3b66cca23043b7ed73c0ba0fa273a3f0ea",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/added_tokens.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 101,
+      "sha256": "bc7918d12d8403c109e54c90dee69dfac1bc708da9daff4a07df3694b201caf2",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/generation_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/generation_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/generation_config.json.metadata",
+      "size": 100,
+      "sha256": "63eb894f71dd7c01af95d5d769f91a975837882cd28a9001ce65eeeef046ad75",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/generation_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732842515.jzxh112.1688663.0.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732842515.jzxh112.1688663.0.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732842515.jzxh112.1688663.0.metadata",
+      "size": 125,
+      "sha256": "c9a7cab25875683e77d097454ce496cae324847516aebb312c1479b6a1327bdb",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732842515.jzxh112.1688663.0.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732907831.jzxh108.2302919.0.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732907831.jzxh108.2302919.0.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732907831.jzxh108.2302919.0.metadata",
+      "size": 125,
+      "sha256": "51b503358862793f2f51b3e4ef46765a561451ccf56e78e7352785e1c40a6a69",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732907831.jzxh108.2302919.0.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732979739.jzxh108.2370161.0.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732979739.jzxh108.2370161.0.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732979739.jzxh108.2370161.0.metadata",
+      "size": 125,
+      "sha256": "85d602a54b7c4b2e2cae0546173ecf1ccddc1f5f7e8038ee0c11d1e3ba51c102",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732979739.jzxh108.2370161.0.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1733051636.jzxh108.2446481.0.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1733051636.jzxh108.2446481.0.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1733051636.jzxh108.2446481.0.metadata",
+      "size": 125,
+      "sha256": "38aa4e99de156da694849065bc004bc9573c9c61b95d2bbc32a610878effd1d5",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1733051636.jzxh108.2446481.0.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1733072730.jzxh108.2472375.0.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1733072730.jzxh108.2472375.0.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1733072730.jzxh108.2472375.0.metadata",
+      "size": 125,
+      "sha256": "1b92bd6a84bd7dc858068f9354a87328bbc024b9f8fe61e3a39e834134acc892",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/hf-whisper-distil-multi-v0.2/events.out.tfevents.1733072730.jzxh108.2472375.0.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/merges.txt.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/merges.txt.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/merges.txt.metadata",
+      "size": 101,
+      "sha256": "de554b2f6d775291db3b09741fd81a8379a7e563e5804c9d125ad9e924f8cb8b",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/merges.txt.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/model.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.metadata",
+      "size": 125,
+      "sha256": "a5f6acbe9481666180de7da0ac562bfb196db6c5833c8dcf656b49ebe74b1d98",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/model.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/preprocessor_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/preprocessor_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/preprocessor_config.json.metadata",
+      "size": 101,
+      "sha256": "c9598aaff338bb327e8bfbdf26dcbb18e2b084fb1feede976e6aed3728e89982",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/preprocessor_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/special_tokens_map.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
+      "size": 101,
+      "sha256": "f2253ea16c0ca8a277f2d53acd1fd1fcccaf705f96eeb3b35a89b5979b00fe7a",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/special_tokens_map.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
+      "size": 101,
+      "sha256": "cd19d60106cc4570eb93a73fc960f0401405f0f6275e1a421f0e0cd0ed63dd8e",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 100,
+      "sha256": "53b6cbc0a556f806369f3da4b6badd7b844ba61053f28fdd6232f5273a26f483",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/vocab.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.json.metadata",
+      "size": 101,
+      "sha256": "49acdafcd98d5e178d0fdb72637f9e9f31a109e556b3660734cdb3a3267a68d2",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.cache/huggingface/download/vocab.json.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1519,
+      "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+      "updated_ts": 1756956441,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.gitattributes"
+    },
+    {
+      "rfilename": ".gitignore",
+      "size": 30,
+      "sha256": "844f2547f2e78b5426408b554295bca26838f3fe8ad298f3d2cf5002e2689b33",
+      "updated_ts": 1756956441,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/.gitignore"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 34791,
+      "sha256": "47b5c920fe91b05e354b19813e0c4de3a01ca2e6bf4488b4cb18ad25ab180779",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/README.md"
+    },
+    {
+      "rfilename": "added_tokens.json",
+      "size": 34648,
+      "sha256": "3c51f66c4c21f9e126970078f11ae77a78c74aee8df606ee9daba86e467108e0",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/added_tokens.json"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 1249,
+      "sha256": "515a10a9979258d3fc71cf79b2cd055c189f07d78879a15bd9bc282673308b85",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/config.json"
+    },
+    {
+      "rfilename": "generation_config.json",
+      "size": 4249,
+      "sha256": "b521c66612bd95be36c154f2d3904f6e4ea3be481a18a48f293d66791f60cf98",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/generation_config.json"
+    },
+    {
+      "rfilename": "hf-whisper-distil-multi-v0.2/events.out.tfevents.1732842515.jzxh112.1688663.0",
+      "size": 2469503,
+      "sha256": "863b76006344851ce892b9bdbf2b6c12d3d92334e5c17384055b07447a0fcc3e",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732842515.jzxh112.1688663.0"
+    },
+    {
+      "rfilename": "hf-whisper-distil-multi-v0.2/events.out.tfevents.1732907831.jzxh108.2302919.0",
+      "size": 2768567,
+      "sha256": "120a08be9c2b54b4fa34882e38751eea8e22fa1405f1d1367b72bda2510e522c",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732907831.jzxh108.2302919.0"
+    },
+    {
+      "rfilename": "hf-whisper-distil-multi-v0.2/events.out.tfevents.1732979739.jzxh108.2370161.0",
+      "size": 2741387,
+      "sha256": "034f019d7f779fbfd3cdd247bf5804491352340af5699c64d05b2f36ca37d3cf",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/hf-whisper-distil-multi-v0.2/events.out.tfevents.1732979739.jzxh108.2370161.0"
+    },
+    {
+      "rfilename": "hf-whisper-distil-multi-v0.2/events.out.tfevents.1733051636.jzxh108.2446481.0",
+      "size": 795266,
+      "sha256": "8ecd835d6826b95e208d9a27f8247bb3cbd5739396f8865a38af72633e1a5323",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/hf-whisper-distil-multi-v0.2/events.out.tfevents.1733051636.jzxh108.2446481.0"
+    },
+    {
+      "rfilename": "hf-whisper-distil-multi-v0.2/events.out.tfevents.1733072730.jzxh108.2472375.0",
+      "size": 870876,
+      "sha256": "c72b0219d9eb52dcccc0942612168659c7afd2fe40fb89077e18a4011a0aef9c",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/hf-whisper-distil-multi-v0.2/events.out.tfevents.1733072730.jzxh108.2472375.0"
+    },
+    {
+      "rfilename": "merges.txt",
+      "size": 493869,
+      "sha256": "2df2990a395e35e8dfbc7511e08c12d56018d8d04691e0133e5d63b21e154dc6",
+      "updated_ts": 1756956441,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/merges.txt"
+    },
+    {
+      "rfilename": "model.safetensors",
+      "size": 3025686376,
+      "sha256": "76ec9f754fc4b4810845dc36b71d1897c1342e702810c179e1569690084cfb0c",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/model.safetensors"
+    },
+    {
+      "rfilename": "preprocessor_config.json",
+      "size": 340,
+      "sha256": "7ccc62c6f2765af1f3b46c00c9b5894426835a05021c8b9c01eecb6dfb542711",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/preprocessor_config.json"
+    },
+    {
+      "rfilename": "special_tokens_map.json",
+      "size": 2186,
+      "sha256": "baea4ea09372eb4fca86b4e4346139fd73cb807d5087e9de0948e971739c3e74",
+      "updated_ts": 1756956441,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/special_tokens_map.json"
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "size": 2480645,
+      "sha256": "b3c8202bbf06d8ee4232c5984baa563784ac4737e2e7fdc42fa180200d3cfcdb",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/tokenizer.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 282863,
+      "sha256": "c86c7398ba7f81f784569ea0ae165e252c4a006acc56906f04e5ee3300cf043e",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/tokenizer_config.json"
+    },
+    {
+      "rfilename": "vocab.json",
+      "size": 835528,
+      "sha256": "6788c80b082e9b0d1393147d3a3e62ba19285ac0c82ace8e5ef00f37ead58971",
+      "updated_ts": 1756956464,
+      "object_key": "hf/distil-whisper/distil-large-v3.5/vocab.json"
+    }
+  ]
 }

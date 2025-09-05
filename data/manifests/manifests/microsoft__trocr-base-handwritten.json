@@ -1,6 +1,252 @@
 {
   "schema": "hf-model-manifest/v1",
   "repo_id": "microsoft/trocr-base-handwritten",
-  "updated_ts": 1756952832,
-  "files": []
+  "updated_ts": 1756956075,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 100,
+      "sha256": "ac1370814b3fad9c1ce5a6828d862ef77f381b5cd2ea23d37b0e7720f657c72b",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "2fcccbd50d394946d421d5a8857925cc0e278d74f3c490bb4c258758c9ea8e8e",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 100,
+      "sha256": "011261115d84133e8bd9807eea26d99875ad7963a916eba92c57a193fcd643e1",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/generation_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/generation_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/generation_config.json.metadata",
+      "size": 101,
+      "sha256": "fa1ef3bdd94f94d383146dc18fcc02d246674c60534ebb3614badd25ad867e2e",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/generation_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/merges.txt.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/merges.txt.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/merges.txt.metadata",
+      "size": 100,
+      "sha256": "ebbfb244fa2ef267ce728d0f0e9fe7ae63fc86650d447f4b4b074ffa1b55528b",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/merges.txt.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/model.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.metadata",
+      "size": 125,
+      "sha256": "3f7948fcf2da2e52c4f755bdcb5e7e3b8aa74bea970ccc5c2cfa9223339dc420",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/model.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/preprocessor_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/preprocessor_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/preprocessor_config.json.metadata",
+      "size": 100,
+      "sha256": "f7b4a154d0435d614e052df3af7b704468e8879eac180dc69ef09f1fdc0a22bc",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/preprocessor_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/pytorch_model.bin.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.metadata",
+      "size": 123,
+      "sha256": "148f0fdde146c7add6d894148638ce25d9b0663ce42150ebe22c53251f6c879b",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/pytorch_model.bin.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/special_tokens_map.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
+      "size": 101,
+      "sha256": "29ccc4444602a0353bc307e2f56aa8559c7787c7854204216dd93c703f6076e4",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/special_tokens_map.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 101,
+      "sha256": "637a72645fd47b956b2e51c4ec8325153951433152b09d07284e4450d624ba4f",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/vocab.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.json.metadata",
+      "size": 101,
+      "sha256": "5708570b3de33cdff5c3c2834d39b79f2c88a536b8a8946dd93bf76c34c705da",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/vocab.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/xGOKKLRSlIhH692hSVvI1-gpoa8=.25a40cddc7e6120140a3d5b9e3dd3878a92ada7b4f312953ab22edc19c2a5acc.incomplete",
+      "size": 1333384464,
+      "sha256": "e126cc8931766c6b2447f8c37a02097ce5dcade34dddba703a678035af1969ea",
+      "updated_ts": 1756956407,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.cache/huggingface/download/xGOKKLRSlIhH692hSVvI1-gpoa8=.25a40cddc7e6120140a3d5b9e3dd3878a92ada7b4f312953ab22edc19c2a5acc.incomplete"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1229,
+      "sha256": "98ccb431c012ebfe976280fbd45aea4cec7409935868ccecf3954370f96732a1",
+      "updated_ts": 1756956415,
+      "object_key": "hf/microsoft/trocr-base-handwritten/.gitattributes"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 2999,
+      "sha256": "9f808e1fc12dcb61c89a38f00303506dbc85db8ea988cec441a9324e0c8f2843",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/README.md"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 4165,
+      "sha256": "4c779f24e063c437c3dafd5b2e6c9f59f2fa2bd1dbb4ae6a30153bbbbf19e647",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/config.json"
+    },
+    {
+      "rfilename": "generation_config.json",
+      "size": 190,
+      "sha256": "41149cdcffec4d657f32dfcddd9b208037f01286c9e07945c724908c58ed0193",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/generation_config.json"
+    },
+    {
+      "rfilename": "merges.txt",
+      "size": 456318,
+      "sha256": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5",
+      "updated_ts": 1756956415,
+      "object_key": "hf/microsoft/trocr-base-handwritten/merges.txt"
+    },
+    {
+      "rfilename": "model.safetensors",
+      "size": 1333384464,
+      "sha256": "25a40cddc7e6120140a3d5b9e3dd3878a92ada7b4f312953ab22edc19c2a5acc",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/model.safetensors"
+    },
+    {
+      "rfilename": "preprocessor_config.json",
+      "size": 224,
+      "sha256": "2fcc0da9466ee00be0403b26027373039e032820ebac409e207b32e52e52119d",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/preprocessor_config.json"
+    },
+    {
+      "rfilename": "pytorch_model.bin",
+      "size": 1333508485,
+      "sha256": "d1091e5a98ff3b31cddcaa21423171be74e6d270128896e9edd0f6394e2a9978",
+      "updated_ts": 1756956415,
+      "object_key": "hf/microsoft/trocr-base-handwritten/pytorch_model.bin"
+    },
+    {
+      "rfilename": "special_tokens_map.json",
+      "size": 772,
+      "sha256": "c611b1f7d416eb001ee4f293d903ea8c88e703463f1d403f1866a0352743fd00",
+      "updated_ts": 1756956415,
+      "object_key": "hf/microsoft/trocr-base-handwritten/special_tokens_map.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 1118,
+      "sha256": "5a1356884c6ae736a621841535264ba7c5bebd52f169258add2c48fcbb32d50a",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/tokenizer_config.json"
+    },
+    {
+      "rfilename": "vocab.json",
+      "size": 898822,
+      "sha256": "06b4d46c8e752d410213d9548eb27a54db70fda0319b6271fb8d59dead5e1cab",
+      "updated_ts": 1756956428,
+      "object_key": "hf/microsoft/trocr-base-handwritten/vocab.json"
+    }
+  ]
 }

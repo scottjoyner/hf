@@ -1,307 +1,307 @@
 {
   "schema": "hf-model-manifest/v1",
   "repo_id": "jinaai/jina-embedding-s-en-v1",
-  "updated_ts": 1756952832,
+  "updated_ts": 1756956075,
   "files": [
     {
       "rfilename": ".cache/huggingface/.gitignore",
       "size": 1,
       "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/.gitignore"
     },
     {
       "rfilename": ".cache/huggingface/download/.gitattributes.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/.gitattributes.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
       "size": 100,
       "sha256": "aa67b001690b879ac0631a2369dc3a2aea188715aa21cb5f7752a0dbbc4a2fc8",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/.gitattributes.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/1_Pooling/config.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/1_Pooling/config.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/1_Pooling/config.json.metadata",
       "size": 101,
       "sha256": "86f9d5df4dd2894abcf0cc6229e0ae76879d7af5d2addbf3f617ebf03d5ff528",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/1_Pooling/config.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/README.md.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/README.md.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/README.md.metadata",
       "size": 101,
       "sha256": "2cdfd1056f05574bbbe84cf4550d749c2b9703b5208f1165353f245499146047",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/README.md.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/config.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/config.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/config.json.metadata",
       "size": 100,
       "sha256": "3f724888d68511dc2333eaed1c167ecfd2663ec5479da16049312669bcece5a3",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/config.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/modeling_t5.py.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/modeling_t5.py.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/modeling_t5.py.metadata",
       "size": 101,
       "sha256": "0bf5ce8b6ef2bd624ab998bcee47831851172c8907ecfeddbc1f44b12ae10c19",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/modeling_t5.py.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/modules.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/modules.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/modules.json.metadata",
       "size": 101,
       "sha256": "795e6b0b5a4aa598161e98304f1bb313097830931bb6f237c8e9a93e983541e4",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/modules.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/mteb_evaluation.py.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/mteb_evaluation.py.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/mteb_evaluation.py.metadata",
       "size": 101,
       "sha256": "19b163078d0612cd9aeac9ad10ad2e0dfe0b88c1e56100860b522c4dd4848a81",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/mteb_evaluation.py.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/negation_evaluation.py.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/negation_evaluation.py.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/negation_evaluation.py.metadata",
       "size": 100,
       "sha256": "88fa9c8b8f7d9f067f4e788873525237a11a7fdf7f8231ac6e5e78e758e9dfb3",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/negation_evaluation.py.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/pytorch_model.bin.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/pytorch_model.bin.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/pytorch_model.bin.metadata",
       "size": 125,
       "sha256": "6308cee03537a5436697863279ed4e39829d9e028292a3c16fadad7b88cce030",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/pytorch_model.bin.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/sentence_bert_config.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/sentence_bert_config.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/sentence_bert_config.json.metadata",
       "size": 100,
       "sha256": "06241331be556b5506b616f053343bfb7a951fd4170756a88904f22fa1e714da",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/sentence_bert_config.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/special_tokens_map.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/special_tokens_map.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/special_tokens_map.json.metadata",
       "size": 101,
       "sha256": "384b53bc74481f10a40a97242d5d756b7dbcbb95aec7a6b8dcc3e0a04ecdbe79",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/special_tokens_map.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/spiece.model.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/spiece.model.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/spiece.model.metadata",
       "size": 124,
       "sha256": "8b1540f4c818b47f6980d5b4cebb1441d4411e385dfb02b57af66c5d41666c90",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/spiece.model.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/tokenizer.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
       "size": 101,
       "sha256": "07b95ea412f7ec8f575682968353164b1e56150cb7a8bc0a4bd51c20aff4102c",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/tokenizer.json.metadata"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
       "size": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/tokenizer_config.json.lock"
     },
     {
       "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
       "size": 100,
       "sha256": "2ac18a7a69af2847eff055ffbec135bc05078fddd49cd39c2519153d4ec4e8a8",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.cache/huggingface/download/tokenizer_config.json.metadata"
     },
     {
       "rfilename": ".gitattributes",
       "size": 1519,
       "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/.gitattributes"
     },
     {
       "rfilename": "1_Pooling/config.json",
       "size": 191,
       "sha256": "9e84fd0b407fc3b5e51f151e7fe355499f330fff5c2e8d433349c0156575abc3",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/1_Pooling/config.json"
     },
     {
       "rfilename": "README.md",
       "size": 67222,
       "sha256": "406fbbe97da02a1efe05e33d020e18eaf2a76e4109c2ef4556a2212b3d3fc00b",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/README.md"
     },
     {
       "rfilename": "config.json",
       "size": 1288,
       "sha256": "e29e8f4446396d96f4c5a60cc6758e269fac936c6f2a56bf3e23cbf35480ea8e",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/config.json"
     },
     {
       "rfilename": "modeling_t5.py",
       "size": 61,
       "sha256": "eaf77eddeeaf37912f00abf7c1ccee9451fdeaaf4e890629d761f70289dee102",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/modeling_t5.py"
     },
     {
       "rfilename": "modules.json",
       "size": 253,
       "sha256": "10e421208934784990766732bbb24bcd78c9e9b1b74813eb939bf5d08180eb41",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/modules.json"
     },
     {
       "rfilename": "mteb_evaluation.py",
       "size": 2842,
       "sha256": "70c31b079d2beff650e14bc1faeaf845d1f46c2dce2e284555d62f3c25b1d17e",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/mteb_evaluation.py"
     },
     {
       "rfilename": "negation_evaluation.py",
       "size": 1093,
       "sha256": "fae8640f5aadf193682521f3d02a71da2b3ae3abde100280179daa58ab385649",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/negation_evaluation.py"
     },
     {
       "rfilename": "pytorch_model.bin",
       "size": 141347274,
       "sha256": "905105f9547a3967288440fbb9ae36b64668637ecd75d1a6ea8c1842cfe731ad",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/pytorch_model.bin"
     },
     {
       "rfilename": "sentence_bert_config.json",
       "size": 58,
       "sha256": "e504a456ec413fc0b8d8a2b65f8ff177afa039dd18a1ec02ecb47d1048900594",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/sentence_bert_config.json"
     },
     {
       "rfilename": "special_tokens_map.json",
       "size": 2201,
       "sha256": "5c87151ef0f72a99d1f766a4c418bd2a1f90aaa30a8e22fe5eca9641daebb64f",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/special_tokens_map.json"
     },
     {
       "rfilename": "spiece.model",
       "size": 791656,
       "sha256": "d60acb128cf7b7f2536e8f38a5b18a05535c9e14c7a355904270e15b0945ea86",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/spiece.model"
     },
     {
       "rfilename": "tokenizer.json",
       "size": 2422095,
       "sha256": "5f0ed8ab5b8cfa9812bb73752f1d80c292e52bcf5a87a144dc9ab2d251056cbb",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/tokenizer.json"
     },
     {
       "rfilename": "tokenizer_config.json",
       "size": 2324,
       "sha256": "d1e7146101aa96282057f374aa9c3b260fba2109e5990edb1775d6efc70ffa3c",
-      "updated_ts": 1756952961,
+      "updated_ts": 1756956118,
       "object_key": "hf/jinaai/jina-embedding-s-en-v1/tokenizer_config.json"
     }
   ]

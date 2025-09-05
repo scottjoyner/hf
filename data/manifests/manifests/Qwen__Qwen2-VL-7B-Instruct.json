@@ -1,6 +1,371 @@
 {
   "schema": "hf-model-manifest/v1",
   "repo_id": "Qwen/Qwen2-VL-7B-Instruct",
-  "updated_ts": 1756952832,
-  "files": []
+  "updated_ts": 1756956075,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 101,
+      "sha256": "3068a9684ff7a1d613b9435c248c94fb0d69d659d6c8b96d3fe4cf968f018c5b",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/LICENSE.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/LICENSE.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/LICENSE.metadata",
+      "size": 101,
+      "sha256": "35336737ca9f56b0ca6c444e491e8f1f6d29646b5e73d097cb33196ed776dc71",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/LICENSE.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 100,
+      "sha256": "7ce0a8676acc9f263a2d21a846d7a8cff26b515f7cd8fd62249315093bca77f8",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/chat_template.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/chat_template.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/chat_template.json.metadata",
+      "size": 101,
+      "sha256": "d63ab8ac213e9f5e64441fa1245040ea316fc2801bba5ce9fd8c646c43404eb9",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/chat_template.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 101,
+      "sha256": "11db98f7fd345c7a7dbecf3c49100f5f2181b62c4a156058550f912bd26e6754",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/generation_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/generation_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/generation_config.json.metadata",
+      "size": 101,
+      "sha256": "3243f4c565b776a51e3186b1927cb96ee657615655ff1a8e867bbacb22629026",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/generation_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/merges.txt.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/merges.txt.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/merges.txt.metadata",
+      "size": 100,
+      "sha256": "69299d07dbd154c6bceee85f82087322faa40744943ea4eb6af2df9e9f337371",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/merges.txt.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model-00001-of-00005.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model-00001-of-00005.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model-00001-of-00005.safetensors.metadata",
+      "size": 125,
+      "sha256": "a8e614f3cf71705cd5dbe5736823edc4c1ea0d08171eaad82213b96a101afbcf",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model-00001-of-00005.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model-00002-of-00005.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model-00002-of-00005.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model-00002-of-00005.safetensors.metadata",
+      "size": 125,
+      "sha256": "01b8f1b460e281e94032483fa5253c29bcc71a2e938ae589ee56462723b2e38d",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model-00002-of-00005.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model-00003-of-00005.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model-00003-of-00005.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model-00003-of-00005.safetensors.metadata",
+      "size": 125,
+      "sha256": "244a7ad7c7753599540af44e0d618811c1ba4107702074ba2ffe73137df802c1",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model-00003-of-00005.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model-00004-of-00005.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model-00004-of-00005.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model-00004-of-00005.safetensors.metadata",
+      "size": 125,
+      "sha256": "7a3f0786c8dc8f08fc76a74219ee05b90415e95b2d5780f665fc184fab7a6ddf",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model-00004-of-00005.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model-00005-of-00005.safetensors.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model-00005-of-00005.safetensors.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model-00005-of-00005.safetensors.metadata",
+      "size": 124,
+      "sha256": "39b9f81b3613187cfe394ed40c04e381fd1bcf834a08fef8bb4a4d8539e2d6fd",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model-00005-of-00005.safetensors.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.index.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model.safetensors.index.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/model.safetensors.index.json.metadata",
+      "size": 101,
+      "sha256": "2443c3a43cd7bbb576046576d7cf9361e7e90ae102eb03473edbe7fecea6187f",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/model.safetensors.index.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/preprocessor_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/preprocessor_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/preprocessor_config.json.metadata",
+      "size": 100,
+      "sha256": "1732d033bd208a72e7b4bda115323c15eac647b1aa7c4b12c9070779558d48d0",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/preprocessor_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/tokenizer.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer.json.metadata",
+      "size": 101,
+      "sha256": "1cb54a52aea2b574f1d3543f68f4559239b50af5d06bd1d1faa3b7d2afd12574",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/tokenizer.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/tokenizer_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/tokenizer_config.json.metadata",
+      "size": 100,
+      "sha256": "3afd271f25b914181c1789cda51b8a670210e0563ab6913c98750e4150217991",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/tokenizer_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/vocab.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/vocab.json.metadata",
+      "size": 101,
+      "sha256": "04fd99d372403a4984813ad010a21bd3414ff3b8205f45ac334b276cd1401a86",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.cache/huggingface/download/vocab.json.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1519,
+      "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+      "updated_ts": 1756956857,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/.gitattributes"
+    },
+    {
+      "rfilename": "LICENSE",
+      "size": 11343,
+      "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+      "updated_ts": 1756956909,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/LICENSE"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 17731,
+      "sha256": "9d30300f11d64f1b424c3d07d85139c24d5382e18ba6a3705739e9a36fe0b651",
+      "updated_ts": 1756956909,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/README.md"
+    },
+    {
+      "rfilename": "chat_template.json",
+      "size": 1050,
+      "sha256": "ad60d90252ed0b0705ba14e2d0ad0fec0beac1ea955642b54059b36052d8bc96",
+      "updated_ts": 1756956849,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/chat_template.json"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 1197,
+      "sha256": "4745aaba24756172765cb804b86512792202df6c65ac28989355971bbb27649c",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/config.json"
+    },
+    {
+      "rfilename": "generation_config.json",
+      "size": 244,
+      "sha256": "85fb0349cef993fe7d1cab4baa61c81a42326c3a549dc220fcecb43e6eea3413",
+      "updated_ts": 1756956883,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/generation_config.json"
+    },
+    {
+      "rfilename": "merges.txt",
+      "size": 1671839,
+      "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+      "updated_ts": 1756956883,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/merges.txt"
+    },
+    {
+      "rfilename": "model-00001-of-00005.safetensors",
+      "size": 3898649896,
+      "sha256": "eab4f4dc1abf860794c98ce3759b4ace1059fc0fc041ede76b88988b3557c132",
+      "updated_ts": 1756956909,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/model-00001-of-00005.safetensors"
+    },
+    {
+      "rfilename": "model-00002-of-00005.safetensors",
+      "size": 3864726320,
+      "sha256": "0546b7cd070ff239de0f61a28770de6a0ac517ad313071e151653e38911ffb25",
+      "updated_ts": 1756956964,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/model-00002-of-00005.safetensors"
+    },
+    {
+      "rfilename": "model-00003-of-00005.safetensors",
+      "size": 3864726424,
+      "sha256": "11368ea1e9c0039ca54012a74ac32d543a9e9d980b2d0ad7e93af0341ace1fe6",
+      "updated_ts": 1756956883,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/model-00003-of-00005.safetensors"
+    },
+    {
+      "rfilename": "model-00004-of-00005.safetensors",
+      "size": 3864733680,
+      "sha256": "381e110d74db594cc24956af0e74a01ae02104497113a78926990c5bd1f395f6",
+      "updated_ts": 1756956935,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/model-00004-of-00005.safetensors"
+    },
+    {
+      "rfilename": "model-00005-of-00005.safetensors",
+      "size": 1089994880,
+      "sha256": "e76ec4dc2e7c0dcbe3432e58fae08e62204a2ef2323069d85c8fa0affb87332a",
+      "updated_ts": 1756956857,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/model-00005-of-00005.safetensors"
+    },
+    {
+      "rfilename": "model.safetensors.index.json",
+      "size": 56470,
+      "sha256": "4cb1cbc47a33f4b18226b5d938127227cbdcb21bf0448f78aa665e3dbe7f15d6",
+      "updated_ts": 1756956849,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/model.safetensors.index.json"
+    },
+    {
+      "rfilename": "preprocessor_config.json",
+      "size": 347,
+      "sha256": "b5eaad0c2815f07631535dcc58f3c462b0d73693638ad21d19f3c50820eae1cc",
+      "updated_ts": 1756956935,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/preprocessor_config.json"
+    },
+    {
+      "rfilename": "tokenizer.json",
+      "size": 7029741,
+      "sha256": "cb63a0a23eef3d5b01063a9880a1925a65aaf4d1591d519910ee3527852950a0",
+      "updated_ts": 1756956909,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/tokenizer.json"
+    },
+    {
+      "rfilename": "tokenizer_config.json",
+      "size": 4190,
+      "sha256": "ff5c4fd898fe8c39591eb70e5d39d2782802d4204d6ae9ba1223252f354842a0",
+      "updated_ts": 1756956883,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/tokenizer_config.json"
+    },
+    {
+      "rfilename": "vocab.json",
+      "size": 2776833,
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "updated_ts": 1756956935,
+      "object_key": "hf/Qwen/Qwen2-VL-7B-Instruct/vocab.json"
+    }
+  ]
 }

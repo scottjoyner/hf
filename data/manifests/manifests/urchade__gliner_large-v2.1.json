@@ -1,6 +1,105 @@
 {
   "schema": "hf-model-manifest/v1",
   "repo_id": "urchade/gliner_large-v2.1",
-  "updated_ts": 1756952833,
-  "files": []
+  "updated_ts": 1756956075,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 101,
+      "sha256": "75cac03b52ab8fb6813163a973fe82e635880d7cb04a9370357bd832dc3413cc",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/Q1p2l2BzM1m6P5jKvr8WTq1TUio=.1bf014f5849eb38bcb7b1c95c539b2b0289beff96920b65c2cbfe6db5e9330aa.incomplete",
+      "size": 1782044554,
+      "sha256": "a478562b754d3b59c136a4421a80c7174642400e78b51ec95f3e2a03877bfe1e",
+      "updated_ts": 1756956642,
+      "object_key": "hf/urchade/gliner_large-v2.1/.cache/huggingface/download/Q1p2l2BzM1m6P5jKvr8WTq1TUio=.1bf014f5849eb38bcb7b1c95c539b2b0289beff96920b65c2cbfe6db5e9330aa.incomplete"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 101,
+      "sha256": "13daa89957b667b4d91522e865214a0ec41ba96faf3d6c0c0ad1e6ebd7f482ab",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/gliner_config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/.cache/huggingface/download/gliner_config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/gliner_config.json.metadata",
+      "size": 101,
+      "sha256": "4e28410632631224f3d90210dd2a5662c9e397b6382c2e6dcc680316f0003d30",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/.cache/huggingface/download/gliner_config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/.cache/huggingface/download/pytorch_model.bin.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/pytorch_model.bin.metadata",
+      "size": 125,
+      "sha256": "84763781803eee3bef6aef795c0f6638960c32ed050662335f3860281550292f",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/.cache/huggingface/download/pytorch_model.bin.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1519,
+      "sha256": "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/.gitattributes"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 4766,
+      "sha256": "bef6f54901dac91ef023c0e343be439ddb222ea7540bf26612feb15bfa2858ac",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/README.md"
+    },
+    {
+      "rfilename": "gliner_config.json",
+      "size": 477,
+      "sha256": "499bc1cd3f7bdc2aa2c8c5b446fdc7fccb20773b02d9fe21545887bb067f5bf4",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/gliner_config.json"
+    },
+    {
+      "rfilename": "pytorch_model.bin",
+      "size": 1782044554,
+      "sha256": "1bf014f5849eb38bcb7b1c95c539b2b0289beff96920b65c2cbfe6db5e9330aa",
+      "updated_ts": 1756956656,
+      "object_key": "hf/urchade/gliner_large-v2.1/pytorch_model.bin"
+    }
+  ]
 }

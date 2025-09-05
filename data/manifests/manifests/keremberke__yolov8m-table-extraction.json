@@ -1,6 +1,140 @@
 {
   "schema": "hf-model-manifest/v1",
   "repo_id": "keremberke/yolov8m-table-extraction",
-  "updated_ts": 1756952833,
-  "files": []
+  "updated_ts": 1756956075,
+  "files": [
+    {
+      "rfilename": ".cache/huggingface/.gitignore",
+      "size": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/.gitignore"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/.gitattributes.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/.gitattributes.metadata",
+      "size": 100,
+      "sha256": "c6120872b9e38ef2cbc72eb55a178d22853ae8f9702c1a478ce701a6639b1108",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/.gitattributes.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/README.md.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/README.md.metadata",
+      "size": 100,
+      "sha256": "50c06131ddf89eaca7331646dbca38211d193f45a44f63b85527ae036a1830f9",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/README.md.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/best.pt.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/best.pt.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/best.pt.metadata",
+      "size": 125,
+      "sha256": "4a96b27bce9b6a13e96bbddbb1ac8878dfab2e55d6b021927e6299b94a60cec6",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/best.pt.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/config.json.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/config.json.metadata",
+      "size": 101,
+      "sha256": "69c3764300ed52d22ec829680933fb602c2e121f6779b4b5f39b3b8fcb90594e",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/config.json.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/events.out.tfevents.1674965488.ovyeman.33996.9.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/events.out.tfevents.1674965488.ovyeman.33996.9.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/events.out.tfevents.1674965488.ovyeman.33996.9.metadata",
+      "size": 125,
+      "sha256": "01fa1458391de249181de32c66318d90242a7f1fa106b1252cf70dc2f5bbc396",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/events.out.tfevents.1674965488.ovyeman.33996.9.metadata"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/thumbnail.jpg.lock",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/thumbnail.jpg.lock"
+    },
+    {
+      "rfilename": ".cache/huggingface/download/thumbnail.jpg.metadata",
+      "size": 101,
+      "sha256": "779c2c419039167e46917a023e29908538622e5687a04f01c938231438668a90",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.cache/huggingface/download/thumbnail.jpg.metadata"
+    },
+    {
+      "rfilename": ".gitattributes",
+      "size": 1477,
+      "sha256": "db7c0371f46f0840b8f25794c1e3321c9b5820a8cb6ba9694a46fc64b8fae5a6",
+      "updated_ts": 1756956582,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/.gitattributes"
+    },
+    {
+      "rfilename": "README.md",
+      "size": 1728,
+      "sha256": "04c9e99493c16ea5152be6ed93fade05846811250cc688868b44f34859a5302e",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/README.md"
+    },
+    {
+      "rfilename": "best.pt",
+      "size": 52002656,
+      "sha256": "93b9ab71462a376214872d2f6000775e10abee87441e5e8a3c3f5e4bbfff3489",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/best.pt"
+    },
+    {
+      "rfilename": "config.json",
+      "size": 161,
+      "sha256": "77110fd3127868acf9372d0c5820cace17e926751bb4012386a1625c51b2e9ba",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/config.json"
+    },
+    {
+      "rfilename": "events.out.tfevents.1674965488.ovyeman.33996.9",
+      "size": 40,
+      "sha256": "486c992dd2a5ae3351c49ed83bfa1319a4fb4ccb8bf92be4d710c36f769e509b",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/events.out.tfevents.1674965488.ovyeman.33996.9"
+    },
+    {
+      "rfilename": "thumbnail.jpg",
+      "size": 465362,
+      "sha256": "c66cf6642b4b5de6b0413c9c7e29151fc3b554de9293aa8de7c7ad9329b7c05b",
+      "updated_ts": 1756956583,
+      "object_key": "hf/keremberke/yolov8m-table-extraction/thumbnail.jpg"
+    }
+  ]
 }
