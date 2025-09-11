@@ -804,10 +804,13 @@ spec:
         - { name: cache, mountPath: /app/cache }
         - { name: db,    mountPath: /app/db }
         - { name: data,  mountPath: /app/data }
+        - { name: hf,    mountPath: /app/hf_models }
       volumes:
       - { name: cache, persistentVolumeClaim: { claimName: cache } }
       - { name: db,    persistentVolumeClaim: { claimName: db } }
       - { name: data,  persistentVolumeClaim: { claimName: data } }
+      - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
+
 "@ | Set-Content -Path .\20-app.yaml -Encoding UTF8
 
 (Get-Content .\20-app.yaml) -replace '\$\{NAMESPACE\}', $Namespace `

@@ -7,7 +7,12 @@ pandas
 requests
 tqdm
 python-dotenv
-Flask
 awscli
 sqlite-web
 huggingface-hub
+Flask==3.0.3
+asgiref==3.8.1
+Jinja2>=3.1
+Werkzeug>=3.0
+itsdangerous>=2.1
+click>=8.1
