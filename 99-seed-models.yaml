@@ -1,0 +1,34 @@
+﻿apiVersion: batch/v1
+kind: Job
+metadata: { name: seed-models-csv }
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      securityContext: { seccompProfile: { type: RuntimeDefault } }
+      volumes:
+      - name: data
+        persistentVolumeClaim: { claimName: data }
+      - name: cm
+        configMap:
+          name: models-csv
+          items: [{ key: models.csv, path: models.csv }]
+      containers:
+      - name: seeder
+        image: registry.access.redhat.com/ubi9/ubi-minimal
+        command: ["/bin/sh","-lc"]
+        args:
+        - |
+          set -euo pipefail
+          mkdir -p /app/data
+          cp -f /cm/models.csv /app/data/models.csv
+          ls -l /app/data/models.csv
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: false
+          capabilities: { drop: ["ALL"] }
+        volumeMounts:
+        - { name: data, mountPath: /app/data }
+        - { name: cm,   mountPath: /cm, readOnly: true }

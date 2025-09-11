@@ -23,7 +23,7 @@ spec:
         - { name: hf, mountPath: /app/hf_models }
       containers:
       - name: registry
-        image: image-registry.openshift-image-registry.svc:5000/model-lib/models-registry:latest
+        image: image-registry.openshift-image-registry.svc:5000/models/models-registry:latest
         imagePullPolicy: IfNotPresent
         envFrom: [ { secretRef: { name: env-all } } ]
         env:
@@ -45,12 +45,6 @@ spec:
       volumes:
       - { name: db, persistentVolumeClaim: { claimName: db } }
       - { name: hf, persistentVolumeClaim: { claimName: hf-models } }
-      - name: models-csv
-        configMap:
-          name: models-csv
-          items:
-          - key: models.csv
-            path: models.csv
 ---
 apiVersion: v1
 kind: Service
@@ -93,7 +87,7 @@ spec:
         - { name: hf,    mountPath: /app/hf_models }
       containers:
       - name: dbweb
-        image: image-registry.openshift-image-registry.svc:5000/model-lib/models-pipeline:latest
+        image: image-registry.openshift-image-registry.svc:5000/models/models-pipeline:latest
         imagePullPolicy: IfNotPresent
         command: ["python","-m","scripts.worker","db-web"]
         envFrom: [ { secretRef: { name: env-all } } ]
@@ -130,7 +124,6 @@ spec:
   port: { targetPort: 8080 }
   tls: { termination: edge }
 ---
-# -------------------- Deployment: pipeline --------------------
 apiVersion: apps/v1
 kind: Deployment
 metadata: { name: pipeline }
@@ -143,7 +136,7 @@ spec:
       securityContext: { seccompProfile: { type: RuntimeDefault } }
       containers:
       - name: pipeline
-        image: image-registry.openshift-image-registry.svc:5000/model-lib/models-pipeline:latest
+        image: image-registry.openshift-image-registry.svc:5000/models/models-pipeline:latest
         imagePullPolicy: IfNotPresent
         command: ["python","-m","scripts.worker","all"]
         envFrom: [ { secretRef: { name: env-all } } ]
@@ -151,13 +144,12 @@ spec:
         - { name: MINIO_ENDPOINT, value: "minio:9000" }
         - { name: MINIO_SECURE, value: "false" }
         - { name: DB_PATH, value: "/app/db/models.db" }
-        # >>>>>>> Hugging Face / cache envs
-        # - { name: HOME, value: "/tmp" }
-        # - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
-        # - { name: HF_HOME, value: "/app/cache/hf" }
-        # - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
-        # - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
-        # <<<<<<<
+        - { name: MODELS_CSV, value: "/app/data/models.csv" }
+        - { name: HOME, value: "/tmp" }
+        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        - { name: HF_HOME, value: "/app/cache/hf" }
+        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
@@ -171,20 +163,13 @@ spec:
         - { name: hf,    mountPath: /app/hf_models }
         - { name: db,    mountPath: /app/db }
         - { name: data,  mountPath: /app/data }
-        # (Optional) if you mounted models.csv directly:
-        - { name: models-csv, mountPath: /app/data/models.csv, subPath: models.csv, readOnly: true }
       volumes:
       - { name: cache, persistentVolumeClaim: { claimName: cache } }
       - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
       - { name: db,    persistentVolumeClaim: { claimName: db } }
       - { name: data,  persistentVolumeClaim: { claimName: data } }
-      # (Optional) if using ConfigMap for models.csv:
-      - name: models-csv
-        configMap:
-          name: models-csv
-          items: [{ key: models.csv, path: models.csv }]
 ---
-# -------------------- Job: run-scraper --------------------
+# Template jobs (we'll clone-from for RunOnce)
 apiVersion: batch/v1
 kind: Job
 metadata: { name: run-scraper }
@@ -195,20 +180,19 @@ spec:
       securityContext: { seccompProfile: { type: RuntimeDefault } }
       containers:
       - name: scraper
-        image: image-registry.openshift-image-registry.svc:5000/model-lib/models-pipeline:latest
+        image: image-registry.openshift-image-registry.svc:5000/models/models-pipeline:latest
         imagePullPolicy: IfNotPresent
         command: ["python","-m","scripts.worker","scrape"]
         envFrom: [ { secretRef: { name: env-all } } ]
         env:
         - { name: MINIO_ENDPOINT, value: "minio:9000" }
         - { name: MINIO_SECURE, value: "false" }
-        # # >>>>>>> cache envs
-        # - { name: HOME, value: "/tmp" }
-        # - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
-        # - { name: HF_HOME, value: "/app/cache/hf" }
-        # - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
-        # - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
-        # <<<<<<<
+        - { name: MODELS_CSV, value: "/app/data/models.csv" }
+        - { name: HOME, value: "/tmp" }
+        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        - { name: HF_HOME, value: "/app/cache/hf" }
+        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
@@ -228,7 +212,6 @@ spec:
       - { name: data,  persistentVolumeClaim: { claimName: data } }
       - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
 ---
-# -------------------- Job: run-downloader --------------------
 apiVersion: batch/v1
 kind: Job
 metadata: { name: run-downloader }
@@ -239,20 +222,19 @@ spec:
       securityContext: { seccompProfile: { type: RuntimeDefault } }
       containers:
       - name: downloader
-        image: image-registry.openshift-image-registry.svc:5000/model-lib/models-pipeline:latest
+        image: image-registry.openshift-image-registry.svc:5000/models/models-pipeline:latest
         imagePullPolicy: IfNotPresent
         command: ["python","-m","scripts.worker","download"]
         envFrom: [ { secretRef: { name: env-all } } ]
         env:
         - { name: MINIO_ENDPOINT, value: "minio:9000" }
         - { name: MINIO_SECURE, value: "false" }
-        # >>>>>>> cache envs
+        - { name: MODELS_CSV, value: "/app/data/models.csv" }
         - { name: HOME, value: "/tmp" }
         - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
         - { name: HF_HOME, value: "/app/cache/hf" }
         - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
         - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
-        # <<<<<<<
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
@@ -272,7 +254,6 @@ spec:
       - { name: db,    persistentVolumeClaim: { claimName: db } }
       - { name: data,  persistentVolumeClaim: { claimName: data } }
 ---
-# -------------------- Job: run-metadata --------------------
 apiVersion: batch/v1
 kind: Job
 metadata: { name: run-metadata }
@@ -283,18 +264,17 @@ spec:
       securityContext: { seccompProfile: { type: RuntimeDefault } }
       containers:
       - name: metadata
-        image: image-registry.openshift-image-registry.svc:5000/model-lib/models-pipeline:latest
+        image: image-registry.openshift-image-registry.svc:5000/models/models-pipeline:latest
         imagePullPolicy: IfNotPresent
         command: ["python","-m","scripts.worker","metadata"]
         envFrom: [ { secretRef: { name: env-all } } ]
         env:
-        # >>>>>>> cache envs
-        # - { name: HOME, value: "/tmp" }
-        # - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
-        # - { name: HF_HOME, value: "/app/cache/hf" }
-        # - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
-        # - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
-        # <<<<<<<
+        - { name: MODELS_CSV, value: "/app/data/models.csv" }
+        - { name: HOME, value: "/tmp" }
+        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        - { name: HF_HOME, value: "/app/cache/hf" }
+        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
