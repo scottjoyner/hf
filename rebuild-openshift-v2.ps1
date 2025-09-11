@@ -545,6 +545,7 @@ spec:
         volumeMounts:
         - { name: db, mountPath: /app/db }
         - { name: cache, mountPath: /app/cache }
+        - { name: hf,    mountPath: /app/hf_models }
       containers:
       - name: dbweb
         image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/models-pipeline:latest
@@ -563,8 +564,11 @@ spec:
         ports: [ { containerPort: 8080, name: http } ]
         volumeMounts:
         - { name: db, mountPath: /app/db }
+        - { name: cache, mountPath: /app/cache }
       volumes:
       - { name: db, persistentVolumeClaim: { claimName: db } }
+      - { name: cache, persistentVolumeClaim: { claimName: cache } }
+      - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
 ---
 apiVersion: v1
 kind: Service
@@ -603,11 +607,11 @@ spec:
         - { name: MINIO_SECURE, value: "false" }
         - { name: DB_PATH, value: "/app/db/models.db" }
         # >>>>>>> Hugging Face / cache envs
-        - { name: HOME, value: "/tmp" }
-        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
-        - { name: HF_HOME, value: "/app/cache/hf" }
-        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
-        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        # - { name: HOME, value: "/tmp" }
+        # - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        # - { name: HF_HOME, value: "/app/cache/hf" }
+        # - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        # - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
         # <<<<<<<
         securityContext:
           allowPrivilegeEscalation: false
@@ -623,17 +627,17 @@ spec:
         - { name: db,    mountPath: /app/db }
         - { name: data,  mountPath: /app/data }
         # (Optional) if you mounted models.csv directly:
-        # - { name: models-csv, mountPath: /app/data/models.csv, subPath: models.csv, readOnly: true }
+        - { name: models-csv, mountPath: /app/data/models.csv, subPath: models.csv, readOnly: true }
       volumes:
       - { name: cache, persistentVolumeClaim: { claimName: cache } }
       - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
       - { name: db,    persistentVolumeClaim: { claimName: db } }
       - { name: data,  persistentVolumeClaim: { claimName: data } }
       # (Optional) if using ConfigMap for models.csv:
-      # - name: models-csv
-      #   configMap:
-      #     name: models-csv
-      #     items: [{ key: models.csv, path: models.csv }]
+      - name: models-csv
+        configMap:
+          name: models-csv
+          items: [{ key: models.csv, path: models.csv }]
 ---
 # -------------------- Job: run-scraper --------------------
 apiVersion: batch/v1
@@ -653,17 +657,17 @@ spec:
         env:
         - { name: MINIO_ENDPOINT, value: "minio:9000" }
         - { name: MINIO_SECURE, value: "false" }
-        # >>>>>>> cache envs
-        - { name: HOME, value: "/tmp" }
-        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
-        - { name: HF_HOME, value: "/app/cache/hf" }
-        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
-        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        # # >>>>>>> cache envs
+        # - { name: HOME, value: "/tmp" }
+        # - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        # - { name: HF_HOME, value: "/app/cache/hf" }
+        # - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        # - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
         # <<<<<<<
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
-          readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false
           capabilities: { drop: ["ALL"] }
         resources:
           requests: { cpu: 25m, memory: 128Mi }
@@ -672,10 +676,12 @@ spec:
         - { name: cache, mountPath: /app/cache }
         - { name: db,    mountPath: /app/db }
         - { name: data,  mountPath: /app/data }
+        - { name: hf,    mountPath: /app/hf_models }
       volumes:
       - { name: cache, persistentVolumeClaim: { claimName: cache } }
       - { name: db,    persistentVolumeClaim: { claimName: db } }
       - { name: data,  persistentVolumeClaim: { claimName: data } }
+      - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
 ---
 # -------------------- Job: run-downloader --------------------
 apiVersion: batch/v1
@@ -738,16 +744,16 @@ spec:
         envFrom: [ { secretRef: { name: env-all } } ]
         env:
         # >>>>>>> cache envs
-        - { name: HOME, value: "/tmp" }
-        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
-        - { name: HF_HOME, value: "/app/cache/hf" }
-        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
-        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        # - { name: HOME, value: "/tmp" }
+        # - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        # - { name: HF_HOME, value: "/app/cache/hf" }
+        # - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        # - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
         # <<<<<<<
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
-          readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false
           capabilities: { drop: ["ALL"] }
         resources:
           requests: { cpu: 25m, memory: 128Mi }

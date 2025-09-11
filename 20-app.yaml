@@ -90,6 +90,7 @@ spec:
         volumeMounts:
         - { name: db, mountPath: /app/db }
         - { name: cache, mountPath: /app/cache }
+        - { name: hf,    mountPath: /app/hf_models }
       containers:
       - name: dbweb
         image: image-registry.openshift-image-registry.svc:5000/model-lib/models-pipeline:latest
@@ -108,8 +109,11 @@ spec:
         ports: [ { containerPort: 8080, name: http } ]
         volumeMounts:
         - { name: db, mountPath: /app/db }
+        - { name: cache, mountPath: /app/cache }
       volumes:
       - { name: db, persistentVolumeClaim: { claimName: db } }
+      - { name: cache, persistentVolumeClaim: { claimName: cache } }
+      - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
 ---
 apiVersion: v1
 kind: Service
@@ -126,6 +130,7 @@ spec:
   port: { targetPort: 8080 }
   tls: { termination: edge }
 ---
+# -------------------- Deployment: pipeline --------------------
 apiVersion: apps/v1
 kind: Deployment
 metadata: { name: pipeline }
@@ -136,26 +141,6 @@ spec:
     metadata: { labels: { app: pipeline } }
     spec:
       securityContext: { seccompProfile: { type: RuntimeDefault } }
-
-      # (A) Optional: seed the CSV into the PVC so it persists
-      initContainers:
-      - name: seed-models-csv
-        image: registry.access.redhat.com/ubi9/ubi-minimal
-        command: ["/bin/sh","-lc"]
-        args:
-        - |
-          set -eu
-          if [ -f /seed/models.csv ]; then
-            cp -f /seed/models.csv /data/models.csv
-          fi
-        securityContext:
-          allowPrivilegeEscalation: false
-          runAsNonRoot: true
-          readOnlyRootFilesystem: true
-          capabilities: { drop: ["ALL"] }
-        volumeMounts:
-        - { name: data,       mountPath: /data }              # PVC "data"
-        - { name: models-csv, mountPath: /seed, readOnly: true }  # ConfigMap
       containers:
       - name: pipeline
         image: image-registry.openshift-image-registry.svc:5000/model-lib/models-pipeline:latest
@@ -166,6 +151,13 @@ spec:
         - { name: MINIO_ENDPOINT, value: "minio:9000" }
         - { name: MINIO_SECURE, value: "false" }
         - { name: DB_PATH, value: "/app/db/models.db" }
+        # >>>>>>> Hugging Face / cache envs
+        # - { name: HOME, value: "/tmp" }
+        # - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        # - { name: HF_HOME, value: "/app/cache/hf" }
+        # - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        # - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        # <<<<<<<
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
@@ -179,25 +171,20 @@ spec:
         - { name: hf,    mountPath: /app/hf_models }
         - { name: db,    mountPath: /app/db }
         - { name: data,  mountPath: /app/data }
-        # (B) Direct file mount so /app/data/models.csv is present immediately
-        - name: models-csv
-          mountPath: /app/data/models.csv
-          subPath: models.csv
-          readOnly: true
-
+        # (Optional) if you mounted models.csv directly:
+        - { name: models-csv, mountPath: /app/data/models.csv, subPath: models.csv, readOnly: true }
       volumes:
       - { name: cache, persistentVolumeClaim: { claimName: cache } }
       - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
       - { name: db,    persistentVolumeClaim: { claimName: db } }
       - { name: data,  persistentVolumeClaim: { claimName: data } }
-      # NEW: define the models-csv volume (backed by ConfigMap)
+      # (Optional) if using ConfigMap for models.csv:
       - name: models-csv
         configMap:
           name: models-csv
-          items:
-          - key: models.csv
-            path: models.csv
+          items: [{ key: models.csv, path: models.csv }]
 ---
+# -------------------- Job: run-scraper --------------------
 apiVersion: batch/v1
 kind: Job
 metadata: { name: run-scraper }
@@ -215,6 +202,13 @@ spec:
         env:
         - { name: MINIO_ENDPOINT, value: "minio:9000" }
         - { name: MINIO_SECURE, value: "false" }
+        # # >>>>>>> cache envs
+        # - { name: HOME, value: "/tmp" }
+        # - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        # - { name: HF_HOME, value: "/app/cache/hf" }
+        # - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        # - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        # <<<<<<<
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
@@ -227,11 +221,14 @@ spec:
         - { name: cache, mountPath: /app/cache }
         - { name: db,    mountPath: /app/db }
         - { name: data,  mountPath: /app/data }
+        - { name: hf,    mountPath: /app/hf_models }
       volumes:
       - { name: cache, persistentVolumeClaim: { claimName: cache } }
       - { name: db,    persistentVolumeClaim: { claimName: db } }
       - { name: data,  persistentVolumeClaim: { claimName: data } }
+      - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
 ---
+# -------------------- Job: run-downloader --------------------
 apiVersion: batch/v1
 kind: Job
 metadata: { name: run-downloader }
@@ -249,6 +246,13 @@ spec:
         env:
         - { name: MINIO_ENDPOINT, value: "minio:9000" }
         - { name: MINIO_SECURE, value: "false" }
+        # >>>>>>> cache envs
+        - { name: HOME, value: "/tmp" }
+        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        - { name: HF_HOME, value: "/app/cache/hf" }
+        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        # <<<<<<<
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
@@ -268,6 +272,7 @@ spec:
       - { name: db,    persistentVolumeClaim: { claimName: db } }
       - { name: data,  persistentVolumeClaim: { claimName: data } }
 ---
+# -------------------- Job: run-metadata --------------------
 apiVersion: batch/v1
 kind: Job
 metadata: { name: run-metadata }
@@ -282,6 +287,14 @@ spec:
         imagePullPolicy: IfNotPresent
         command: ["python","-m","scripts.worker","metadata"]
         envFrom: [ { secretRef: { name: env-all } } ]
+        env:
+        # >>>>>>> cache envs
+        # - { name: HOME, value: "/tmp" }
+        # - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        # - { name: HF_HOME, value: "/app/cache/hf" }
+        # - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        # - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        # <<<<<<<
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
