@@ -2,33 +2,33 @@
 kind: PersistentVolumeClaim
 metadata: { name: minio-data }
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes: ["ReadWriteMany"]
   resources: { requests: { storage: 50Gi } }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata: { name: hf-models }
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes: ["ReadWriteMany"]
   resources: { requests: { storage: 50Gi } }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata: { name: cache }
 spec:
-  accessModes: ["ReadWriteOnce"]
-  resources: { requests: { storage: 20Gi } }
+  accessModes: ["ReadWriteMany"]
+  resources: { requests: { storage: 5Gi } }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata: { name: db }
 spec:
-  accessModes: ["ReadWriteOnce"]
-  resources: { requests: { storage: 10Gi } }
+  accessModes: ["ReadWriteMany"]
+  resources: { requests: { storage: 5Gi } }
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata: { name: data }
 spec:
-  accessModes: ["ReadWriteOnce"]
-  resources: { requests: { storage: 20Gi } }
+  accessModes: ["ReadWriteMany"]
+  resources: { requests: { storage: 10Gi } }

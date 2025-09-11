@@ -1,18 +1,3 @@
-<#  rebuild-openshift.ps1
-    Tear down EVERYTHING and rebuild your MinIO + models pipeline on OpenShift Local.
-
-    Flags:
-      -Namespace <ns>   Target namespace (default: models)
-      -Nuke             Delete and recreate the namespace (fastest total reset)
-      -PurgeVolumes     Delete PVCs (data loss!) when not nuking the ns
-      -EnvPath <file>   Path to .env (default .\.env)
-      -RunOnce          After deploy, run scraper -> downloader -> metadata jobs
-
-    Examples:
-      .\rebuild-openshift.ps1 -Namespace model-lib -Nuke -RunOnce
-      .\rebuild-openshift.ps1 -Namespace model-lib -PurgeVolumes
-#>
-
 param(
   [string]$Namespace = "models",
   [string]$EnvPath = ".\.env",
@@ -25,7 +10,6 @@ $ErrorActionPreference = "Stop"
 function Section($t){ Write-Host "`n=== $t ===" -ForegroundColor Cyan }
 function Exec([string]$c){ Write-Host "> $c" -ForegroundColor DarkGray; $global:LASTEXITCODE=0; iex $c; if($LASTEXITCODE -ne 0){ throw "Failed: $c" } }
 
-# ---------- Helpers ----------
 function Ensure-Oc {
   Section "Checking 'oc' CLI"
   if (-not (Get-Command oc -ErrorAction SilentlyContinue)) {
@@ -33,6 +17,7 @@ function Ensure-Oc {
   }
   if (-not (Get-Command oc -ErrorAction SilentlyContinue)) { throw "'oc' not found" }
 }
+
 function Login-Kubeadmin {
   Section "Logging into CRC (kubeadmin)"
   $api = "https://api.crc.testing:6443"
@@ -49,34 +34,39 @@ function Login-Kubeadmin {
     }
   } catch { Write-Host "WARN: login check: $($_.Exception.Message)" -ForegroundColor Yellow }
 }
+
 function Ensure-Namespace {
   Section "Preparing namespace: $Namespace"
   if ($Nuke) {
-    Write-Host "Nuke requested → deleting namespace…" -ForegroundColor Yellow
+    Write-Host "Nuke requested -> deleting namespace..." -ForegroundColor Yellow
     Exec "oc delete ns $Namespace --ignore-not-found=true"
-    Write-Host "Waiting for namespace deletion to complete (can take ~30–60s)…" -ForegroundColor DarkYellow
-    while(oc get ns $Namespace 2>$null){ Start-Sleep -Seconds 3 }
+
+    Write-Host "Waiting for namespace deletion to complete (can take ~30-60s)..." -ForegroundColor DarkYellow
+    # Poll without throwing on NotFound
+    while ($true) {
+      $exists = oc get ns $Namespace --ignore-not-found -o jsonpath='{.metadata.name}' 2>$null
+      if (-not $exists) { break }
+      Start-Sleep -Seconds 3
+    }
+
     Exec "oc new-project $Namespace"
   } else {
     # Try to switch; if missing, create
-    $sw = $true; try { oc project $Namespace | Out-Null } catch { $sw = $false }
-    if (-not $sw) { Exec "oc new-project $Namespace" }
+    $switched = $true
+    try { oc project $Namespace | Out-Null } catch { $switched = $false }
+    if (-not $switched) { Exec "oc new-project $Namespace" }
   }
 }
 
 function Purge-InNamespace {
   Section "Purging resources in namespace: $Namespace"
-  # delete workloads & services & routes
-  Exec "oc delete deploy,job,cronjob,svc,route,ing,cm,secret env-all minio-credentials --ignore-not-found -n $Namespace"
-  # builds + images
+  Exec "oc delete deploy,job,cronjob,svc,route,ing,cm secret/env-all secret/minio-credentials --ignore-not-found -n $Namespace"
   Exec "oc delete bc,build,is,imagestreamtag --all --ignore-not-found -n $Namespace"
-  # optional: volumes
   if ($PurgeVolumes) {
-    Write-Host "Deleting PVCs (volumes) per -PurgeVolumes" -ForegroundColor Yellow
+    Write-Host "Deleting PVCs per -PurgeVolumes" -ForegroundColor Yellow
     Exec "oc delete pvc --all --ignore-not-found -n $Namespace"
   }
-  # wait until pods gone
-  Write-Host "Waiting for pods to terminate…" -ForegroundColor DarkYellow
+  Write-Host "Waiting for pods to terminate..." -ForegroundColor DarkYellow
   $timeout = (Get-Date).AddMinutes(3)
   while ((oc get pods -n $Namespace 2>$null) -and ((Get-Date) -lt $timeout)) {
     $pods = oc get pods -n $Namespace --no-headers 2>$null
@@ -95,12 +85,9 @@ function Get-EnvSecretValue([string]$key){
 Ensure-Oc
 Login-Kubeadmin
 Ensure-Namespace
-
-# Fresh purge if not nuked (nuke already dropped ns)
 if (-not $Nuke) { Purge-InNamespace }
 
-# Re-create env secret
-Section "Loading .env → Secret env-all"
+Section "Loading .env -> Secret env-all"
 if (-not (Test-Path $EnvPath)) { throw ".env not found at: $EnvPath" }
 Exec "oc delete secret env-all -n $Namespace --ignore-not-found"
 Exec "oc create secret generic env-all --from-env-file=$EnvPath -n $Namespace"
@@ -110,7 +97,6 @@ $MINIO_ROOT_PASSWORD = Get-EnvSecretValue "MINIO_ROOT_PASSWORD"
 $MINIO_BUCKET        = (Get-EnvSecretValue "MINIO_BUCKET"); if (-not $MINIO_BUCKET){ $MINIO_BUCKET="models" }
 if (-not $MINIO_ROOT_USER -or -not $MINIO_ROOT_PASSWORD){ throw "MINIO_ROOT_USER / MINIO_ROOT_PASSWORD missing in .env" }
 
-# ---------- Manifests with PodSecurity compliance ----------
 Section "Writing 00-storage.yaml"
 @'
 apiVersion: v1
@@ -488,7 +474,6 @@ spec:
 Exec "oc apply -f .\10-minio.patched.yaml -n $Namespace"
 Exec "oc apply -f .\20-app.patched.yaml -n $Namespace"
 
-# ---------- In-cluster builds ----------
 Section "Creating BuildConfigs and building images in-cluster"
 if (-not (oc get bc models-pipeline -n $Namespace 2>$null)) {
   Exec "oc new-build --name models-pipeline --binary --strategy=docker -n $Namespace"
@@ -501,7 +486,6 @@ if (-not (oc get bc models-registry -n $Namespace 2>$null)) {
 }
 Exec "oc start-build models-registry --from-dir . --follow -n $Namespace"
 
-# ---------- Rollouts & Routes ----------
 Section "Waiting for deployments"
 foreach ($d in @("minio","registry","pipeline","db-web")) {
   Exec "oc rollout status deploy/$d -n $Namespace"
@@ -519,9 +503,8 @@ try{
   Write-Host ("DB-Web UI:      {0}" -f $dbURL)
 }catch{ Write-Host "Routes not ready yet." -ForegroundColor Yellow }
 
-# ---------- Optional one-time jobs ----------
 if ($RunOnce) {
-  Section "RunOnce: scraper → downloader → metadata"
+  Section "RunOnce: scraper -> downloader -> metadata"
   Exec "oc create job run-scraper-$(Get-Random) --from=job/run-scraper -n $Namespace --wait"
   Exec "oc create job run-downloader-$(Get-Random) --from=job/run-downloader -n $Namespace --wait"
   Exec "oc create job run-metadata-$(Get-Random) --from=job/run-metadata -n $Namespace --wait"
