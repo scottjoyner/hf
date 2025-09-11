@@ -17,3 +17,17 @@ docker compose run --rm pipeline
 #TODO
  Currently the logic associated with the model_id column from the build_model_metadata.csv has significant consequences as it currently uses the <AUTHOR>/<MODEL_ID> tag as the column name, and the entire application is depentnant on this
  
+
+
+ For openshift local env
+ ```
+ # Nuke + full rebuild (delete namespace + PVCs) into a fresh namespace
+.\rebuild-openshift.ps1 -Namespace model-lib -Nuke -RunOnce
+
+# Or: purge inside existing ns but keep PVCs
+.\rebuild-openshift.ps1 -Namespace model-lib
+
+# Or: purge inside ns + delete PVCs too
+.\rebuild-openshift.ps1 -Namespace model-lib -PurgeVolumes
+
+```
