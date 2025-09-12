@@ -655,6 +655,15 @@ spec:
       - name: pipeline
         image: image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/models-pipeline:latest
         imagePullPolicy: IfNotPresent
+        command: ["/bin/sh","-lc"]
+        args:
+          - |
+            set -e
+            if command -v mc >/dev/null 2>&1; then
+              mc alias set local http://minio:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD" || true
+            fi
+            exec python -m scripts.worker all
+        envFrom: [{ secretRef: { name: env-all } }]
         command: ["python","-m","scripts.worker","all"]
         envFrom: [ { secretRef: { name: env-all } } ]
         env:
@@ -663,10 +672,11 @@ spec:
         - { name: DB_PATH, value: "/app/db/models.db" }
         - { name: MODELS_CSV, value: "/app/data/models.csv" }
         - { name: HOME, value: "/tmp" }
-        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
-        - { name: HF_HOME, value: "/app/cache/hf" }
-        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
-        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        - { name: MC_CONFIG_DIR, value: "/tmp/mc" }
+        # - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        # - { name: HF_HOME, value: "/app/cache/hf" }
+        # - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        # - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true

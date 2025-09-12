@@ -30,9 +30,28 @@ RUN pip install --no-cache-dir -r requirements.txt && \
 COPY scripts/ ./scripts/
 COPY data/ ./data/
 
+# --- grab mc binary from official image ---
+FROM quay.io/minio/mc:latest AS mcbin
+
+# --- final runtime image ---
+FROM base
+# place mc on PATH
+COPY --from=mcbin /usr/bin/mc /usr/local/bin/mc
+
+# good defaults so mc can write its config without PVCs
+ENV HOME=/tmp MC_CONFIG_DIR=/tmp/mc
 # Ensure scripts is a package
 RUN test -f scripts/__init__.py || touch scripts/__init__.py
+
 
 # Entry and default command
 ENTRYPOINT ["python", "-m", "scripts.worker"]
 CMD ["help"]
+
+EXPOSE 8081
+EXPOSE 8080
+EXPOSE 9000
+EXPOSE 9001
+
+
+
