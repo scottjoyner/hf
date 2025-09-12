@@ -1,0 +1,210 @@
+<mxfile host="app.diagrams.net" modified="2025-09-12T00:00:00.000Z" agent="ChatGPT" version="22.0.0" type="device"><diagram id="Diagam1" name="models-pipeline"><mxGraphModel><root>  <mxCell id="0"/>  <mxCell id="1" parent="0"/>    <mxCell id="g_runtime" value="Docker Runtime (Compose Project)" style="swimlane;rounded=1;shadow=0;html=1;gradientColor=none;fillColor=#f8f9fa;strokeColor=#cfd4d9;fontSize=12" parent="1" vertex="1">
+      <mxGeometry x="30" y="30" width="1220" height="820" as="geometry"/>
+    </mxCell>
+    <mxCell id="g_minio" value="Object Storage" style="swimlane;rounded=1;shadow=0;html=1;gradientColor=none;fillColor=#f8f9fa;strokeColor=#cfd4d9;fontSize=12" parent="g_runtime" vertex="1">
+      <mxGeometry x="50" y="70" width="350" height="330" as="geometry"/>
+    </mxCell>
+    <mxCell id="g_pipeline" value="Models Pipeline (shared image)" style="swimlane;rounded=1;shadow=0;html=1;gradientColor=none;fillColor=#f8f9fa;strokeColor=#cfd4d9;fontSize=12" parent="g_runtime" vertex="1">
+      <mxGeometry x="420" y="70" width="520" height="620" as="geometry"/>
+    </mxCell>
+    <mxCell id="g_registry" value="Registry &amp; Manifests" style="swimlane;rounded=1;shadow=0;html=1;gradientColor=none;fillColor=#f8f9fa;strokeColor=#cfd4d9;fontSize=12" parent="g_runtime" vertex="1">
+      <mxGeometry x="950" y="70" width="300" height="400" as="geometry"/>
+    </mxCell>
+    <mxCell id="g_volumes" value="Persistent Volumes" style="swimlane;rounded=1;shadow=0;html=1;gradientColor=none;fillColor=#f8f9fa;strokeColor=#cfd4d9;fontSize=12" parent="g_runtime" vertex="1">
+      <mxGeometry x="50" y="430" width="350" height="420" as="geometry"/>
+    </mxCell>
+    <mxCell id="ext_users" value="External Clients
+• db-web: 8080
+• registry: 8081
+• MinIO S3: 19000
+• MinIO Console: 19001" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe5ec;strokeColor=#e36a90;fontColor=#7a1332" parent="1" vertex="1">
+      <mxGeometry x="950" y="490" width="300" height="150" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_minio" value="minio
+S3 API :9000
+Console :9001" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_minio" vertex="1">
+      <mxGeometry x="70" y="110" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_mc" value="mc
+(buckets init)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_minio" vertex="1">
+      <mxGeometry x="230" y="200" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_sync" value="sync
+(models-pipeline:latest)
+command: sync" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_minio" vertex="1">
+      <mxGeometry x="70" y="200" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_pipeline_image" value="pipeline-image
+(models-pipeline base)
+command: help" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_pipeline" vertex="1">
+      <mxGeometry x="450" y="110" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_scraper" value="scraper
+command: scrape" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_pipeline" vertex="1">
+      <mxGeometry x="450" y="200" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_downloader" value="downloader
+command: download" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_pipeline" vertex="1">
+      <mxGeometry x="450" y="290" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_metadata" value="metadata
+command: metadata" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_pipeline" vertex="1">
+      <mxGeometry x="450" y="380" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_pipeline" value="pipeline
+command: all" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_pipeline" vertex="1">
+      <mxGeometry x="450" y="470" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_dbweb" value="db-web
+serves /app/db on 8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_pipeline" vertex="1">
+      <mxGeometry x="450" y="560" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_worker" value="worker
+(build: .)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_pipeline" vertex="1">
+      <mxGeometry x="250" y="290" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_registry" value="registry
+(models-registry)
+ports: 8081" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_registry" vertex="1">
+      <mxGeometry x="970" y="150" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_manifest" value="manifest-exporter
+export_manifests.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" parent="g_registry" vertex="1">
+      <mxGeometry x="970" y="250" width="160" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="vol_minio" value="minio-data
+(/data)" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e0a800" parent="g_volumes" vertex="1">
+      <mxGeometry x="70" y="480" width="160" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="vol_cache" value="cache
+(/app/cache)" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e0a800" parent="g_volumes" vertex="1">
+      <mxGeometry x="240" y="480" width="160" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="vol_hf" value="hf_models
+(/app/hf_models)" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e0a800" parent="g_volumes" vertex="1">
+      <mxGeometry x="70" y="590" width="160" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="vol_db" value="db
+(/app/db)" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e0a800" parent="g_volumes" vertex="1">
+      <mxGeometry x="240" y="590" width="160" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="vol_data" value="data
+(/app/data)" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e0a800" parent="g_volumes" vertex="1">
+      <mxGeometry x="70" y="700" width="160" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="note_env" value="ENV (from .env)
+MINIO_ROOT_USER / MINIO_ROOT_PASSWORD
+MINIO_BUCKET, MINIO_ENDPOINT, MINIO_SECURE
+REGISTRY_ADMIN_TOKEN
+" style="shape=note;whiteSpace=wrap;html=1;fillColor=#e2f7e1;strokeColor=#78c27d" parent="g_runtime" vertex="1">
+      <mxGeometry x="950" y="660" width="300" height="170" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_minio_data" value="stores objects" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_minio" target="vol_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_mc_minio" value="alias/bucket init" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_mc" target="svc_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_sync_minio" value="sync artifacts" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_sync" target="svc_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_pipeimg_scraper" value="base image" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_pipeline_image" target="svc_scraper" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_pipeimg_downloader" value="base image" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_pipeline_image" target="svc_downloader" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_pipeimg_metadata" value="base image" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_pipeline_image" target="svc_metadata" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_pipeimg_pipeline" value="base image" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_pipeline_image" target="svc_pipeline" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_pipeimg_dbweb" value="base image" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_pipeline_image" target="svc_dbweb" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_worker_minio" value="S3 access" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_worker" target="svc_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_worker_mc" value="requires init" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_worker" target="svc_mc" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_registry_minio" value="S3 backend" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_registry" target="svc_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_manifest_minio" value="publish manifests" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_manifest" target="svc_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_manifest_registry" value="reads DB" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_manifest" target="svc_registry" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_ext_dbweb" value="HTTP :8080" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="ext_users" target="svc_dbweb" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_ext_registry" value="HTTP :8081" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="ext_users" target="svc_registry" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_ext_minio_api" value="S3 :19000→9000" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="ext_users" target="svc_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_ext_minio_console" value="Console :19001→9001" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="ext_users" target="svc_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_minio_minio" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_minio" target="vol_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_scraper_cache" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_scraper" target="vol_cache" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_downloader_cache" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_downloader" target="vol_cache" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_downloader_hf" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_downloader" target="vol_hf" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_metadata_db" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_metadata" target="vol_db" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_metadata_data" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_metadata" target="vol_data" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_pipeline_cache" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_pipeline" target="vol_cache" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_pipeline_hf" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_pipeline" target="vol_hf" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_pipeline_db" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_pipeline" target="vol_db" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_pipeline_data" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_pipeline" target="vol_data" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_dbweb_db" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_dbweb" target="vol_db" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_worker_db" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_worker" target="vol_db" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_worker_hf" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_worker" target="vol_hf" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_worker_data" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_worker" target="vol_data" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_sync_hf" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_sync" target="vol_hf" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_registry_db" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_registry" target="vol_db" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_registry_hf" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_registry" target="vol_hf" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_manifest_db" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_manifest" target="vol_db" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="ev_manifest_data" value="mount" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="g_runtime" source="svc_manifest" target="vol_data" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+</root></mxGraphModel></diagram></mxfile>
