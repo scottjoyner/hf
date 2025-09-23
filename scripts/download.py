@@ -2,34 +2,23 @@
 from __future__ import annotations
 import argparse
 import csv
+import fnmatch
 import hashlib
+import json
 import logging
 import os
+import re
 import sqlite3
 import sys
 import time
-import re
 from pathlib import Path
-from typing import Any, Dict, Iterable, Optional, Tuple, List
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
+from urllib.parse import quote
 
-# --- Hugging Face imports (version-agnostic) ---
-try:
-    from huggingface_hub import snapshot_download
-    try:
-        # Newer public path
-        from huggingface_hub.errors import HfHubHTTPError
-    except Exception:
-        try:
-            # Older internal path
-            from huggingface_hub.utils._errors import HfHubHTTPError
-        except Exception:
-            # Fallback: define a compatible exception
-            class HfHubHTTPError(Exception):
-                pass
-except Exception:
-    snapshot_download = None
-    class HfHubHTTPError(Exception):
-        pass
+import requests
+from requests import Response
+
+from scripts.http_client import create_session_from_env
 
 # ---------------------------------------------------------------------
 # Logging
@@ -44,6 +33,13 @@ logging.basicConfig(
 # Config / defaults
 # ---------------------------------------------------------------------
 DEFAULT_DB_PATH = os.getenv("DB_PATH", "/app/db/models.db")
+HF_ENDPOINT = os.getenv("HF_ENDPOINT", "https://huggingface.co").rstrip("/")
+HF_API_BASE = os.getenv("HF_API_BASE", f"{HF_ENDPOINT}/api")
+HF_TOKEN = os.getenv("HF_TOKEN", "").strip()
+HF_TIMEOUT = float(os.getenv("HF_HTTP_TIMEOUT", "30"))
+DOWNLOAD_CHUNK_SIZE = int(os.getenv("DOWNLOAD_CHUNK_SIZE", str(1 << 20)))
+
+_SESSION: Optional[requests.Session] = None
 _CANON_RE = re.compile(r"https?://(?:www\.)?huggingface\.co/([^/\s]+)/([^/\s]+)")
 _HF_URL_PATTERNS = [
     re.compile(r"^https?://(?:www\.)?huggingface\.co/([^/\s]+)/([^/\s?#]+)"),
@@ -64,6 +60,32 @@ def connect(db_path: str = DEFAULT_DB_PATH) -> sqlite3.Connection:
 
 def _now_epoch() -> int:
     return int(time.time())
+
+
+def _get_session() -> requests.Session:
+    global _SESSION
+    if _SESSION is None:
+        _SESSION = create_session_from_env()
+    return _SESSION
+
+
+def _auth_headers(token: Optional[str] = None) -> Dict[str, str]:
+    headers = {
+        "User-Agent": os.getenv("HF_USER_AGENT", "models-pipeline-downloader/1.0"),
+        "Accept": "application/json",
+    }
+    tok = token or HF_TOKEN
+    if tok:
+        headers["Authorization"] = f"Bearer {tok}"
+    return headers
+
+
+def _hf_get(path: str, *, params: Optional[Dict[str, Any]] = None, token: Optional[str] = None) -> Response:
+    url = f"{HF_API_BASE.rstrip('/')}/{path.lstrip('/')}"
+    session = _get_session()
+    resp = session.get(url, headers=_auth_headers(token), params=params or {}, timeout=HF_TIMEOUT)
+    resp.raise_for_status()
+    return resp
 
 # ---------------------------------------------------------------------
 # Desired schemas (authoritative shape)
@@ -463,6 +485,47 @@ def expand_patterns(spec: str) -> List[str]:
             seen.add(p); uniq.append(p)
     return uniq
 
+
+def _matches_patterns(name: str, patterns: List[str]) -> bool:
+    if not patterns:
+        return True
+    return any(fnmatch.fnmatch(name, pat) for pat in patterns)
+
+
+def _hf_download_url(repo_id: str, revision: Optional[str], filename: str) -> str:
+    repo = quote(repo_id, safe="")
+    rev = quote(revision or "main", safe="")
+    parts = [quote(part, safe="") for part in filename.split("/")]
+    path = "/".join(parts)
+    return f"{HF_ENDPOINT}/{repo}/resolve/{rev}/{path}"
+
+
+def _stream_response_to_path(resp: Response, dest: Path) -> Tuple[str, int]:
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = dest.with_suffix(dest.suffix + ".part")
+    sha = hashlib.sha256()
+    total = 0
+    with tmp_path.open("wb") as fh:
+        for chunk in resp.iter_content(chunk_size=DOWNLOAD_CHUNK_SIZE):
+            if not chunk:
+                continue
+            sha.update(chunk)
+            fh.write(chunk)
+            total += len(chunk)
+    tmp_path.replace(dest)
+    return sha.hexdigest(), total
+
+
+def _download_file(repo_id: str, revision: Optional[str], filename: str, dest: Path, token: Optional[str]) -> Tuple[str, int]:
+    url = _hf_download_url(repo_id, revision, filename)
+    session = _get_session()
+    headers = _auth_headers(token)
+    headers.pop("Accept", None)
+    headers["Accept"] = "application/octet-stream"
+    with session.get(url, headers=headers, stream=True, timeout=max(600.0, HF_TIMEOUT)) as resp:
+        resp.raise_for_status()
+        return _stream_response_to_path(resp, dest)
+
 # ------ PATH HELPERS (updated to author/model layout) -----------------
 
 def _safe_repo_folder(repo_id: str) -> str:
@@ -516,6 +579,16 @@ def _extract_repo_id(row: Dict[str, str]) -> str:
         return mn
 
     return ""
+
+
+def _fetch_repo_manifest(repo_id: str, revision: Optional[str]) -> Dict[str, Any]:
+    params: Dict[str, Any] = {}
+    if revision:
+        params["revision"] = revision
+    # ``repo_id`` can contain slashes; ensure it is encoded for the API path.
+    api_path = f"models/{quote(repo_id, safe='')}"
+    resp = _hf_get(api_path, params=params)
+    return resp.json()
 
 def _read_rows(path: Path) -> List[Dict[str, str]]:
     """
@@ -587,24 +660,64 @@ def download_one(
     allow_patterns: List[str],
     revision: Optional[str],
 ) -> Path:
-    if snapshot_download is None:
-        raise RuntimeError(
-            "huggingface_hub is not available. Add `huggingface_hub` to requirements.txt."
-        )
     target_dir.mkdir(parents=True, exist_ok=True)
-    LOG.info("Downloading %s (rev=%s) patterns=%s -> %s", repo_id, revision, "(all)", target_dir)
-    local_path = snapshot_download(
-        repo_id=repo_id,
-        repo_type="model",
-        revision=revision,
-        local_dir=str(target_dir),
-        local_dir_use_symlinks=False,
-        allow_patterns=None,    # intentionally all files; wire patterns here if you want filtering
-        ignore_patterns=None,
-        max_workers=8,
-        etag_timeout=20,
+    LOG.info(
+        "Downloading %s (rev=%s) patterns=%s -> %s",
+        repo_id,
+        revision or "default",
+        allow_patterns or "(all)",
+        target_dir,
     )
-    return Path(local_path)
+
+    manifest = _fetch_repo_manifest(repo_id, revision)
+    siblings = manifest.get("siblings") or []
+    resolved_revision = revision or manifest.get("sha") or "main"
+
+    downloaded = 0
+    skipped = 0
+    for file_info in siblings:
+        rfilename = file_info.get("rfilename") if isinstance(file_info, dict) else None
+        if not rfilename:
+            continue
+        if not _matches_patterns(rfilename, allow_patterns):
+            skipped += 1
+            continue
+
+        dest = target_dir / rfilename
+        expected_sha = file_info.get("sha256") or (
+            (file_info.get("lfs") or {}).get("sha256") if isinstance(file_info, dict) else None
+        )
+
+        try:
+            sha, size = _download_file(repo_id, resolved_revision, rfilename, dest, HF_TOKEN or None)
+        except requests.HTTPError as err:
+            LOG.error("HTTP error downloading %s:%s -> %s", repo_id, rfilename, err)
+            raise
+        except requests.RequestException as err:
+            LOG.error("Request error downloading %s:%s -> %s", repo_id, rfilename, err)
+            raise
+
+        if expected_sha and expected_sha != sha:
+            LOG.warning(
+                "SHA mismatch for %s:%s expected=%s got=%s", repo_id, rfilename, expected_sha, sha
+            )
+        else:
+            LOG.info(
+                "✅ downloaded %s (%s bytes) -> %s",
+                rfilename,
+                size,
+                dest,
+            )
+        downloaded += 1
+
+    LOG.info(
+        "Download complete for %s: downloaded=%d skipped=%d target=%s",
+        repo_id,
+        downloaded,
+        skipped,
+        target_dir,
+    )
+    return target_dir
 
 def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Download models and record files in DB")
@@ -671,7 +784,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             )
             LOG.info("✅ %s -> %s (files recorded: %d)", repo_id, local_root, count)
             ok += 1
-        except HfHubHTTPError as e:
+        except requests.HTTPError as e:
             LOG.error("❌ %s (HTTP): %s", repo_id, e)
             fail += 1
         except Exception as e:

@@ -1,6 +1,7 @@
 boto3
 pandas
 requests
+requests-kerberos
 tqdm
 python-dotenv
 Flask
