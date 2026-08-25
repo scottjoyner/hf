@@ -17,11 +17,13 @@ import os
 import json
 import time
 from pathlib import Path
-from typing import Tuple
-from pathlib import Path
+from typing import Dict, Optional, Tuple
+
 import pandas as pd
 import requests
 from tqdm import tqdm
+
+from scripts.http_client import create_session_from_env
 
 # Try to use shared normalizer; fall back to local helpers if unavailable
 try:
@@ -76,10 +78,30 @@ except Exception:
 CACHE_DIR = Path("cache")
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
-HUGGINGFACE_TOKEN = os.getenv("HUGGINGFACE_TOKEN", "").strip()
-HEADERS = {"User-Agent": "models-scraper/1.0"}
-if HUGGINGFACE_TOKEN:
-    HEADERS["Authorization"] = f"Bearer {HUGGINGFACE_TOKEN}"
+HF_ENDPOINT = os.getenv("HF_ENDPOINT", "https://huggingface.co").rstrip("/")
+HF_API_BASE = os.getenv("HF_API_BASE", f"{HF_ENDPOINT}/api")
+HF_TIMEOUT = float(os.getenv("HF_HTTP_TIMEOUT", "30"))
+HF_TOKEN = (os.getenv("HUGGINGFACE_TOKEN") or os.getenv("HF_TOKEN") or "").strip()
+HF_USER_AGENT = os.getenv("HF_USER_AGENT", "models-scraper/1.0")
+
+_SESSION: Optional[requests.Session] = None
+
+
+def _get_session() -> requests.Session:
+    global _SESSION
+    if _SESSION is None:
+        _SESSION = create_session_from_env()
+    return _SESSION
+
+
+def _hf_headers() -> Dict[str, str]:
+    headers = {
+        "User-Agent": HF_USER_AGENT,
+        "Accept": "application/json",
+    }
+    if HF_TOKEN:
+        headers["Authorization"] = f"Bearer {HF_TOKEN}"
+    return headers
 
 # --------------------------
 # Helpers
@@ -102,9 +124,10 @@ def fetch_model_info(model_id: str) -> Tuple[str, str, str]:
         data = None
 
     if data is None:
-        api_url = f"https://huggingface.co/api/models/{model_id}"
+        api_url = f"{HF_API_BASE.rstrip('/')}/models/{model_id}"
+        session = _get_session()
         try:
-            r = requests.get(api_url, headers=HEADERS, timeout=30)
+            r = session.get(api_url, headers=_hf_headers(), timeout=HF_TIMEOUT)
             r.raise_for_status()
             data = r.json()
             cpath.write_text(json.dumps(data, indent=2))

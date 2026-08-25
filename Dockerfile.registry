@@ -2,10 +2,10 @@ FROM python:3.11-slim
 
 WORKDIR /app
 # Bring your codebase in so we can import scripts.models_db
-COPY . /app
+COPY ./registry_app/* /app
 
 # Install API deps
-COPY registry_app/requirements.txt /app/registry_app/requirements.txt
+COPY ./registry_app/requirements.txt /app/registry_app/requirements.txt
 RUN pip install --no-cache-dir -r /app/registry_app/requirements.txt
 
 EXPOSE 8081

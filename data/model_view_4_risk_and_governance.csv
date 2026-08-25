@@ -1,0 +1,356 @@
+Model_Name,Model_Slug,Release_Date,Model_Creator_Name,Model_Creator_Slug,repo_id,canonical_url,name_hf_slug,author,card.provider,card.model_creator,card.model_name,card.name,Artificial_Analysis_Intelligence_Index,Artificial_Analysis_Coding_Index,Artificial_Analysis_Math_Index,license,card.license_name,card.license_link,card.provider,card.model_creator,private,gated,card.extra_gated_heading,card.extra_gated_prompt,card.extra_gated_description,card.extra_gated_button_content,card.extra_gated_eu_disallowed,region,spaces,card.datasets,card.programming_language,card.quantized_by,card.library_tag,card.library_version,card.base_model,card.base_model_relation,task_total_datasets,task_num_nonzero_tasks,MMLU_Pro,GPQA,HLE
+gpt-oss-120B (low),gpt-oss-120b-low,2025-08-05,OpenAI,openai,,,,,,,,,47.5,37.2,66.7,,,,,,,,,,,,,,,,,,,,,,,,0.775,0.672,0.052
+GPT-5 mini (minimal),gpt-5-mini-minimal,2025-08-07,OpenAI,openai,,,,,,,,,41.6,35.0,46.7,,,,,,,,,,,,,,,,,,,,,,,,0.775,0.687,0.05
+gpt-oss-20B (low),gpt-oss-20b-low,2025-08-05,OpenAI,openai,,,,,,,,,44.3,34.5,62.3,,,,,,,,,,,,,,,,,,,,,,,,0.718,0.611,0.051
+gpt-oss-20B (high),gpt-oss-20b,2025-08-05,OpenAI,openai,,,,,,,,,52.1,40.7,89.3,,,,,,,,,,,,,,,,,,,,,,,,0.748,0.688,0.098
+GPT-5 nano (minimal),gpt-5-nano-minimal,2025-08-07,OpenAI,openai,,,,,,,,,29.1,27.5,27.3,,,,,,,,,,,,,,,,,,,,,,,,0.556,0.428,0.041
+Grok-1,grok-1,2024-03-17,xAI,xai,,,,,,,,,18.2,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+gpt-oss-120B (high),gpt-oss-120b,2025-08-05,OpenAI,openai,,,,,,,,,60.5,49.6,93.4,,,,,,,,,,,,,,,,,,,,,,,,0.808,0.782,0.185
+GPT-5.2 (xhigh),gpt-5-2,2025-12-11,OpenAI,openai,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+o3,o3,2025-04-16,OpenAI,openai,,,,,,,,,65.5,52.2,88.3,,,,,,,,,,,,,,,,,,,,,,,,0.853,0.827,0.2
+GPT-5.1 (high),gpt-5-1,2025-11-13,OpenAI,openai,,,,,,,,,69.7,57.5,94.0,,,,,,,,,,,,,,,,,,,,,,,,0.87,0.873,0.265
+GPT-5 (high),gpt-5,2025-08-07,OpenAI,openai,,,,,,,,,68.5,52.7,94.3,,,,,,,,,,,,,,,,,,,,,,,,0.871,0.854,0.265
+GPT-5 (minimal),gpt-5-minimal,2025-08-07,OpenAI,openai,,,,,,,,,43.5,37.4,31.7,,,,,,,,,,,,,,,,,,,,,,,,0.806,0.673,0.054
+GPT-5 mini (high),gpt-5-mini,2025-08-07,OpenAI,openai,,,,,,,,,64.3,51.4,90.7,,,,,,,,,,,,,,,,,,,,,,,,0.837,0.828,0.197
+GPT-5 nano (high),gpt-5-nano,2025-08-07,OpenAI,openai,,,,,,,,,51.0,42.3,83.7,,,,,,,,,,,,,,,,,,,,,,,,0.78,0.676,0.082
+GPT-5 (medium),gpt-5-medium,2025-08-07,OpenAI,openai,,,,,,,,,66.4,49.2,91.7,,,,,,,,,,,,,,,,,,,,,,,,0.867,0.842,0.235
+GPT-5 (ChatGPT),gpt-5-chatgpt,2025-08-07,OpenAI,openai,,,,,,,,,41.8,34.7,48.3,,,,,,,,,,,,,,,,,,,,,,,,0.82,0.686,0.058
+GPT-5 (low),gpt-5-low,2025-08-07,OpenAI,openai,,,,,,,,,61.8,46.8,83.0,,,,,,,,,,,,,,,,,,,,,,,,0.86,0.808,0.184
+GPT-5 nano (medium),gpt-5-nano-medium,2025-08-07,OpenAI,openai,,,,,,,,,49.3,42.1,78.3,,,,,,,,,,,,,,,,,,,,,,,,0.772,0.67,0.076
+GPT-5 mini (medium),gpt-5-mini-medium,2025-08-07,OpenAI,openai,,,,,,,,,60.8,45.7,85.0,,,,,,,,,,,,,,,,,,,,,,,,0.828,0.803,0.146
+GPT-5.1 Codex mini (high),gpt-5-1-codex-mini,2025-11-13,OpenAI,openai,,,,,,,,,62.3,52.5,91.7,,,,,,,,,,,,,,,,,,,,,,,,0.82,0.813,0.169
+GPT-5.1 (Non-reasoning),gpt-5-1-non-reasoning,2025-11-13,OpenAI,openai,,,,,,,,,42.9,35.7,38.0,,,,,,,,,,,,,,,,,,,,,,,,0.801,0.643,0.052
+GPT-5.1 Codex (high),gpt-5-1-codex,2025-11-13,OpenAI,openai,,,,,,,,,66.9,52.5,95.7,,,,,,,,,,,,,,,,,,,,,,,,0.86,0.86,0.234
+Llama 3.3 Instruct 70B,llama-3-3-instruct-70b,2024-12-06,Meta,meta,,,,,,,,,27.9,19.2,7.7,,,,,,,,,,,,,,,,,,,,,,,,0.713,0.498,0.04
+Llama 3.1 Instruct 405B,llama-3-1-instruct-405b,2024-07-23,Meta,meta,,,,,,,,,28.1,22.2,3.0,,,,,,,,,,,,,,,,,,,,,,,,0.732,0.515,0.042
+Llama 3.2 Instruct 90B (Vision),llama-3-2-instruct-90b-vision,2024-09-25,Meta,meta,,,,,,,,,18.9,,,,,,,,,,,,,,,,,,,,,,,,,,0.671,0.432,0.049
+Llama 3.2 Instruct 11B (Vision),llama-3-2-instruct-11b-vision,2024-09-25,Meta,meta,,,,,,,,,15.5,7.7,1.7,,,,,,,,,,,,,,,,,,,,,,,,0.464,0.221,0.052
+Llama 4 Maverick,llama-4-maverick,2025-04-05,Meta,meta,,,,,,,,,35.8,26.4,19.3,,,,,,,,,,,,,,,,,,,,,,,,0.809,0.671,0.048
+Llama 4 Scout,llama-4-scout,2025-04-05,Meta,meta,,,,,,,,,28.1,16.1,14.0,,,,,,,,,,,,,,,,,,,,,,,,0.752,0.587,0.043
+Gemma 3n E4B Instruct,gemma-3n-e4b,2025-06-26,Google,google,,,,,,,,,15.5,8.3,14.3,,,,,,,,,,,,,,,,,,,,,,,,0.488,0.296,0.044
+Gemma 3 27B Instruct,gemma-3-27b,2025-03-12,Google,google,,,,,,,,,22.1,12.8,20.7,,,,,,,,,,,,,,,,,,,,,,,,0.669,0.428,0.047
+Gemini 2.5 Flash Preview (Sep '25) (Reasoning),gemini-2-5-flash-preview-09-2025-reasoning,2025-09-25,Google,google,,,,,,,,,54.4,42.5,78.3,,,,,,,,,,,,,,,,,,,,,,,,0.842,0.793,0.127
+Gemma 3 4B Instruct,gemma-3-4b,2025-03-12,Google,google,,,,,,,,,14.7,6.4,12.7,,,,,,,,,,,,,,,,,,,,,,,,0.417,0.291,0.052
+Gemini 2.5 Flash-Lite Preview (Sep '25) (Non-reasoning),gemini-2-5-flash-lite-preview-09-2025,2025-09-25,Google,google,,,,,,,,,41.6,33.2,46.7,,,,,,,,,,,,,,,,,,,,,,,,0.796,0.651,0.046
+Gemma 3 12B Instruct,gemma-3-12b,2025-03-12,Google,google,,,,,,,,,20.4,10.6,18.3,,,,,,,,,,,,,,,,,,,,,,,,0.595,0.349,0.048
+Gemma 3 1B Instruct,gemma-3-1b,2025-03-13,Google,google,,,,,,,,,6.8,0.8,3.3,,,,,,,,,,,,,,,,,,,,,,,,0.135,0.237,0.052
+Gemma 3 270M,gemma-3-270m,2025-08-14,Google,google,,,,,,,,,5.6,0.1,2.3,,,,,,,,,,,,,,,,,,,,,,,,0.055,0.224,0.042
+Gemini 2.5 Pro,gemini-2-5-pro,2025-06-05,Google,google,,,,,,,,,59.6,49.3,87.7,,,,,,,,,,,,,,,,,,,,,,,,0.862,0.844,0.211
+Gemma 3n E2B Instruct,gemma-3n-e2b,2025-06-26,Google,google,,,,,,,,,11.3,5.2,10.3,,,,,,,,,,,,,,,,,,,,,,,,0.378,0.229,0.04
+Gemini 3 Pro Preview (low),gemini-3-pro-low,2025-11-18,Google,google,,,,,,,,,64.5,55.8,86.7,,,,,,,,,,,,,,,,,,,,,,,,0.895,0.887,0.276
+Gemini 3 Pro Preview (high),gemini-3-pro,2025-11-18,Google,google,,,,,,,,,72.8,62.3,95.7,,,,,,,,,,,,,,,,,,,,,,,,0.898,0.908,0.372
+Gemini 2.5 Flash-Lite Preview (Sep '25) (Reasoning),gemini-2-5-flash-lite-preview-09-2025-reasoning,2025-09-08,Google,google,,,,,,,,,47.9,36.5,68.7,,,,,,,,,,,,,,,,,,,,,,,,0.808,0.709,0.066
+Gemini 2.5 Flash Preview (Sep '25) (Non-reasoning),gemini-2-5-flash-preview-09-2025,2025-09-25,Google,google,,,,,,,,,46.7,37.8,56.7,,,,,,,,,,,,,,,,,,,,,,,,0.836,0.766,0.078
+Claude 4.5 Sonnet (Non-reasoning),claude-4-5-sonnet,2025-09-29,Anthropic,anthropic,,,,,,,,,49.6,42.9,37.0,,,,,,,,,,,,,,,,,,,,,,,,0.86,0.727,0.071
+Claude 4.5 Sonnet (Reasoning),claude-4-5-sonnet-thinking,2025-09-29,Anthropic,anthropic,,,,,,,,,62.7,49.8,88.0,,,,,,,,,,,,,,,,,,,,,,,,0.875,0.834,0.173
+Claude 4.5 Haiku (Reasoning),claude-4-5-haiku-reasoning,2025-10-15,Anthropic,anthropic,,,,,,,,,54.6,43.4,83.7,,,,,,,,,,,,,,,,,,,,,,,,0.76,0.672,0.097
+Claude Opus 4.5 (Non-reasoning),claude-opus-4-5,2025-11-24,Anthropic,anthropic,,,,,,,,,59.9,53.0,62.7,,,,,,,,,,,,,,,,,,,,,,,,0.889,0.81,0.129
+Claude 4.5 Haiku (Non-reasoning),claude-4-5-haiku,2025-10-15,Anthropic,anthropic,,,,,,,,,41.7,37.0,39.0,,,,,,,,,,,,,,,,,,,,,,,,0.8,0.646,0.043
+Claude Opus 4.5 (Reasoning),claude-opus-4-5-thinking,2025-11-24,Anthropic,anthropic,,,,,,,,,69.8,60.2,91.3,,,,,,,,,,,,,,,,,,,,,,,,0.895,0.866,0.284
+Devstral Small 2,devstral-small-2,2025-12-09,Mistral,mistral,,,,,,,,,31.7,26.4,34.3,,,,,,,,,,,,,,,,,,,,,,,,0.678,0.532,0.034
+Mistral Small 3.2,mistral-small-3-2,2025-06-20,Mistral,mistral,,,,,,,,,29.1,20.1,27.0,,,,,,,,,,,,,,,,,,,,,,,,0.681,0.505,0.043
+Devstral Medium,devstral-medium,2025-07-10,Mistral,mistral,,,,,,,,,27.9,23.9,4.7,,,,,,,,,,,,,,,,,,,,,,,,0.708,0.492,0.038
+Magistral Medium 1.2,magistral-medium-2509,2025-09-18,Mistral,mistral,,,,,,,,,52.0,42.3,82.0,,,,,,,,,,,,,,,,,,,,,,,,0.815,0.739,0.096
+Ministral 14B (Dec '25),ministral-14b,2025-12-02,Mistral,mistral,,,,,,,,,30.5,21.0,30.0,,,,,,,,,,,,,,,,,,,,,,,,0.693,0.572,0.046
+Mistral Medium 3.1,mistral-medium-3-1,2025-08-12,Mistral,mistral,,,,,,,,,35.4,28.1,38.3,,,,,,,,,,,,,,,,,,,,,,,,0.683,0.588,0.044
+Ministral 8B (Dec '25),ministral-8b,2025-12-02,Mistral,mistral,,,,,,,,,28.2,18.4,31.7,,,,,,,,,,,,,,,,,,,,,,,,0.642,0.471,0.043
+Devstral Small (Jul '25),devstral-small,2025-07-10,Mistral,mistral,,,,,,,,,27.2,18.5,29.3,,,,,,,,,,,,,,,,,,,,,,,,0.622,0.414,0.037
+Devstral 2,devstral-2,2025-12-09,Mistral,mistral,,,,,,,,,36.4,31.9,36.7,,,,,,,,,,,,,,,,,,,,,,,,0.762,0.594,0.036
+Ministral 3B (Dec '25),ministral-3b,2025-12-02,Mistral,mistral,,,,,,,,,21.8,13.0,22.0,,,,,,,,,,,,,,,,,,,,,,,,0.524,0.358,0.053
+Magistral Small 1.2,magistral-small-2509,2025-09-17,Mistral,mistral,,,,,,,,,43.0,37.2,80.3,,,,,,,,,,,,,,,,,,,,,,,,0.768,0.663,0.061
+Mistral Large 3,mistral-large-3,2025-12-02,Mistral,mistral,,,,,,,,,38.4,32.5,38.0,,,,,,,,,,,,,,,,,,,,,,,,0.807,0.68,0.041
+DeepSeek R1 Distill Llama 70B,deepseek-r1-distill-llama-70b,2025-01-20,DeepSeek,deepseek,,,,,,,,,29.9,19.7,53.7,,,,,,,,,,,,,,,,,,,,,,,,0.795,0.402,0.061
+DeepSeek R1 0528 (May '25),deepseek-r1,2025-05-28,DeepSeek,deepseek,,,,,,,,,52.0,44.1,76.0,,,,,,,,,,,,,,,,,,,,,,,,0.849,0.813,0.149
+DeepSeek V3.2 (Non-reasoning),deepseek-v3-2,2025-12-01,DeepSeek,deepseek,,,,,,,,,52.4,42.8,59.0,,,,,,,,,,,,,,,,,,,,,,,,0.837,0.751,0.105
+DeepSeek V3.1 Terminus (Non-reasoning),deepseek-v3-1-terminus,2025-09-22,DeepSeek,deepseek,,,,,,,,,45.7,38.3,53.7,,,,,,,,,,,,,,,,,,,,,,,,0.836,0.751,0.084
+DeepSeek V3.2 Speciale,deepseek-v3-2-speciale,2025-12-01,DeepSeek,deepseek,,,,,,,,,58.6,55.4,96.7,,,,,,,,,,,,,,,,,,,,,,,,0.863,0.871,0.261
+DeepSeek V3.1 Terminus (Reasoning),deepseek-v3-1-terminus-reasoning,2025-09-22,DeepSeek,deepseek,,,,,,,,,57.7,49.6,89.7,,,,,,,,,,,,,,,,,,,,,,,,0.851,0.792,0.152
+DeepSeek-OCR,deepseek-ocr,2025-10-20,DeepSeek,deepseek,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+DeepSeek R1 0528 Qwen3 8B,deepseek-r1-qwen3-8b,2025-05-29,DeepSeek,deepseek,,,,,,,,,31.0,24.4,63.7,,,,,,,,,,,,,,,,,,,,,,,,0.739,0.612,0.056
+DeepSeek V3.2 (Reasoning),deepseek-v3-2-reasoning,2025-12-01,DeepSeek,deepseek,,,,,,,,,65.9,52.8,92.0,,,,,,,,,,,,,,,,,,,,,,,,0.862,0.84,0.222
+R1 1776,r1-1776,2025-02-18,Perplexity,perplexity,,,,,,,,,19.1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Grok 4.1 Fast (Reasoning),grok-4-1-fast-reasoning,2025-11-19,xAI,xai,,,,,,,,,64.1,49.7,89.3,,,,,,,,,,,,,,,,,,,,,,,,0.854,0.853,0.176
+Grok 3 mini Reasoning (high),grok-3-mini-reasoning,2025-02-19,xAI,xai,,,,,,,,,57.1,42.2,84.7,,,,,,,,,,,,,,,,,,,,,,,,0.828,0.791,0.111
+Grok 4.1 Fast (Non-reasoning),grok-4-1-fast,2025-11-19,xAI,xai,,,,,,,,,38.3,27.7,34.3,,,,,,,,,,,,,,,,,,,,,,,,0.743,0.637,0.05
+Grok 4 Fast (Non-reasoning),grok-4-fast,2025-09-19,xAI,xai,,,,,,,,,38.6,28.1,41.3,,,,,,,,,,,,,,,,,,,,,,,,0.73,0.606,0.05
+Grok 4,grok-4,2025-07-10,xAI,xai,,,,,,,,,65.3,55.1,92.7,,,,,,,,,,,,,,,,,,,,,,,,0.866,0.877,0.239
+Grok 4 Fast (Reasoning),grok-4-fast-reasoning,2025-09-19,xAI,xai,,,,,,,,,60.3,48.4,89.7,,,,,,,,,,,,,,,,,,,,,,,,0.85,0.847,0.17
+Grok Code Fast 1,grok-code-fast-1,2025-08-28,xAI,xai,,,,,,,,,48.6,39.4,43.3,,,,,,,,,,,,,,,,,,,,,,,,0.793,0.727,0.075
+Nova Micro,nova-micro,2024-12-03,Amazon,aws,,,,,,,,,17.7,8.3,6.0,,,,,,,,,,,,,,,,,,,,,,,,0.531,0.358,0.047
+Nova 2.0 Lite (low),nova-2-0-lite-reasoning-low,2025-10-29,Amazon,aws,,,,,,,,,46.8,27.9,46.7,,,,,,,,,,,,,,,,,,,,,,,,0.788,0.698,0.042
+Nova Premier,nova-premier,2025-04-30,Amazon,aws,,,,,,,,,32.3,22.0,17.3,,,,,,,,,,,,,,,,,,,,,,,,0.733,0.569,0.047
+Nova 2.0 Pro Preview (medium),nova-2-0-pro-reasoning-medium,2025-11-27,Amazon,aws,,,,,,,,,62.4,46.1,89.0,,,,,,,,,,,,,,,,,,,,,,,,0.83,0.785,0.089
+Nova 2.0 Omni (low),nova-2-0-omni-reasoning-low,2025-11-26,Amazon,aws,,,,,,,,,48.7,32.3,56.0,,,,,,,,,,,,,,,,,,,,,,,,0.798,0.699,0.04
+Nova 2.0 Omni (Non-reasoning),nova-2-0-omni,2025-11-26,Amazon,aws,,,,,,,,,34.1,21.6,37.0,,,,,,,,,,,,,,,,,,,,,,,,0.719,0.555,0.039
+Nova 2.0 Pro Preview (low),nova-2-0-pro-reasoning-low,2025-11-27,Amazon,aws,,,,,,,,,57.6,39.6,63.3,,,,,,,,,,,,,,,,,,,,,,,,0.822,0.751,0.052
+Nova 2.0 Pro Preview (Non-reasoning),nova-2-0-pro,2025-11-27,Amazon,aws,,,,,,,,,41.9,30.3,30.7,,,,,,,,,,,,,,,,,,,,,,,,0.772,0.636,0.04
+Nova 2.0 Omni (medium),nova-2-0-omni-reasoning-medium,2025-11-26,Amazon,aws,,,,,,,,,56.0,35.5,89.7,,,,,,,,,,,,,,,,,,,,,,,,0.809,0.76,0.068
+Nova 2.0 Lite (medium),nova-2-0-lite-reasoning-medium,2025-10-29,Amazon,aws,,,,,,,,,57.7,39.8,88.7,,,,,,,,,,,,,,,,,,,,,,,,0.813,0.768,0.086
+Nova 2.0 Lite (Non-reasoning),nova-2-0-lite,2025-10-29,Amazon,aws,,,,,,,,,35.6,21.6,33.7,,,,,,,,,,,,,,,,,,,,,,,,0.743,0.603,0.03
+Phi-4,phi-4,2024-12-12,Microsoft Azure,azure,,,,,,,,,22.7,17.6,18.0,,,,,,,,,,,,,,,,,,,,,,,,0.714,0.575,0.041
+Phi-4 Mini Instruct,phi-4-mini,2024-02-26,Microsoft Azure,azure,,,,,,,,,15.7,7.8,6.7,,,,,,,,,,,,,,,,,,,,,,,,0.465,0.331,0.042
+Phi-4 Multimodal Instruct,phi-4-multimodal,2025-02-26,Microsoft Azure,azure,,,,,,,,,12.4,,,,,,,,,,,,,,,,,,,,,,,,,,0.485,0.315,0.044
+LFM2 1.2B,lfm2-1-2b,2025-07-10,Liquid AI,liquidai,,,,,,,,,9.7,1.5,3.3,,,,,,,,,,,,,,,,,,,,,,,,0.257,0.228,0.057
+LFM2 2.6B,lfm2-2-6b,2025-09-23,Liquid AI,liquidai,,,,,,,,,11.8,3.8,8.3,,,,,,,,,,,,,,,,,,,,,,,,0.298,0.306,0.052
+LFM2 8B A1B,lfm2-8b-a1b,2025-10-07,Liquid AI,liquidai,,,,,,,,,17.4,7.3,25.3,,,,,,,,,,,,,,,,,,,,,,,,0.505,0.344,0.049
+Solar Pro 2 (Reasoning),solar-pro-2-reasoning,2025-07-09,Upstage,upstage,,,,,,,,,37.7,31.5,61.3,,,,,,,,,,,,,,,,,,,,,,,,0.805,0.687,0.07
+Solar Pro 2 (Non-reasoning),solar-pro-2,2025-07-09,Upstage,upstage,,,,,,,,,30.2,23.8,30.0,,,,,,,,,,,,,,,,,,,,,,,,0.75,0.561,0.038
+MiniMax-M2,minimax-m2,2025-10-26,MiniMax,minimax,,,,,,,,,61.4,47.6,78.3,,,,,,,,,,,,,,,,,,,,,,,,0.82,0.777,0.125
+Llama 3.1 Nemotron Instruct 70B,llama-3-1-nemotron-instruct-70b,2024-10-15,NVIDIA,nvidia,,,,,,,,,23.6,14.8,11.0,,,,,,,,,,,,,,,,,,,,,,,,0.69,0.465,0.046
+Llama 3.1 Nemotron Nano 4B v1.1 (Reasoning),llama-3-1-nemotron-nano-4b-reasoning,2025-05-20,NVIDIA,nvidia,,,,,,,,,26.1,,50.0,,,,,,,,,,,,,,,,,,,,,,,,0.556,0.408,0.051
+Llama Nemotron Super 49B v1.5 (Reasoning),llama-nemotron-super-49b-v1-5-reasoning,2025-07-25,NVIDIA,nvidia,,,,,,,,,45.2,37.8,76.7,,,,,,,,,,,,,,,,,,,,,,,,0.814,0.748,0.068
+NVIDIA Nemotron Nano 9B V2 (Reasoning),nvidia-nemotron-nano-9b-v2-reasoning,2025-08-18,NVIDIA,nvidia,,,,,,,,,37.2,31.9,69.7,,,,,,,,,,,,,,,,,,,,,,,,0.742,0.57,0.046
+NVIDIA Nemotron Nano 9B V2 (Non-reasoning),nvidia-nemotron-nano-9b-v2,2025-08-18,NVIDIA,nvidia,,,,,,,,,36.1,30.6,62.3,,,,,,,,,,,,,,,,,,,,,,,,0.739,0.557,0.04
+Llama Nemotron Super 49B v1.5 (Non-reasoning),llama-nemotron-super-49b-v1-5,2025-07-25,NVIDIA,nvidia,,,,,,,,,26.6,18.8,8.0,,,,,,,,,,,,,,,,,,,,,,,,0.692,0.481,0.043
+Llama 3.1 Nemotron Ultra 253B v1 (Reasoning),llama-3-1-nemotron-ultra-253b-v1-reasoning,2025-04-07,NVIDIA,nvidia,,,,,,,,,38.5,33.7,63.7,,,,,,,,,,,,,,,,,,,,,,,,0.825,0.728,0.081
+NVIDIA Nemotron Nano 12B v2 VL (Non-reasoning),nvidia-nemotron-nano-12b-v2-vl,2025-10-28,NVIDIA,nvidia,,,,,,,,,25.4,17.4,26.7,,,,,,,,,,,,,,,,,,,,,,,,0.649,0.439,0.045
+Llama 3.3 Nemotron Super 49B v1 (Non-reasoning),llama-3-3-nemotron-super-49b,2025-03-18,NVIDIA,nvidia,,,,,,,,,25.9,17.0,7.7,,,,,,,,,,,,,,,,,,,,,,,,0.698,0.517,0.035
+Llama 3.3 Nemotron Super 49B v1 (Reasoning),llama-3-3-nemotron-super-49b-reasoning,2025-03-18,NVIDIA,nvidia,,,,,,,,,35.5,18.7,54.7,,,,,,,,,,,,,,,,,,,,,,,,0.785,0.643,0.065
+NVIDIA Nemotron Nano 12B v2 VL (Reasoning),nvidia-nemotron-nano-12b-v2-vl-reasoning,2025-10-28,NVIDIA,nvidia,,,,,,,,,40.6,33.3,75.0,,,,,,,,,,,,,,,,,,,,,,,,0.759,0.572,0.053
+Kimi K2 Thinking,kimi-k2-thinking,2025-11-06,Kimi,kimi,,,,,,,,,67.0,52.2,94.7,,,,,,,,,,,,,,,,,,,,,,,,0.848,0.838,0.223
+Kimi K2 0905,kimi-k2-0905,2025-09-05,Kimi,kimi,,,,,,,,,50.4,38.1,57.3,,,,,,,,,,,,,,,,,,,,,,,,0.819,0.767,0.063
+Kimi Linear 48B A3B Instruct,kimi-linear-48b-a3b-instruct,2025-10-30,Kimi,kimi,,,,,,,,,26.1,22.8,36.3,,,,,,,,,,,,,,,,,,,,,,,,0.585,0.412,0.027
+OLMo 3 7B Instruct,olmo-3-7b-instruct,2025-11-20,Allen Institute for AI,ai2,,,,,,,,,22.2,12.3,41.3,,,,,,,,,,,,,,,,,,,,,,,,0.522,0.4,0.058
+OLMo 3 32B Think,olmo-3-32b-think,2025-11-20,Allen Institute for AI,ai2,,,,,,,,,36.3,32.4,73.7,,,,,,,,,,,,,,,,,,,,,,,,0.759,0.61,0.059
+Molmo 7B-D,molmo-7b-d,2024-09-25,Allen Institute for AI,ai2,,,,,,,,,9.3,2.5,0.0,,,,,,,,,,,,,,,,,,,,,,,,0.371,0.24,0.051
+OLMo 3 7B Think,olmo-3-7b-think,2025-11-20,Allen Institute for AI,ai2,,,,,,,,,31.9,27.9,70.7,,,,,,,,,,,,,,,,,,,,,,,,0.655,0.516,0.057
+Granite 4.0 350M,granite-4-0-350m,2025-10-28,IBM,ibm,,,,,,,,,7.7,1.1,0.0,,,,,,,,,,,,,,,,,,,,,,,,0.124,0.261,0.057
+Granite 4.0 H 350M,granite-4-0-h-350m,2025-10-28,IBM,ibm,,,,,,,,,8.2,1.2,1.3,,,,,,,,,,,,,,,,,,,,,,,,0.127,0.257,0.064
+Granite 4.0 1B,granite-4-0-nano-1b,2025-10-28,IBM,ibm,,,,,,,,,13.3,4.5,6.3,,,,,,,,,,,,,,,,,,,,,,,,0.325,0.281,0.051
+Granite 4.0 H Small,granite-4-0-h-small,2025-09-22,IBM,ibm,,,,,,,,,22.7,16.1,13.7,,,,,,,,,,,,,,,,,,,,,,,,0.624,0.416,0.037
+Granite 4.0 H 1B,granite-4-0-h-nano-1b,2025-10-28,IBM,ibm,,,,,,,,,13.7,6.6,6.3,,,,,,,,,,,,,,,,,,,,,,,,0.277,0.263,0.05
+Granite 4.0 Micro,granite-4-0-micro,2025-09-22,IBM,ibm,,,,,,,,,16.2,10.4,6.0,,,,,,,,,,,,,,,,,,,,,,,,0.447,0.336,0.051
+Reka Flash 3,reka-flash-3,2025-03-10,Reka AI,reka-ai,,,,,,,,,25.9,23.4,33.7,,,,,,,,,,,,,,,,,,,,,,,,0.669,0.529,0.051
+DeepHermes 3 - Mistral 24B Preview (Non-reasoning),deephermes-3-mistral-24b-preview,2025-03-13,Nous Research,nous-research,,,,,,,,,15.5,,,,,,,,,,,,,,,,,,,,,,,,,,0.58,0.382,0.039
+Hermes 4 - Llama-3.1 405B (Non-reasoning),hermes-4-llama-3-1-405b,2025-08-27,Nous Research,nous-research,,,,,,,,,32.6,32.8,15.3,,,,,,,,,,,,,,,,,,,,,,,,0.729,0.536,0.042
+Hermes 4 - Llama-3.1 70B (Reasoning),hermes-4-llama-3-1-70b-reasoning,2025-08-27,Nous Research,nous-research,,,,,,,,,39.2,34.6,68.7,,,,,,,,,,,,,,,,,,,,,,,,0.811,0.699,0.079
+Hermes 4 - Llama-3.1 70B (Non-reasoning),hermes-4-llama-3-1-70b,2025-08-27,Nous Research,nous-research,,,,,,,,,23.8,18.2,11.3,,,,,,,,,,,,,,,,,,,,,,,,0.664,0.491,0.036
+Hermes 4 - Llama-3.1 405B (Reasoning),hermes-4-llama-3-1-405b-reasoning,2025-08-27,Nous Research,nous-research,,,,,,,,,41.6,34.8,69.7,,,,,,,,,,,,,,,,,,,,,,,,0.829,0.727,0.103
+DeepHermes 3 - Llama-3.1 8B Preview (Non-reasoning),deephermes-3-llama-3-1-8b-preview,2025-02-13,Nous Research,nous-research,,,,,,,,,1.8,,,,,,,,,,,,,,,,,,,,,,,,,,0.365,0.27,0.043
+Exaone 4.0 1.2B (Non-reasoning),exaone-4-0-1-2b,2025-07-15,LG AI Research,lg,,,,,,,,,20.5,12.2,24.0,,,,,,,,,,,,,,,,,,,,,,,,0.5,0.424,0.058
+EXAONE 4.0 32B (Non-reasoning),exaone-4-0-32b,2025-07-15,LG AI Research,lg,,,,,,,,,30.3,24.6,39.3,,,,,,,,,,,,,,,,,,,,,,,,0.768,0.628,0.049
+EXAONE 4.0 32B (Reasoning),exaone-4-0-32b-reasoning,2025-07-15,LG AI Research,lg,,,,,,,,,42.6,37.5,80.0,,,,,,,,,,,,,,,,,,,,,,,,0.818,0.739,0.105
+Exaone 4.0 1.2B (Reasoning),exaone-4-0-1-2b-reasoning,2025-07-15,LG AI Research,lg,,,,,,,,,26.7,20.3,50.3,,,,,,,,,,,,,,,,,,,,,,,,0.588,0.515,0.058
+ERNIE 4.5 300B A47B,ernie-4-5-300b-a47b,2025-06-30,Baidu,baidu,,,,,,,,,32.9,27.9,41.3,,,,,,,,,,,,,,,,,,,,,,,,0.776,0.811,0.035
+ERNIE 5.0 Thinking Preview,ernie-5-0-thinking-preview,2025-11-13,Baidu,baidu,,,,,,,,,53.2,47.4,85.0,,,,,,,,,,,,,,,,,,,,,,,,0.83,0.777,0.127
+Cogito v2.1 (Reasoning),cogito-v2-1-reasoning,2025-11-18,Deep Cogito,deepcogito,,,,,,,,,,41.8,72.7,,,,,,,,,,,,,,,,,,,,,,,,0.849,0.768,0.11
+KAT-Coder-Pro V1,kat-coder-pro-v1,2025-11-11,KwaiKAT,kwaikat,,,,,,,,,63.6,39.9,94.7,,,,,,,,,,,,,,,,,,,,,,,,0.813,0.764,0.334
+Motif-2-12.7B-Reasoning,motif-2-12-7b,2025-12-04,Motif Technologies,motif-technologies,,,,,,,,,45.1,32.3,80.3,,,,,,,,,,,,,,,,,,,,,,,,0.796,0.695,0.082
+GLM-4.6 (Reasoning),glm-4-6-reasoning,2025-09-30,Z AI,zai,,,,,,,,,56.0,43.8,86.0,,,,,,,,,,,,,,,,,,,,,,,,0.829,0.78,0.133
+GLM-4.6 (Non-reasoning),glm-4-6,2025-09-30,Z AI,zai,,,,,,,,,44.7,38.7,44.3,,,,,,,,,,,,,,,,,,,,,,,,0.784,0.632,0.052
+Llama 65B,llama-65b,2023-02-24,Meta,meta,,,,,,,,,1.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+GLM-4.5-Air,glm-4-5-air,2025-07-28,Z AI,zai,,,,,,,,,48.8,39.4,80.7,,,,,,,,,,,,,,,,,,,,,,,,0.815,0.733,0.068
+GLM-4.6V (Reasoning),glm-4-6v-reasoning,2025-12-08,Z AI,zai,,,,,,,,,,,85.3,,,,,,,,,,,,,,,,,,,,,,,,0.799,0.719,0.089
+GLM-4.6V (Non-reasoning),glm-4-6v,2025-12-08,Z AI,zai,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+GLM-4.5V (Non-reasoning),glm-4-5v,2025-08-11,Z AI,zai,,,,,,,,,26.0,20.1,15.3,,,,,,,,,,,,,,,,,,,,,,,,0.751,0.573,0.036
+GLM-4.5V (Reasoning),glm-4-5v-reasoning,2025-08-11,Z AI,zai,,,,,,,,,37.0,29.2,73.0,,,,,,,,,,,,,,,,,,,,,,,,0.788,0.684,0.059
+Command A,command-a,2025-03-13,Cohere,cohere,,,,,,,,,26.9,19.2,13.0,,,,,,,,,,,,,,,,,,,,,,,,0.712,0.527,0.046
+Apriel-v1.5-15B-Thinker,apriel-v1-5-15b-thinker,2025-09-30,ServiceNow,servicenow,,,,,,,,,51.6,39.2,87.5,,,,,,,,,,,,,,,,,,,,,,,,0.773,0.713,0.12
+Apriel-v1.6-15B-Thinker,apriel-v1-6-15b-thinker,2025-11-25,ServiceNow,servicenow,,,,,,,,,57.0,43.8,88.0,,,,,,,,,,,,,,,,,,,,,,,,0.79,0.733,0.098
+Jamba 1.7 Mini,jamba-1-7-mini,2025-07-07,AI21 Labs,ai21-labs,,,,,,,,,14.8,5.1,0.3,,,,,,,,,,,,,,,,,,,,,,,,0.388,0.322,0.045
+Jamba Reasoning 3B,jamba-reasoning-3b,2025-10-08,AI21 Labs,ai21-labs,,,,,,,,,20.9,9.2,10.7,,,,,,,,,,,,,,,,,,,,,,,,0.577,0.333,0.046
+Jamba 1.7 Large,jamba-1-7-large,2025-07-07,AI21 Labs,ai21-labs,,,,,,,,,20.8,13.0,2.3,,,,,,,,,,,,,,,,,,,,,,,,0.577,0.39,0.038
+Qwen3 235B A22B 2507 Instruct,qwen3-235b-a22b-instruct-2507,2025-07-21,Alibaba,alibaba,,,,,,,,,45.3,34.2,71.7,,,,,,,,,,,,,,,,,,,,,,,,0.828,0.753,0.106
+Qwen3 VL 235B A22B (Reasoning),qwen3-vl-235b-a22b-reasoning,2025-09-23,Alibaba,alibaba,,,,,,,,,54.4,38.4,88.3,,,,,,,,,,,,,,,,,,,,,,,,0.836,0.772,0.101
+Qwen3 4B 2507 Instruct,qwen3-4b-2507-instruct,2025-08-06,Alibaba,alibaba,,,,,,,,,30.4,20.0,52.3,,,,,,,,,,,,,,,,,,,,,,,,0.672,0.517,0.047
+Qwen3 Coder 480B A35B Instruct,qwen3-coder-480b-a35b-instruct,2025-07-22,Alibaba,alibaba,,,,,,,,,42.3,37.4,39.3,,,,,,,,,,,,,,,,,,,,,,,,0.788,0.618,0.044
+Qwen3 VL 30B A3B (Reasoning),qwen3-vl-30b-a3b-reasoning,2025-10-03,Alibaba,alibaba,,,,,,,,,45.3,34.5,82.3,,,,,,,,,,,,,,,,,,,,,,,,0.807,0.72,0.087
+Qwen3 Max Thinking,qwen3-max-thinking,2025-11-03,Alibaba,alibaba,,,,,,,,,55.8,36.2,82.3,,,,,,,,,,,,,,,,,,,,,,,,0.824,0.776,0.12
+Qwen3 Next 80B A3B (Reasoning),qwen3-next-80b-a3b-reasoning,2025-09-11,Alibaba,alibaba,,,,,,,,,54.3,42.1,84.3,,,,,,,,,,,,,,,,,,,,,,,,0.824,0.759,0.117
+Qwen3 VL 8B (Reasoning),qwen3-vl-8b-reasoning,2025-10-14,Alibaba,alibaba,,,,,,,,,32.1,20.3,30.7,,,,,,,,,,,,,,,,,,,,,,,,0.749,0.579,0.033
+Qwen3 Coder 30B A3B Instruct,qwen3-coder-30b-a3b-instruct,2025-07-31,Alibaba,alibaba,,,,,,,,,33.4,27.4,29.0,,,,,,,,,,,,,,,,,,,,,,,,0.706,0.516,0.04
+Qwen3 30B A3B 2507 Instruct,qwen3-30b-a3b-2507,2025-07-29,Alibaba,alibaba,,,,,,,,,37.0,29.2,66.3,,,,,,,,,,,,,,,,,,,,,,,,0.777,0.659,0.068
+Qwen3 VL 4B (Reasoning),qwen3-vl-4b-reasoning,2025-10-14,Alibaba,alibaba,,,,,,,,,27.3,16.8,25.7,,,,,,,,,,,,,,,,,,,,,,,,0.7,0.494,0.044
+Qwen3 235B A22B 2507 (Reasoning),qwen3-235b-a22b-instruct-2507-reasoning,2025-07-25,Alibaba,alibaba,,,,,,,,,57.5,44.6,91.0,,,,,,,,,,,,,,,,,,,,,,,,0.843,0.79,0.15
+Qwen3 VL 4B Instruct,qwen3-vl-4b-instruct,2025-10-14,Alibaba,alibaba,,,,,,,,,25.2,14.2,37.0,,,,,,,,,,,,,,,,,,,,,,,,0.634,0.371,0.037
+Qwen3 Next 80B A3B Instruct,qwen3-next-80b-a3b-instruct,2025-09-11,Alibaba,alibaba,,,,,,,,,44.8,35.4,66.3,,,,,,,,,,,,,,,,,,,,,,,,0.819,0.738,0.073
+Qwen3 30B A3B 2507 (Reasoning),qwen3-30b-a3b-2507-reasoning,2025-07-30,Alibaba,alibaba,,,,,,,,,46.4,36.3,56.3,,,,,,,,,,,,,,,,,,,,,,,,0.805,0.707,0.098
+Qwen3 VL 30B A3B Instruct,qwen3-vl-30b-a3b-instruct,2025-10-03,Alibaba,alibaba,,,,,,,,,38.5,28.0,72.3,,,,,,,,,,,,,,,,,,,,,,,,0.764,0.695,0.064
+Qwen Chat 14B,qwen-chat-14b,2023-09-25,Alibaba,alibaba,,,,,,,,,1.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Qwen3 Omni 30B A3B Instruct,qwen3-omni-30b-a3b-instruct,2025-09-22,Alibaba,alibaba,,,,,,,,,30.2,20.8,52.3,,,,,,,,,,,,,,,,,,,,,,,,0.725,0.62,0.051
+Qwen3 VL 32B Instruct,qwen3-vl-32b-instruct,2025-10-21,Alibaba,alibaba,,,,,,,,,41.0,29.8,68.3,,,,,,,,,,,,,,,,,,,,,,,,0.791,0.671,0.063
+Qwen3 Max,qwen3-max,2025-09-23,Alibaba,alibaba,,,,,,,,,55.1,44.7,80.7,,,,,,,,,,,,,,,,,,,,,,,,0.841,0.764,0.111
+Qwen3 Omni 30B A3B (Reasoning),qwen3-omni-30b-a3b-reasoning,2025-09-22,Alibaba,alibaba,,,,,,,,,40.0,34.0,74.0,,,,,,,,,,,,,,,,,,,,,,,,0.792,0.726,0.073
+Qwen3 VL 235B A22B Instruct,qwen3-vl-235b-a22b-instruct,2025-09-23,Alibaba,alibaba,,,,,,,,,44.1,33.9,70.7,,,,,,,,,,,,,,,,,,,,,,,,0.823,0.712,0.063
+Qwen3 VL 8B Instruct,qwen3-vl-8b-instruct,2025-10-14,Alibaba,alibaba,,,,,,,,,27.1,17.6,27.3,,,,,,,,,,,,,,,,,,,,,,,,0.686,0.427,0.029
+Qwen3 4B 2507 (Reasoning),qwen3-4b-2507-instruct-reasoning,2025-08-06,Alibaba,alibaba,,,,,,,,,43.4,30.4,82.7,,,,,,,,,,,,,,,,,,,,,,,,0.743,0.667,0.059
+Qwen3 VL 32B (Reasoning),qwen3-vl-32b-reasoning,2025-10-21,Alibaba,alibaba,,,,,,,,,51.9,36.4,84.7,,,,,,,,,,,,,,,,,,,,,,,,0.818,0.733,0.096
+Ling-flash-2.0,ling-flash-2-0,2025-09-17,InclusionAI,inclusionai,,,,,,,,,38.3,32.6,65.3,,,,,,,,,,,,,,,,,,,,,,,,0.777,0.657,0.063
+Ring-flash-2.0,ring-flash-2-0,2025-09-19,InclusionAI,inclusionai,,,,,,,,,39.5,28.9,83.7,,,,,,,,,,,,,,,,,,,,,,,,0.793,0.725,0.089
+Ling-1T,ling-1t,2025-10-08,InclusionAI,inclusionai,,,,,,,,,44.8,37.6,71.3,,,,,,,,,,,,,,,,,,,,,,,,0.822,0.719,0.072
+Ling-mini-2.0,ling-mini-2-0,2025-09-09,InclusionAI,inclusionai,,,,,,,,,27.8,19.0,49.3,,,,,,,,,,,,,,,,,,,,,,,,0.671,0.562,0.05
+Ring-1T,ring-1t,2025-10-13,InclusionAI,inclusionai,,,,,,,,,41.8,35.8,89.3,,,,,,,,,,,,,,,,,,,,,,,,0.806,0.595,0.102
+Seed-OSS-36B-Instruct,seed-oss-36b-instruct,2025-08-20,ByteDance Seed,bytedance_seed,,,,,,,,,51.6,39.8,84.7,,,,,,,,,,,,,,,,,,,,,,,,0.815,0.726,0.091
+Doubao Seed Code,doubao-seed-code,2025-11-11,ByteDance Seed,bytedance_seed,,,,,,,,,57.1,47.4,79.3,,,,,,,,,,,,,,,,,,,,,,,,0.854,0.764,0.133
+o1,o1,2024-12-05,OpenAI,openai,,,,,,,,,47.2,38.6,,,,,,,,,,,,,,,,,,,,,,,,,0.841,0.747,0.077
+o1-preview,o1-preview,2024-09-12,OpenAI,openai,,,,,,,,,44.9,34.0,,,,,,,,,,,,,,,,,,,,,,,,,,,
+o1-mini,o1-mini,2024-09-12,OpenAI,openai,,,,,,,,,39.2,,,,,,,,,,,,,,,,,,,,,,,,,,0.742,0.603,0.049
+GPT-4o (Aug '24),gpt-4o-2024-08-06,2024-08-06,OpenAI,openai,,,,,,,,,29.0,,,,,,,,,,,,,,,,,,,,,,,,,,,0.521,0.029
+GPT-4o (May '24),gpt-4o-2024-05-13,2024-05-13,OpenAI,openai,,,,,,,,,26.3,24.2,,,,,,,,,,,,,,,,,,,,,,,,,0.74,0.526,0.028
+GPT-4 Turbo,gpt-4-turbo,2023-11-06,OpenAI,openai,,,,,,,,,24.2,21.5,,,,,,,,,,,,,,,,,,,,,,,,,0.694,,0.033
+GPT-4o (Nov '24),gpt-4o,2024-11-20,OpenAI,openai,,,,,,,,,27.0,24.0,6.0,,,,,,,,,,,,,,,,,,,,,,,,0.748,0.543,0.033
+GPT-4o mini,gpt-4o-mini,2024-07-18,OpenAI,openai,,,,,,,,,21.2,,14.7,,,,,,,,,,,,,,,,,,,,,,,,0.648,0.426,0.04
+GPT-3.5 Turbo,gpt-35-turbo,2022-11-30,OpenAI,openai,,,,,,,,,8.3,10.7,,,,,,,,,,,,,,,,,,,,,,,,,0.462,0.297,
+o3-mini,o3-mini,2025-01-31,OpenAI,openai,,,,,,,,,48.1,39.4,,,,,,,,,,,,,,,,,,,,,,,,,0.791,0.748,0.087
+GPT-4o Realtime (Dec '24),gpt-4o-realtime-dec-2024,2024-12-17,OpenAI,openai,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+o1-pro,o1-pro,2025-03-19,OpenAI,openai,,,,,,,,,48.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+GPT-4.1 nano,gpt-4-1-nano,2025-04-14,OpenAI,openai,,,,,,,,,27.3,20.7,24.0,,,,,,,,,,,,,,,,,,,,,,,,0.657,0.512,0.039
+GPT-3.5 Turbo (0613),gpt-3-5-turbo-0613,2023-06-13,OpenAI,openai,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+o4-mini (high),o4-mini,2025-04-16,OpenAI,openai,,,,,,,,,59.6,48.9,90.7,,,,,,,,,,,,,,,,,,,,,,,,0.832,0.784,0.175
+GPT-5 Codex (high),gpt-5-codex,2025-09-23,OpenAI,openai,,,,,,,,,68.5,53.5,98.7,,,,,,,,,,,,,,,,,,,,,,,,0.865,0.837,0.256
+GPT-4.1,gpt-4-1,2025-04-14,OpenAI,openai,,,,,,,,,43.4,32.2,34.7,,,,,,,,,,,,,,,,,,,,,,,,0.806,0.666,0.046
+GPT-4.1 mini,gpt-4-1-mini,2025-04-14,OpenAI,openai,,,,,,,,,42.5,31.9,46.3,,,,,,,,,,,,,,,,,,,,,,,,0.781,0.664,0.046
+"GPT-4o (March 2025, chatgpt-4o-latest)",gpt-4o-chatgpt-03-25,2025-03-27,OpenAI,openai,,,,,,,,,35.6,,25.7,,,,,,,,,,,,,,,,,,,,,,,,0.803,0.655,0.05
+o3-mini (high),o3-mini-high,2025-01-31,OpenAI,openai,,,,,,,,,50.8,42.1,,,,,,,,,,,,,,,,,,,,,,,,,0.802,0.773,0.123
+GPT-4o mini Realtime (Dec '24),gpt-4o-mini-realtime-dec-2024,2024-12-17,OpenAI,openai,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+GPT-4.5 (Preview),gpt-4-5,2025-02-27,OpenAI,openai,,,,,,,,,38.4,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+GPT-4o (ChatGPT),gpt-4o-chatgpt,2025-02-15,OpenAI,openai,,,,,,,,,25.3,,,,,,,,,,,,,,,,,,,,,,,,,,0.773,0.511,0.037
+o3-pro,o3-pro,2025-06-10,OpenAI,openai,,,,,,,,,65.3,,,,,,,,,,,,,,,,,,,,,,,,,,,0.845,
+GPT-4,gpt-4,2023-03-14,OpenAI,openai,,,,,,,,,21.5,13.1,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Llama 3.1 Instruct 70B,llama-3-1-instruct-70b,2024-07-23,Meta,meta,,,,,,,,,22.6,17.6,4.0,,,,,,,,,,,,,,,,,,,,,,,,0.676,0.409,0.046
+Llama 3.1 Instruct 8B,llama-3-1-instruct-8b,2024-07-23,Meta,meta,,,,,,,,,16.9,8.5,4.3,,,,,,,,,,,,,,,,,,,,,,,,0.476,0.259,0.051
+Llama 3.2 Instruct 3B,llama-3-2-instruct-3b,2024-09-25,Meta,meta,,,,,,,,,11.2,,3.3,,,,,,,,,,,,,,,,,,,,,,,,0.347,0.255,0.052
+Llama 3 Instruct 70B,llama-3-instruct-70b,2024-04-18,Meta,meta,,,,,,,,,13.0,,,,,,,,,,,,,,,,,,,,,,,,,,0.574,0.379,0.044
+Llama 3 Instruct 8B,llama-3-instruct-8b,2024-04-18,Meta,meta,,,,,,,,,7.0,,,,,,,,,,,,,,,,,,,,,,,,,,0.405,0.296,0.051
+Llama 3.2 Instruct 1B,llama-3-2-instruct-1b,2024-09-25,Meta,meta,,,,,,,,,8.9,1.2,0.0,,,,,,,,,,,,,,,,,,,,,,,,0.2,0.196,0.053
+Llama 2 Chat 7B,llama-2-chat-7b,2023-07-18,Meta,meta,,,,,,,,,11.3,,,,,,,,,,,,,,,,,,,,,,,,,,0.164,0.227,0.058
+Llama 2 Chat 13B,llama-2-chat-13b,2023-07-18,Meta,meta,,,,,,,,,5.5,,,,,,,,,,,,,,,,,,,,,,,,,,0.406,0.321,0.047
+Llama 2 Chat 70B,llama-2-chat-70b,2023-07-18,Meta,meta,,,,,,,,,5.6,,,,,,,,,,,,,,,,,,,,,,,,,,0.406,0.327,0.05
+Gemini 2.0 Pro Experimental (Feb '25),gemini-2-0-pro-experimental-02-05,2025-02-05,Google,google,,,,,,,,,34.6,25.5,,,,,,,,,,,,,,,,,,,,,,,,,0.805,0.622,0.068
+Gemini 2.0 Flash (experimental),gemini-2-0-flash-experimental,2024-12-11,Google,google,,,,,,,,,31.8,,,,,,,,,,,,,,,,,,,,,,,,,,0.782,0.636,0.047
+Gemini 1.5 Pro (Sep '24),gemini-1-5-pro,2024-09-24,Google,google,,,,,,,,,30.0,23.6,,,,,,,,,,,,,,,,,,,,,,,,,0.75,0.589,0.049
+Gemini 2.0 Flash-Lite (Preview),gemini-2-0-flash-lite-preview,2025-02-05,Google,google,,,,,,,,,26.3,,,,,,,,,,,,,,,,,,,,,,,,,,,0.542,0.044
+Gemini 2.0 Flash (Feb '25),gemini-2-0-flash,2025-02-05,Google,google,,,,,,,,,33.6,23.4,21.7,,,,,,,,,,,,,,,,,,,,,,,,0.779,0.623,0.053
+Gemini 1.5 Flash (Sep '24),gemini-1-5-flash,2024-09-24,Google,google,,,,,,,,,24.4,,,,,,,,,,,,,,,,,,,,,,,,,,0.68,0.463,0.035
+Gemini 1.5 Flash-8B,gemini-1-5-flash-8b,2024-10-03,Google,google,,,,,,,,,16.3,,,,,,,,,,,,,,,,,,,,,,,,,,0.569,0.359,0.045
+Gemini 2.0 Flash Thinking Experimental (Jan '25),gemini-2-0-flash-thinking-exp-0121,2025-01-21,Google,google,,,,,,,,,37.7,24.1,,,,,,,,,,,,,,,,,,,,,,,,,0.798,0.701,0.071
+Gemini 2.0 Flash Thinking Experimental (Dec '24),gemini-2-0-flash-thinking-exp-1219,2024-12-19,Google,google,,,,,,,,,20.2,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Gemini 1.5 Pro (May '24),gemini-1-5-pro-may-2024,2024-05-15,Google,google,,,,,,,,,19.2,19.8,,,,,,,,,,,,,,,,,,,,,,,,,0.657,0.371,0.039
+Gemini 2.0 Flash-Lite (Feb '25),gemini-2-0-flash-lite-001,2025-02-25,Google,google,,,,,,,,,26.8,,,,,,,,,,,,,,,,,,,,,,,,,,0.724,0.535,0.036
+Gemini 2.5 Pro Preview (May' 25),gemini-2-5-pro-05-06,2025-05-06,Google,google,,,,,,,,,53.2,,,,,,,,,,,,,,,,,,,,,,,,,,0.837,0.822,0.154
+PALM-2,palm-2,2023-05-10,Google,google,,,,,,,,,6.6,4.6,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Gemini 2.5 Flash Preview (Non-reasoning),gemini-2-5-flash-04-2025,2025-04-17,Google,google,,,,,,,,,34.1,,,,,,,,,,,,,,,,,,,,,,,,,,0.783,0.594,0.05
+Gemini 1.0 Ultra,gemini-1-0-ultra,2023-12-06,Google,google,,,,,,,,,12.8,17.6,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Gemini 2.5 Flash (Reasoning),gemini-2-5-flash-reasoning,2025-05-20,Google,google,,,,,,,,,51.2,40.5,73.3,,,,,,,,,,,,,,,,,,,,,,,,0.832,0.79,0.111
+Gemini 2.5 Flash-Lite (Reasoning),gemini-2-5-flash-lite-reasoning,2025-06-17,Google,google,,,,,,,,,40.1,27.6,53.3,,,,,,,,,,,,,,,,,,,,,,,,0.759,0.625,0.064
+Gemini 2.5 Flash Preview (Reasoning),gemini-2-5-flash-reasoning-04-2025,2025-04-17,Google,google,,,,,,,,,45.8,,,,,,,,,,,,,,,,,,,,,,,,,,0.8,0.698,0.116
+Gemma 3n E4B Instruct Preview (May '25),gemma-3n-e4b-preview-0520,2025-05-20,Google,google,,,,,,,,,12.5,,,,,,,,,,,,,,,,,,,,,,,,,,0.483,0.278,0.049
+Gemini 2.5 Flash-Lite (Non-reasoning),gemini-2-5-flash-lite,2025-06-17,Google,google,,,,,,,,,30.1,19.9,35.3,,,,,,,,,,,,,,,,,,,,,,,,0.724,0.474,0.037
+Gemini 1.0 Pro,gemini-1-0-pro,2023-12-06,Google,google,,,,,,,,,6.2,,,,,,,,,,,,,,,,,,,,,,,,,,0.431,0.277,0.046
+Gemini 2.5 Flash (Non-reasoning),gemini-2-5-flash,2025-05-20,Google,google,,,,,,,,,40.4,30.0,60.3,,,,,,,,,,,,,,,,,,,,,,,,0.809,0.683,0.051
+Gemini 2.5 Pro Preview (Mar' 25),gemini-2-5-pro-03-25,2025-03-25,Google,google,,,,,,,,,54.1,46.7,,,,,,,,,,,,,,,,,,,,,,,,,0.858,0.836,0.171
+Gemini 1.5 Flash (May '24),gemini-1-5-flash-may-2024,2024-05-14,Google,google,,,,,,,,,14.0,,,,,,,,,,,,,,,,,,,,,,,,,,0.574,0.324,0.042
+Claude 3.5 Sonnet (Oct '24),claude-35-sonnet,2024-10-22,Anthropic,anthropic,,,,,,,,,29.9,30.2,,,,,,,,,,,,,,,,,,,,,,,,,0.772,0.599,0.039
+Claude 3.5 Sonnet (June '24),claude-35-sonnet-june-24,2024-06-21,Anthropic,anthropic,,,,,,,,,25.4,26.0,,,,,,,,,,,,,,,,,,,,,,,,,0.751,0.56,0.037
+Claude 3 Opus,claude-3-opus,2024-03-04,Anthropic,anthropic,,,,,,,,,20.6,19.5,,,,,,,,,,,,,,,,,,,,,,,,,0.696,0.489,0.031
+Claude 3.5 Haiku,claude-3-5-haiku,2024-10-22,Anthropic,anthropic,,,,,,,,,20.2,,,,,,,,,,,,,,,,,,,,,,,,,,0.634,0.408,0.035
+Claude 3 Sonnet,claude-3-sonnet,2024-03-04,Anthropic,anthropic,,,,,,,,,13.3,,,,,,,,,,,,,,,,,,,,,,,,,,0.579,0.4,0.038
+Claude 3 Haiku,claude-3-haiku,2024-03-04,Anthropic,anthropic,,,,,,,,,9.6,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Claude Instant,claude-instant,2023-03-14,Anthropic,anthropic,,,,,,,,,1.0,7.8,,,,,,,,,,,,,,,,,,,,,,,,,0.434,0.33,0.038
+Claude 4 Sonnet (Non-reasoning),claude-4-sonnet,2025-05-22,Anthropic,anthropic,,,,,,,,,44.4,35.9,38.0,,,,,,,,,,,,,,,,,,,,,,,,0.837,0.683,0.04
+Claude 4 Sonnet (Reasoning),claude-4-sonnet-thinking,2025-05-22,Anthropic,anthropic,,,,,,,,,56.5,45.1,74.3,,,,,,,,,,,,,,,,,,,,,,,,0.842,0.777,0.096
+Claude 4.1 Opus (Non-reasoning),claude-4-1-opus,2025-08-05,Anthropic,anthropic,,,,,,,,,44.6,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Claude 3.7 Sonnet (Non-reasoning),claude-3-7-sonnet,2025-02-24,Anthropic,anthropic,,,,,,,,,41.1,32.3,21.0,,,,,,,,,,,,,,,,,,,,,,,,0.803,0.656,0.048
+Claude 4.1 Opus (Reasoning),claude-4-1-opus-thinking,2025-08-05,Anthropic,anthropic,,,,,,,,,59.3,46.1,80.3,,,,,,,,,,,,,,,,,,,,,,,,0.88,0.809,0.119
+Claude 4 Opus (Non-reasoning),claude-4-opus,2025-05-22,Anthropic,anthropic,,,,,,,,,42.3,,36.3,,,,,,,,,,,,,,,,,,,,,,,,0.86,0.701,0.059
+Claude 3.7 Sonnet (Reasoning),claude-3-7-sonnet-thinking,2025-02-24,Anthropic,anthropic,,,,,,,,,49.9,35.8,56.3,,,,,,,,,,,,,,,,,,,,,,,,0.837,0.772,0.103
+Claude 4 Opus (Reasoning),claude-4-opus-thinking,2025-05-22,Anthropic,anthropic,,,,,,,,,54.2,44.2,73.3,,,,,,,,,,,,,,,,,,,,,,,,0.873,0.796,0.117
+Claude 2.0,claude-2,2023-07-11,Anthropic,anthropic,,,,,,,,,8.6,12.9,,,,,,,,,,,,,,,,,,,,,,,,,0.486,0.344,
+Claude 2.1,claude-21,2023-11-21,Anthropic,anthropic,,,,,,,,,9.7,14.0,,,,,,,,,,,,,,,,,,,,,,,,,0.495,0.319,0.042
+Mistral Large 2 (Nov '24),mistral-large-2,2024-11-18,Mistral,mistral,,,,,,,,,26.8,21.4,14.0,,,,,,,,,,,,,,,,,,,,,,,,0.697,0.486,0.04
+Mistral Large 2 (Jul '24),mistral-large-2407,2024-07-24,Mistral,mistral,,,,,,,,,22.3,,0.0,,,,,,,,,,,,,,,,,,,,,,,,0.683,0.472,0.032
+Pixtral Large,pixtral-large-2411,2024-11-18,Mistral,mistral,,,,,,,,,25.0,,2.3,,,,,,,,,,,,,,,,,,,,,,,,0.701,0.505,0.036
+Mistral Small 3,mistral-small-3,2025-01-30,Mistral,mistral,,,,,,,,,21.2,,4.3,,,,,,,,,,,,,,,,,,,,,,,,0.652,0.462,0.041
+Mistral Small (Sep '24),mistral-small,2024-09-17,Mistral,mistral,,,,,,,,,13.0,,,,,,,,,,,,,,,,,,,,,,,,,,0.529,0.381,0.043
+Mixtral 8x22B Instruct,mistral-8x22b-instruct,2024-04-17,Mistral,mistral,,,,,,,,,11.7,,,,,,,,,,,,,,,,,,,,,,,,,,0.537,0.332,0.041
+Mistral Small (Feb '24),mistral-small-2402,2024-02-26,Mistral,mistral,,,,,,,,,8.5,,,,,,,,,,,,,,,,,,,,,,,,,,0.419,0.302,0.044
+Mistral Large (Feb '24),mistral-large,2024-02-26,Mistral,mistral,,,,,,,,,11.9,,,,,,,,,,,,,,,,,,,,,,,,,,0.515,0.351,0.034
+Mixtral 8x7B Instruct,mixtral-8x7b-instruct,2023-12-11,Mistral,mistral,,,,,,,,,2.6,,,,,,,,,,,,,,,,,,,,,,,,,,0.387,0.292,0.045
+Mistral 7B Instruct,mistral-7b-instruct,2023-09-27,Mistral,mistral,,,,,,,,,1.0,,,,,,,,,,,,,,,,,,,,,,,,,,0.245,0.177,0.043
+Mistral Small 3.1,mistral-small-3-1,2025-03-17,Mistral,mistral,,,,,,,,,24.9,18.3,3.7,,,,,,,,,,,,,,,,,,,,,,,,0.659,0.454,0.048
+Magistral Small 1,magistral-small,2025-06-10,Mistral,mistral,,,,,,,,,31.9,26.6,41.3,,,,,,,,,,,,,,,,,,,,,,,,0.746,0.641,0.072
+Magistral Medium 1,magistral-medium,2025-06-10,Mistral,mistral,,,,,,,,,33.2,30.3,40.3,,,,,,,,,,,,,,,,,,,,,,,,0.753,0.679,0.095
+Mistral Medium 3,mistral-medium-3,2025-05-07,Mistral,mistral,,,,,,,,,33.6,25.6,30.3,,,,,,,,,,,,,,,,,,,,,,,,0.76,0.578,0.043
+Devstral Small (May '25),devstral-small-2505,2025-05-21,Mistral,mistral,,,,,,,,,19.6,,,,,,,,,,,,,,,,,,,,,,,,,,0.632,0.434,0.04
+Mistral Medium,mistral-medium,2023-12-11,Mistral,mistral,,,,,,,,,8.4,,,,,,,,,,,,,,,,,,,,,,,,,,0.491,0.349,0.034
+Mistral Saba,mistral-saba,2025-02-17,Mistral,mistral,,,,,,,,,19.6,,,,,,,,,,,,,,,,,,,,,,,,,,0.611,0.424,0.041
+DeepSeek R1 Distill Qwen 32B,deepseek-r1-distill-qwen-32b,2025-01-20,DeepSeek,deepseek,,,,,,,,,32.7,,63.0,,,,,,,,,,,,,,,,,,,,,,,,0.739,0.615,0.055
+DeepSeek V3 (Dec '24),deepseek-v3,2024-12-26,DeepSeek,deepseek,,,,,,,,,32.5,25.9,26.0,,,,,,,,,,,,,,,,,,,,,,,,0.752,0.557,0.036
+DeepSeek R1 Distill Qwen 14B,deepseek-r1-distill-qwen-14b,2025-01-20,DeepSeek,deepseek,,,,,,,,,29.7,,55.7,,,,,,,,,,,,,,,,,,,,,,,,0.74,0.484,0.044
+DeepSeek-V2.5 (Dec '24),deepseek-v2-5,2024-12-10,DeepSeek,deepseek,,,,,,,,,20.7,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+DeepSeek-Coder-V2,deepseek-coder-v2,2024-06-17,DeepSeek,deepseek,,,,,,,,,14.5,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+DeepSeek R1 Distill Llama 8B,deepseek-r1-distill-llama-8b,2025-01-20,DeepSeek,deepseek,,,,,,,,,19.5,,41.3,,,,,,,,,,,,,,,,,,,,,,,,0.543,0.302,0.042
+DeepSeek LLM 67B Chat (V1),deepseek-llm-67b-chat,2023-11-29,DeepSeek,deepseek,,,,,,,,,5.6,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+DeepSeek R1 Distill Qwen 1.5B,deepseek-r1-distill-qwen-1-5b,2025-01-20,DeepSeek,deepseek,,,,,,,,,8.6,,22.0,,,,,,,,,,,,,,,,,,,,,,,,0.269,0.098,0.033
+DeepSeek V3 0324,deepseek-v3-0324,2025-03-25,DeepSeek,deepseek,,,,,,,,,41.3,30.2,41.0,,,,,,,,,,,,,,,,,,,,,,,,0.819,0.655,0.052
+DeepSeek R1 (Jan '25),deepseek-r1-0120,2025-01-20,DeepSeek,deepseek,,,,,,,,,43.8,34.4,68.0,,,,,,,,,,,,,,,,,,,,,,,,0.844,0.708,0.093
+DeepSeek V3.1 (Non-reasoning),deepseek-v3-1,2025-08-21,DeepSeek,deepseek,,,,,,,,,44.8,39.0,49.7,,,,,,,,,,,,,,,,,,,,,,,,0.833,0.735,0.063
+DeepSeek V3.1 (Reasoning),deepseek-v3-1-reasoning,2025-08-21,DeepSeek,deepseek,,,,,,,,,54.0,47.2,89.7,,,,,,,,,,,,,,,,,,,,,,,,0.851,0.779,0.13
+DeepSeek-V2-Chat,deepseek-v2,2024-05-06,DeepSeek,deepseek,,,,,,,,,8.6,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+DeepSeek-V2.5,deepseek-v2-5-sep-2024,2024-09-06,DeepSeek,deepseek,,,,,,,,,20.2,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+DeepSeek V3.2 Exp (Non-reasoning),deepseek-v3-2-0925,2025-09-29,DeepSeek,deepseek,,,,,,,,,46.3,39.6,57.7,,,,,,,,,,,,,,,,,,,,,,,,0.836,0.738,0.086
+DeepSeek Coder V2 Lite Instruct,deepseek-coder-v2-lite,2024-06-17,DeepSeek,deepseek,,,,,,,,,6.1,,,,,,,,,,,,,,,,,,,,,,,,,,0.429,0.319,0.053
+DeepSeek V3.2 Exp (Reasoning),deepseek-v3-2-reasoning-0925,2025-09-29,DeepSeek,deepseek,,,,,,,,,56.9,48.6,87.7,,,,,,,,,,,,,,,,,,,,,,,,0.85,0.797,0.138
+Sonar,sonar,2025-01-21,Perplexity,perplexity,,,,,,,,,28.8,,,,,,,,,,,,,,,,,,,,,,,,,,0.689,0.471,0.073
+Sonar Pro,sonar-pro,2025-01-21,Perplexity,perplexity,,,,,,,,,28.2,,,,,,,,,,,,,,,,,,,,,,,,,,0.755,0.578,0.079
+Sonar Reasoning Pro,sonar-reasoning-pro,2025-01-28,Perplexity,perplexity,,,,,,,,,46.3,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Sonar Reasoning,sonar-reasoning,2025-01-28,Perplexity,perplexity,,,,,,,,,34.2,,,,,,,,,,,,,,,,,,,,,,,,,,,0.623,
+Grok Beta,grok-beta,2024-08-13,xAI,xai,,,,,,,,,23.0,,,,,,,,,,,,,,,,,,,,,,,,,,0.703,0.471,0.047
+Grok 3,grok-3,2025-02-19,xAI,xai,,,,,,,,,45.3,30.0,58.0,,,,,,,,,,,,,,,,,,,,,,,,0.799,0.693,0.051
+Grok 3 Reasoning Beta,grok-3-reasoning,2025-02-19,xAI,xai,,,,,,,,,41.4,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Grok 2 (Dec '24),grok-2-1212,2024-12-12,xAI,xai,,,,,,,,,24.7,,,,,,,,,,,,,,,,,,,,,,,,,,0.709,0.51,0.038
+OpenChat 3.5 (1210),openchat-35,2023-12-18,OpenChat,openchat,,,,,,,,,5.4,,,,,,,,,,,,,,,,,,,,,,,,,,0.31,0.23,0.048
+Nova Pro,nova-pro,2024-12-03,Amazon,aws,,,,,,,,,25.0,16.6,7.0,,,,,,,,,,,,,,,,,,,,,,,,0.691,0.499,0.034
+Nova Lite,nova-lite,2024-12-03,Amazon,aws,,,,,,,,,21.5,10.4,7.0,,,,,,,,,,,,,,,,,,,,,,,,0.59,0.433,0.046
+Phi-3 Mini Instruct 3.8B,phi-3-mini,2024-04-23,Microsoft Azure,azure,,,,,,,,,12.7,6.9,0.3,,,,,,,,,,,,,,,,,,,,,,,,0.435,0.319,0.044
+Phi-3 Medium Instruct 14B,phi-3-medium,2024-05-21,Microsoft Azure,azure,,,,,,,,,14.4,8.9,1.3,,,,,,,,,,,,,,,,,,,,,,,,0.543,0.326,0.045
+LFM 40B,lfm-40b,2024-09-30,Liquid AI,liquidai,,,,,,,,,7.3,,,,,,,,,,,,,,,,,,,,,,,,,,0.425,0.327,0.049
+Solar Mini,solar-mini,2024-01-25,Upstage,upstage,,,,,,,,,18.9,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Solar Pro 2 (Preview) (Non-reasoning),solar-pro-2-preview,2025-05-20,Upstage,upstage,,,,,,,,,30.0,,,,,,,,,,,,,,,,,,,,,,,,,,0.725,0.544,0.038
+Solar Pro 2 (Preview) (Reasoning),solar-pro-2-preview-reasoning,2025-05-20,Upstage,upstage,,,,,,,,,36.1,,,,,,,,,,,,,,,,,,,,,,,,,,0.768,0.578,0.057
+DBRX Instruct,dbrx,2024-03-27,Databricks,databricks,,,,,,,,,5.3,,,,,,,,,,,,,,,,,,,,,,,,,,0.397,0.331,0.066
+MiniMax M1 40k,minimax-m1-40k,2025-06-17,MiniMax,minimax,,,,,,,,,40.0,35.2,13.7,,,,,,,,,,,,,,,,,,,,,,,,0.808,0.682,0.075
+MiniMax M1 80k,minimax-m1-80k,2025-06-17,MiniMax,minimax,,,,,,,,,46.2,37.1,61.0,,,,,,,,,,,,,,,,,,,,,,,,0.816,0.697,0.082
+Kimi K2,kimi-k2,2025-07-11,Kimi,kimi,,,,,,,,,48.1,35.0,57.0,,,,,,,,,,,,,,,,,,,,,,,,0.824,0.766,0.07
+Llama 3.1 Tulu3 405B,tulu3-405b,2025-01-30,Allen Institute for AI,ai2,,,,,,,,,25.4,,,,,,,,,,,,,,,,,,,,,,,,,,0.716,0.516,0.035
+OLMo 2 32B,olmo-2-32b,2025-03-13,Allen Institute for AI,ai2,,,,,,,,,14.4,4.9,3.3,,,,,,,,,,,,,,,,,,,,,,,,0.511,0.328,0.037
+OLMo 2 7B,olmo-2-7b,2024-11-26,Allen Institute for AI,ai2,,,,,,,,,9.5,2.6,0.7,,,,,,,,,,,,,,,,,,,,,,,,0.282,0.288,0.055
+Granite 3.3 8B (Non-reasoning),granite-3-3-8b-instruct,2025-04-16,IBM,ibm,,,,,,,,,15.2,7.6,6.7,,,,,,,,,,,,,,,,,,,,,,,,0.468,0.338,0.042
+Reka Flash (Sep '24),reka-flash,2024-10-04,Reka AI,reka-ai,,,,,,,,,19.1,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Hermes 3 - Llama-3.1 70B,hermes-3-llama-3-1-70b,2024-08-15,Nous Research,nous-research,,,,,,,,,14.7,,,,,,,,,,,,,,,,,,,,,,,,,,0.571,0.401,0.041
+GLM-4.5 (Reasoning),glm-4.5,2025-07-28,Z AI,zai,,,,,,,,,51.3,43.3,73.7,,,,,,,,,,,,,,,,,,,,,,,,0.835,0.782,0.122
+Command-R+ (Apr '24),command-r-plus-04-2024,2024-04-04,Cohere,cohere,,,,,,,,,5.5,,,,,,,,,,,,,,,,,,,,,,,,,,0.432,0.323,0.045
+Command-R (Mar '24),command-r-03-2024,2024-03-12,Cohere,cohere,,,,,,,,,1.0,,,,,,,,,,,,,,,,,,,,,,,,,,0.338,0.284,0.048
+Jamba 1.6 Mini,jamba-1-6-mini,2025-03-06,AI21 Labs,ai21-labs,,,,,,,,,3.3,,,,,,,,,,,,,,,,,,,,,,,,,,0.367,0.3,0.046
+Jamba 1.5 Mini,jamba-1-5-mini,2024-08-22,AI21 Labs,ai21-labs,,,,,,,,,4.0,,,,,,,,,,,,,,,,,,,,,,,,,,0.371,0.302,0.051
+Jamba 1.5 Large,jamba-1-5-large,2024-08-22,AI21 Labs,ai21-labs,,,,,,,,,14.8,,,,,,,,,,,,,,,,,,,,,,,,,,0.572,0.427,0.04
+Jamba 1.6 Large,jamba-1-6-large,2025-03-06,AI21 Labs,ai21-labs,,,,,,,,,14.3,,,,,,,,,,,,,,,,,,,,,,,,,,0.565,0.387,0.04
+Arctic Instruct,arctic-instruct,2024-04-24,Snowflake,snowflake,,,,,,,,,7.6,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Qwen2.5 Max,qwen-2-5-max,2025-01-28,Alibaba,alibaba,,,,,,,,,30.7,,,,,,,,,,,,,,,,,,,,,,,,,,0.762,0.587,0.045
+Qwen2.5 Instruct 72B,qwen2-5-72b-instruct,2024-09-19,Alibaba,alibaba,,,,,,,,,29.0,19.5,14.0,,,,,,,,,,,,,,,,,,,,,,,,0.72,0.491,0.042
+Qwen2.5 Coder Instruct 32B,qwen2-5-coder-32b-instruct,2024-11-11,Alibaba,alibaba,,,,,,,,,21.8,,,,,,,,,,,,,,,,,,,,,,,,,,0.635,0.417,0.038
+Qwen2.5 Turbo,qwen-turbo,2024-11-18,Alibaba,alibaba,,,,,,,,,19.1,,,,,,,,,,,,,,,,,,,,,,,,,,0.633,0.41,0.042
+Qwen2 Instruct 72B,qwen2-72b-instruct,2024-06-07,Alibaba,alibaba,,,,,,,,,18.1,,,,,,,,,,,,,,,,,,,,,,,,,,0.622,0.371,0.037
+Qwen3 32B (Non-reasoning),qwen3-32b-instruct,2025-04-28,Alibaba,alibaba,,,,,,,,,26.4,,19.7,,,,,,,,,,,,,,,,,,,,,,,,0.727,0.535,0.043
+QwQ 32B-Preview,QwQ-32B-Preview,2024-11-27,Alibaba,alibaba,,,,,,,,,28.0,,,,,,,,,,,,,,,,,,,,,,,,,,0.648,0.557,0.048
+Qwen3 32B (Reasoning),qwen3-32b-instruct-reasoning,2025-04-28,Alibaba,alibaba,,,,,,,,,38.7,30.9,73.0,,,,,,,,,,,,,,,,,,,,,,,,0.798,0.668,0.083
+Qwen3 4B (Reasoning),qwen3-4b-instruct-reasoning,2025-04-28,Alibaba,alibaba,,,,,,,,,25.6,,22.3,,,,,,,,,,,,,,,,,,,,,,,,0.696,0.522,0.051
+Qwen3 8B (Non-reasoning),qwen3-8b-instruct,2025-04-28,Alibaba,alibaba,,,,,,,,,22.9,13.0,24.3,,,,,,,,,,,,,,,,,,,,,,,,0.643,0.452,0.028
+Qwen3 0.6B (Reasoning),qwen3-0.6b-instruct-reasoning,2025-04-28,Alibaba,alibaba,,,,,,,,,14.2,5.0,18.0,,,,,,,,,,,,,,,,,,,,,,,,0.347,0.239,0.057
+Qwen3 235B A22B (Non-reasoning),qwen3-235b-a22b-instruct,2025-04-28,Alibaba,alibaba,,,,,,,,,29.9,23.3,23.7,,,,,,,,,,,,,,,,,,,,,,,,0.762,0.613,0.047
+QwQ 32B,qwq-32b,2025-03-05,Alibaba,alibaba,,,,,,,,,37.9,,29.0,,,,,,,,,,,,,,,,,,,,,,,,0.764,0.593,0.082
+Qwen1.5 Chat 110B,qwen1.5-110b-chat,2024-04-25,Alibaba,alibaba,,,,,,,,,10.5,,,,,,,,,,,,,,,,,,,,,,,,,,,0.289,
+Qwen3 1.7B (Reasoning),qwen3-1.7b-instruct-reasoning,2025-04-28,Alibaba,alibaba,,,,,,,,,22.4,11.7,38.7,,,,,,,,,,,,,,,,,,,,,,,,0.57,0.356,0.048
+Qwen3 14B (Reasoning),qwen3-14b-instruct-reasoning,2025-04-28,Alibaba,alibaba,,,,,,,,,36.0,29.1,55.7,,,,,,,,,,,,,,,,,,,,,,,,0.774,0.604,0.043
+Qwen3 4B (Non-reasoning),qwen3-4b-instruct,2025-04-28,Alibaba,alibaba,,,,,,,,,20.7,,,,,,,,,,,,,,,,,,,,,,,,,,0.586,0.398,0.037
+Qwen3 235B A22B (Reasoning),qwen3-235b-a22b-instruct-reasoning,2025-04-28,Alibaba,alibaba,,,,,,,,,41.7,35.9,82.0,,,,,,,,,,,,,,,,,,,,,,,,0.828,0.7,0.117
+Qwen3 30B A3B (Non-reasoning),qwen3-30b-a3b-instruct,2025-04-28,Alibaba,alibaba,,,,,,,,,26.5,21.6,21.7,,,,,,,,,,,,,,,,,,,,,,,,0.71,0.515,0.046
+Qwen3 0.6B (Non-reasoning),qwen3-0.6b-instruct,2025-04-28,Alibaba,alibaba,,,,,,,,,11.0,3.8,10.3,,,,,,,,,,,,,,,,,,,,,,,,0.231,0.231,0.052
+Qwen3 1.7B (Non-reasoning),qwen3-1.7b-instruct,2025-04-28,Alibaba,alibaba,,,,,,,,,14.4,6.5,7.3,,,,,,,,,,,,,,,,,,,,,,,,0.411,0.283,0.052
+Qwen3 8B (Reasoning),qwen3-8b-instruct-reasoning,2025-04-28,Alibaba,alibaba,,,,,,,,,28.3,21.8,19.0,,,,,,,,,,,,,,,,,,,,,,,,0.743,0.589,0.042
+Qwen Chat 72B,qwen-chat-72b,2023-11-30,Alibaba,alibaba,,,,,,,,,7.6,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Qwen3 Max (Preview),qwen3-max-preview,2025-09-05,Alibaba,alibaba,,,,,,,,,48.5,40.2,75.0,,,,,,,,,,,,,,,,,,,,,,,,0.838,0.764,0.093
+Qwen3 30B A3B (Reasoning),qwen3-30b-a3b-instruct-reasoning,2025-04-28,Alibaba,alibaba,,,,,,,,,36.7,27.1,72.3,,,,,,,,,,,,,,,,,,,,,,,,0.777,0.616,0.066
+Qwen2.5 Instruct 32B,qwen2.5-32b-instruct,2024-09-19,Alibaba,alibaba,,,,,,,,,22.9,,,,,,,,,,,,,,,,,,,,,,,,,,0.697,0.466,0.038
+Qwen3 14B (Non-reasoning),qwen3-14b-instruct,2025-04-28,Alibaba,alibaba,,,,,,,,,29.2,19.8,58.0,,,,,,,,,,,,,,,,,,,,,,,,0.675,0.47,0.042
+Qwen2.5 Coder Instruct 7B ,qwen2-5-coder-7b-instruct,2024-09-19,Alibaba,alibaba,,,,,,,,,12.2,,,,,,,,,,,,,,,,,,,,,,,,,,0.473,0.339,0.048

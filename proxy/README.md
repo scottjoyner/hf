@@ -32,6 +32,13 @@ cp .env.example .env
 # edit .env to include: HF_TOKEN, HF_REPOS, MINIO_* creds, LICENSE_ALLOWLIST, etc.
 ```
 
+Need a starting point for the OpenShift pipeline? Copy
+``.env.proxy.example`` instead—it includes the proxy/Kerberos variables
+(``HTTP_PROXY``, ``HTTPS_PROXY``, ``PROXY_CA_FILE``, ``PROXY_HEADERS``,
+``PROXY_KERBEROS_*``).  Point the ``PROXY_CA_FILE`` at the approved ``.pem``
+bundle supplied by your networking team so the ``requests-kerberos`` adapter
+can authenticate with the corporate proxy.
+
 ### 2) Install and run the sync job
 ```bash
 python -m venv .venv

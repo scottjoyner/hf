@@ -1,0 +1,278 @@
+<mxfile host="app.diagrams.net" modified="2025-09-15T00:00:00.000Z" agent="ChatGPT" version="22.0.0" type="device"><diagram id="CLOUD1" name="Cloud Architecture"><mxGraphModel><root>  <mxCell id="0"/>  <mxCell id="1" parent="0"/>    <mxCell id="g_edge" value="Edge &amp; Identity" parent="1" style="swimlane;rounded=1;html=1;fillColor=#f8f9fa;strokeColor=#cfd4d9;fontSize=12" vertex="1">
+      <mxGeometry x="10" y="10" width="1480" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="g_network" value="Cloud Network (VPC/VNet)" parent="1" style="swimlane;rounded=1;html=1;fillColor=#f8f9fa;strokeColor=#cfd4d9;fontSize=12" vertex="1">
+      <mxGeometry x="10" y="160" width="1480" height="880" as="geometry"/>
+    </mxCell>
+    <mxCell id="g_ops" value="Ops / CI-CD / Observability" parent="1" style="swimlane;rounded=1;html=1;fillColor=#f8f9fa;strokeColor=#cfd4d9;fontSize=12" vertex="1">
+      <mxGeometry x="10" y="1050" width="1480" height="260" as="geometry"/>
+    </mxCell>
+    <mxCell id="edge_waf" value="WAF + CDN
+(API &amp; UI protection)
+Rate limits, rules, bot filters" parent="g_edge" style="shape=hexagon;whiteSpace=wrap;html=1;fillColor=#eaf7ff;strokeColor=#97c3f0" vertex="1">
+      <mxGeometry x="30" y="40" width="210" height="90" as="geometry"/>
+    </mxCell>
+    <mxCell id="edge_idp" value="Identity Provider (OIDC/SAML)
+SSO for UI + token mint for APIs" parent="g_edge" style="shape=hexagon;whiteSpace=wrap;html=1;fillColor=#eaf7ff;strokeColor=#97c3f0" vertex="1">
+      <mxGeometry x="260" y="40" width="260" height="90" as="geometry"/>
+    </mxCell>
+    <mxCell id="edge_apigw" value="API Gateway / Ingress
+TLS termination, JWT validation,
+paths → services" parent="g_edge" style="shape=hexagon;whiteSpace=wrap;html=1;fillColor=#eaf7ff;strokeColor=#97c3f0" vertex="1">
+      <mxGeometry x="540" y="40" width="280" height="90" as="geometry"/>
+    </mxCell>
+    <mxCell id="edge_users" value="Developers / Users / CI Agents
+• Browser UI (db-web)
+• REST (curl/SDK)
+• Model fetchers/builders" parent="g_edge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe5ec;strokeColor=#e36a90;fontColor=#7a1332" vertex="1">
+      <mxGeometry x="850" y="40" width="300" height="90" as="geometry"/>
+    </mxCell>
+    <mxCell id="edge_hf" value="Hugging Face Hub
+https://huggingface.co" parent="g_edge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe5ec;strokeColor=#e36a90;fontColor=#7a1332" vertex="1">
+      <mxGeometry x="1170" y="40" width="300" height="90" as="geometry"/>
+    </mxCell>
+    <mxCell id="net_public" value="Public Subnet" parent="g_network" style="swimlane;rounded=1;html=1;fillColor=#f8f9fa;strokeColor=#cfd4d9;fontSize=12" vertex="1">
+      <mxGeometry x="30" y="200" width="1440" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="net_private" value="Private App Subnets" parent="g_network" style="swimlane;rounded=1;html=1;fillColor=#f8f9fa;strokeColor=#cfd4d9;fontSize=12" vertex="1">
+      <mxGeometry x="30" y="350" width="1440" height="340" as="geometry"/>
+    </mxCell>
+    <mxCell id="net_data" value="Data Subnets" parent="g_network" style="swimlane;rounded=1;html=1;fillColor=#f8f9fa;strokeColor=#cfd4d9;fontSize=12" vertex="1">
+      <mxGeometry x="30" y="700" width="1440" height="330" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_alb" value="ALB / NLB
+Ingress to cluster" parent="net_public" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="50" y="230" width="180" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_nat" value="NAT / Egress Gateway
+Outbound to internet" parent="net_public" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="250" y="230" width="220" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_bastion" value="Bastion / SSH/Jumphost
+Restricted admin access" parent="net_public" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="490" y="230" width="220" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_k8s_ctrl" value="Kubernetes Control Plane
+Managed (EKS/AKS/GKE)
+RBAC / PSP / NetworkPolicy" parent="net_private" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2f7e1;strokeColor=#78c27d" vertex="1">
+      <mxGeometry x="50" y="390" width="260" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_k8s_nodes" value="Worker Node Pools
+• General (x86)
+• GPU Inference
+• GPU Training" parent="net_private" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2f7e1;strokeColor=#78c27d" vertex="1">
+      <mxGeometry x="330" y="390" width="300" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_mcp" value="MCP (Model Control Plane)
+• Scheduler/Queue (Kueue/Volcano/Ray)
+• Job Controller (CRDs)
+• Autoscaling (HPA/KEDA/Cluster ASG)" parent="net_private" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2f7e1;strokeColor=#78c27d" vertex="1">
+      <mxGeometry x="650" y="390" width="360" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_secrets" value="Secrets Manager &amp; KMS
+• API keys (HF, MinIO)
+• DB creds
+• Envelope encryption" parent="net_private" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2f7e1;strokeColor=#78c27d" vertex="1">
+      <mxGeometry x="1030" y="390" width="220" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="svc_mesh" value="Service Mesh (mTLS)
+Zero-trust, retries, circuit-breakers" parent="net_private" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e2f7e1;strokeColor=#78c27d" vertex="1">
+      <mxGeometry x="1270" y="390" width="180" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="ns_ctrl" value="Namespace: control
+• db-web (Flask)
+• models-registry
+• manifest-exporter
+• ingress controllers" parent="net_private" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="50" y="510" width="380" height="150" as="geometry"/>
+    </mxCell>
+    <mxCell id="ns_pipeline" value="Namespace: pipeline
+• pipeline-image
+• scraper, downloader, metadata, worker
+• cron: sync" parent="net_private" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="450" y="510" width="420" height="150" as="geometry"/>
+    </mxCell>
+    <mxCell id="ns_infer" value="Namespace: inference/training
+• GPU jobs (batch/serve)
+• Autoscaling
+• Canary/blue-green" parent="net_private" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="890" y="510" width="560" height="150" as="geometry"/>
+    </mxCell>
+    <mxCell id="data_minio" value="MinIO Cluster (EC)
+S3 API :9000 / Console :9001
+Versioning, Lifecycle, Replication" parent="net_data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="50" y="740" width="280" height="110" as="geometry"/>
+    </mxCell>
+    <mxCell id="data_rdbms" value="Managed PostgreSQL
+(Prod DB for registry/db-web)
+Multi-AZ, PITR" parent="net_data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="350" y="740" width="260" height="110" as="geometry"/>
+    </mxCell>
+    <mxCell id="data_redis" value="Redis / KeyDB
+Caching, queues, rate limits" parent="net_data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="630" y="740" width="220" height="110" as="geometry"/>
+    </mxCell>
+    <mxCell id="data_search" value="Search/Index (OpenSearch/ES)
+Optional metadata &amp; logs index" parent="net_data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="870" y="740" width="260" height="110" as="geometry"/>
+    </mxCell>
+    <mxCell id="data_repo" value="Container/Artifact Registry
+(images, manifests)
+SCM hooks" parent="net_data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="1150" y="740" width="320" height="110" as="geometry"/>
+    </mxCell>
+    <mxCell id="data_backup" value="Backups &amp; DR
+Cross-region bucket replication
+DB snapshots
+IaC state backups" parent="net_data" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#fff3cd;strokeColor=#e0a800" vertex="1">
+      <mxGeometry x="50" y="870" width="280" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="data_obs" value="Observability Stack
+• Prometheus/LTS
+• Loki/ELK
+• Tempo/OTel Collector
+• Grafana" parent="net_data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="350" y="870" width="380" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="data_sec" value="Security Services
+• SIEM/SOX feed
+• Vulnerability scans
+• SBOM store" parent="net_data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="750" y="870" width="300" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="data_cost" value="FinOps / Cost &amp; Quotas
+Budgets, alerts, chargeback" parent="net_data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="1070" y="870" width="400" height="140" as="geometry"/>
+    </mxCell>
+    <mxCell id="ops_repo" value="Source Control (GitHub/GitLab)
+PRs, code owners, branch protections" parent="g_ops" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="30" y="1090" width="320" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="ops_cicd" value="CI/CD Runners
+Build, test, scan, sign
+Deploy via GitOps (ArgoCD/Flux)" parent="g_ops" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="370" y="1090" width="360" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="ops_iac" value="Infrastructure as Code
+Terraform/Helm/Kustomize" parent="g_ops" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="750" y="1090" width="320" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="ops_run" value="SRE Runbooks &amp; Incident Mgmt
+Paging, SLIs/SLOs, playbooks" parent="g_ops" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e7f1ff;strokeColor=#4c7bd9;fontColor=#1b3a7a" vertex="1">
+      <mxGeometry x="1090" y="1090" width="380" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="ops_notes" value="Best Practices:
+• Least privilege IAM &amp; scoped service accounts
+• Private endpoints/peering where possible
+• mTLS &amp; NetworkPolicies between namespaces
+• Separate PROD/NONPROD accounts/projects
+• Backup+restore drills; chaos testing
+• Autoscaling (HPA/VPA/Cluster) with quotas" parent="g_ops" style="shape=note;whiteSpace=wrap;html=1;fillColor=#f0e6ff;strokeColor=#a78bfa" vertex="1">
+      <mxGeometry x="30" y="1200" width="1440" height="90" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_users_waf" value="HTTPS" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="edge_users" target="edge_waf" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_waf_apigw" value="TLS" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="edge_waf" target="edge_apigw" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_apigw_alb" value="Ingress routes" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="edge_apigw" target="svc_alb" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_idp_apigw" value="JWT/OIDC config" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="edge_idp" target="edge_apigw" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_alb_dbweb" value="db-web :8080" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="svc_alb" target="ns_ctrl" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_alb_registry" value="registry :8081" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="svc_alb" target="ns_ctrl" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_alb_minio" value="MinIO :9000/:9001" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="svc_alb" target="data_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_nat_hf" value="Outbound pulls" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="svc_nat" target="edge_hf" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_k8s_nodes_ctrl" value="Schedule workloads" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="svc_k8s_ctrl" target="svc_k8s_nodes" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_mcp_nodes" value="GPU job placement" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="svc_mcp" target="svc_k8s_nodes" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_ns_pipeline_mcp" value="Submit jobs/CRDs" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ns_pipeline" target="svc_mcp" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_ns_infer_mcp" value="Online/batch serves" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ns_infer" target="svc_mcp" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_secrets_ctrl" value="Inject secrets" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="svc_secrets" target="ns_ctrl" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_secrets_pipe" value="Inject secrets" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="svc_secrets" target="ns_pipeline" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_secrets_infer" value="Keys &amp; creds" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="svc_secrets" target="ns_infer" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_pipeline_minio" value="sync (mc mirror)" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ns_pipeline" target="data_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_downloader_hf" value="download models" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ns_pipeline" target="edge_hf" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_ctrl_rdbms" value="DB (Postgres)" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ns_ctrl" target="data_rdbms" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_ctrl_minio" value="Artifacts &amp; bundles" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ns_ctrl" target="data_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_infer_minio" value="Read models" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ns_infer" target="data_minio" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_ctrl_obs" value="metrics/logs/traces" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ns_ctrl" target="data_obs" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_pipe_obs" value="metrics/logs/traces" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ns_pipeline" target="data_obs" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_infer_obs" value="metrics/logs/traces" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ns_infer" target="data_obs" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_obs_sec" value="alerts/events" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="data_obs" target="data_sec" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_sec_cost" value="cost anomalies" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="data_sec" target="data_cost" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_repo_cicd" value="Webhooks" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ops_repo" target="ops_cicd" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_cicd_repo" value="Push images/artifacts" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ops_cicd" target="data_repo" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_cicd_iac" value="Plan/Apply" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ops_cicd" target="ops_iac" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_iac_cluster" value="Provision/Config" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ops_iac" target="svc_k8s_ctrl" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_gitops_ctrl" value="GitOps deploy" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ops_cicd" target="ns_ctrl" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_gitops_pipe" value="GitOps deploy" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ops_cicd" target="ns_pipeline" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_gitops_infer" value="GitOps deploy" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="ops_cicd" target="ns_infer" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_rdbms_bk" value="Snapshots/PITR" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="data_rdbms" target="data_backup" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_minio_bk" value="Bucket replication" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="data_minio" target="data_backup" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e_repo_bk" value="Registry backups" style="endArrow=block;endFill=1;strokeColor=#6c757d" parent="1" source="data_repo" target="data_backup" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+</root></mxGraphModel></diagram></mxfile>

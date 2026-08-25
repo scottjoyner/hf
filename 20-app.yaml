@@ -1,0 +1,297 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata: { name: registry }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: registry } }
+  template:
+    metadata: { labels: { app: registry } }
+    spec:
+      securityContext: { seccompProfile: { type: RuntimeDefault } }
+      initContainers:
+      - name: fix-perms
+        image: registry.access.redhat.com/ubi9/ubi-minimal
+        command: ["/bin/sh","-lc"]
+        args: [ "set -eu; mkdir -p /app/db /app/hf_models; chmod -R g+rwX /app || true" ]
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: false
+          capabilities: { drop: ["ALL"] }
+        volumeMounts:
+        - { name: db, mountPath: /app/db }
+        - { name: hf, mountPath: /app/hf_models }
+      containers:
+      - name: registry
+        image: image-registry.openshift-image-registry.svc:5000/models/models-registry:latest
+        imagePullPolicy: IfNotPresent
+        envFrom: [ { secretRef: { name: env-all } } ]
+        env:
+        - { name: MINIO_ENDPOINT, value: "minio:9000" }
+        - { name: MINIO_SECURE, value: "false" }
+        - { name: DB_PATH, value: "/app/db/models.db" }
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: false
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests: { cpu: 50m, memory: 128Mi }
+          limits:   { cpu: 500m, memory: 512Mi }
+        ports: [ { containerPort: 8081, name: http } ]
+        volumeMounts:
+        - { name: db, mountPath: /app/db }
+        - { name: hf, mountPath: /app/hf_models }
+      volumes:
+      - { name: db, persistentVolumeClaim: { claimName: db } }
+      - { name: hf, persistentVolumeClaim: { claimName: hf-models } }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: registry }
+spec:
+  selector: { app: registry }
+  ports: [ { port: 8081, targetPort: http } ]
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata: { name: registry }
+spec:
+  to: { kind: Service, name: registry }
+  port: { targetPort: 8081 }
+  tls: { termination: edge }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: db-web }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: db-web } }
+  template:
+    metadata: { labels: { app: db-web } }
+    spec:
+      securityContext: { seccompProfile: { type: RuntimeDefault } }
+      initContainers:
+      - name: fix-perms
+        image: registry.access.redhat.com/ubi9/ubi-minimal
+        command: ["/bin/sh","-lc"]
+        args: [ "set -eu; mkdir -p /app/db; chmod -R g+rwX /app || true" ]
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: false
+          capabilities: { drop: ["ALL"] }
+        volumeMounts:
+        - { name: db, mountPath: /app/db }
+        - { name: cache, mountPath: /app/cache }
+        - { name: hf,    mountPath: /app/hf_models }
+      containers:
+      - name: dbweb
+        image: image-registry.openshift-image-registry.svc:5000/models/models-pipeline:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python","-m","scripts.worker","db-web"]
+        envFrom: [ { secretRef: { name: env-all } } ]
+        env:
+        - { name: DB_PATH, value: "/app/db/models.db" }
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: false
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests: { cpu: 25m, memory: 64Mi }
+        ports: [ { containerPort: 8080, name: http } ]
+        volumeMounts:
+        - { name: db, mountPath: /app/db }
+        - { name: cache, mountPath: /app/cache }
+        - { name: hf,    mountPath: /app/hf_models }
+      volumes:
+      - { name: db, persistentVolumeClaim: { claimName: db } }
+      - { name: cache, persistentVolumeClaim: { claimName: cache } }
+      - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: db-web }
+spec:
+  selector: { app: db-web }
+  ports: [ { port: 8080, targetPort: http } ]
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata: { name: db-web }
+spec:
+  to: { kind: Service, name: db-web }
+  port: { targetPort: 8080 }
+  tls: { termination: edge }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: pipeline }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: pipeline } }
+  template:
+    metadata: { labels: { app: pipeline } }
+    spec:
+      securityContext: { seccompProfile: { type: RuntimeDefault } }
+      containers:
+      - name: pipeline
+        image: image-registry.openshift-image-registry.svc:5000/models/models-pipeline:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python","-m","scripts.worker","all"]
+        envFrom: [ { secretRef: { name: env-all } } ]
+        env:
+        - { name: MINIO_ENDPOINT, value: "minio:9000" }
+        - { name: MINIO_SECURE, value: "false" }
+        - { name: DB_PATH, value: "/app/db/models.db" }
+        - { name: MODELS_CSV, value: "/app/data/models.csv" }
+        - { name: HOME, value: "/tmp" }
+        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        - { name: HF_HOME, value: "/app/cache/hf" }
+        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: false
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests: { cpu: 100m, memory: 512Mi }
+          limits:   { cpu: 2000m, memory: 4Gi }
+        volumeMounts:
+        - { name: cache, mountPath: /app/cache }
+        - { name: hf,    mountPath: /app/hf_models }
+        - { name: db,    mountPath: /app/db }
+        - { name: data,  mountPath: /app/data }
+      volumes:
+      - { name: cache, persistentVolumeClaim: { claimName: cache } }
+      - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
+      - { name: db,    persistentVolumeClaim: { claimName: db } }
+      - { name: data,  persistentVolumeClaim: { claimName: data } }
+---
+# Template jobs (we'll clone-from for RunOnce)
+apiVersion: batch/v1
+kind: Job
+metadata: { name: run-scraper }
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      securityContext: { seccompProfile: { type: RuntimeDefault } }
+      containers:
+      - name: scraper
+        image: image-registry.openshift-image-registry.svc:5000/models/models-pipeline:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python","-m","scripts.worker","scrape"]
+        envFrom: [ { secretRef: { name: env-all } } ]
+        env:
+        - { name: MINIO_ENDPOINT, value: "minio:9000" }
+        - { name: MINIO_SECURE, value: "false" }
+        - { name: MODELS_CSV, value: "/app/data/models.csv" }
+        - { name: HOME, value: "/tmp" }
+        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        - { name: HF_HOME, value: "/app/cache/hf" }
+        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: false
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests: { cpu: 25m, memory: 128Mi }
+          limits:   { cpu: 500m, memory: 512Mi }
+        volumeMounts:
+        - { name: cache, mountPath: /app/cache }
+        - { name: db,    mountPath: /app/db }
+        - { name: data,  mountPath: /app/data }
+        - { name: hf,    mountPath: /app/hf_models }
+      volumes:
+      - { name: cache, persistentVolumeClaim: { claimName: cache } }
+      - { name: db,    persistentVolumeClaim: { claimName: db } }
+      - { name: data,  persistentVolumeClaim: { claimName: data } }
+      - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
+---
+apiVersion: batch/v1
+kind: Job
+metadata: { name: run-downloader }
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      securityContext: { seccompProfile: { type: RuntimeDefault } }
+      containers:
+      - name: downloader
+        image: image-registry.openshift-image-registry.svc:5000/models/models-pipeline:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python","-m","scripts.worker","download"]
+        envFrom: [ { secretRef: { name: env-all } } ]
+        env:
+        - { name: MINIO_ENDPOINT, value: "minio:9000" }
+        - { name: MINIO_SECURE, value: "false" }
+        - { name: MODELS_CSV, value: "/app/data/models.csv" }
+        - { name: HOME, value: "/tmp" }
+        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        - { name: HF_HOME, value: "/app/cache/hf" }
+        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: false
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests: { cpu: 50m, memory: 256Mi }
+          limits:   { cpu: 2000m, memory: 4Gi }
+        volumeMounts:
+        - { name: cache, mountPath: /app/cache }
+        - { name: hf,    mountPath: /app/hf_models }
+        - { name: db,    mountPath: /app/db }
+        - { name: data,  mountPath: /app/data }
+      volumes:
+      - { name: cache, persistentVolumeClaim: { claimName: cache } }
+      - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
+      - { name: db,    persistentVolumeClaim: { claimName: db } }
+      - { name: data,  persistentVolumeClaim: { claimName: data } }
+---
+apiVersion: batch/v1
+kind: Job
+metadata: { name: run-metadata }
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      securityContext: { seccompProfile: { type: RuntimeDefault } }
+      containers:
+      - name: metadata
+        image: image-registry.openshift-image-registry.svc:5000/models/models-pipeline:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python","-m","scripts.worker","metadata"]
+        envFrom: [ { secretRef: { name: env-all } } ]
+        env:
+        - { name: MODELS_CSV, value: "/app/data/models.csv" }
+        - { name: HOME, value: "/tmp" }
+        - { name: XDG_CACHE_HOME, value: "/app/cache/xdg" }
+        - { name: HF_HOME, value: "/app/cache/hf" }
+        - { name: HUGGINGFACE_HUB_CACHE, value: "/app/cache/huggingface" }
+        - { name: TRANSFORMERS_CACHE, value: "/app/cache/transformers" }
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: false
+          capabilities: { drop: ["ALL"] }
+        resources:
+          requests: { cpu: 25m, memory: 128Mi }
+          limits:   { cpu: 1000m, memory: 1Gi }
+        volumeMounts:
+        - { name: cache, mountPath: /app/cache }
+        - { name: db,    mountPath: /app/db }
+        - { name: data,  mountPath: /app/data }
+        - { name: hf,    mountPath: /app/hf_models }
+      volumes:
+      - { name: cache, persistentVolumeClaim: { claimName: cache } }
+      - { name: db,    persistentVolumeClaim: { claimName: db } }
+      - { name: data,  persistentVolumeClaim: { claimName: data } }
+      - { name: hf,    persistentVolumeClaim: { claimName: hf-models } }
+

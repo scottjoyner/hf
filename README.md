@@ -271,3 +271,7 @@ bash run_os_pipeline.sh \
 
 
 ---
+
+``` Local command
+.\deploy.ps1 -Namespace models -EnvPath .\.env -ModelsCsvPath .\data\models.csv -Nuke -PurgeVolumes -RunOnce
+```
