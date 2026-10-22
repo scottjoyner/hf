@@ -1,9 +1,18 @@
 # Models Pipeline (Docker + MinIO + S3 backup)
 
 <!-- repo-entrypoint-guide:start -->
-> **Quick orientation:** This repository houses Hugging Face model acquisition, metadata enrichment, and object-store synchronization. Start with [Quick start (Docker Compose)](#quick-start-docker-compose), review `run_pipeline.sh` options, and verify storage capacity before downloading large weights.
-> 
-> **Data safety:** The documented cleanup command `docker system prune -af --volumes` can delete unrelated Docker data. Do not run it on a shared host without a reviewed backup and volume inventory. Keep HF/S3/MinIO credentials in a protected environment file, never in a commit.
+## Repository guide
+
+**Quick orientation:** This repository houses Hugging Face model acquisition, metadata enrichment, and object-store synchronization. Start with [Quick start (Docker Compose)](#quick-start-docker-compose), review `run_pipeline.sh` options, and verify storage capacity before downloading large weights.
+
+**Data safety:** The documented cleanup command `docker system prune -af --volumes` can delete unrelated Docker data. Do not run it on a shared host without a reviewed backup and volume inventory. Keep HF/S3/MinIO credentials in a protected environment file, never in a commit.
+
+### Find your way
+
+- [Quick start (Docker Compose)](#quick-start-docker-compose)
+- [Files written](#files-written)
+- [Kubernetes (optional)](#kubernetes-optional)
+- [Notes](#notes)
 <!-- repo-entrypoint-guide:end -->
 
 
