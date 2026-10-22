@@ -5,7 +5,7 @@
 
 **Quick orientation:** This repository houses Hugging Face model acquisition, metadata enrichment, and object-store synchronization. Start with [Quick start (Docker Compose)](#quick-start-docker-compose), review `run_pipeline.sh` options, and verify storage capacity before downloading large weights.
 
-**Data safety:** The documented cleanup command `docker system prune -af --volumes` can delete unrelated Docker data. Do not run it on a shared host without a reviewed backup and volume inventory. Keep HF/S3/MinIO credentials in a protected environment file, never in a commit.
+**Data safety:** Host-wide `docker system prune -af --volumes` can delete unrelated Docker data. Do not run it on a shared host without a reviewed backup and volume inventory. Keep HF/S3/MinIO credentials in a protected environment file, never in a commit.
 
 ### Find your way
 
@@ -284,6 +284,6 @@ bash run_os_pipeline.sh \
 
 ---
 
-``` Local command
- .\deploy.ps1 -Namespace models -EnvPath .\.env -ModelsCsvPath .\data\models.csv -RunOnce
+```powershell
+.\deploy.ps1 -Namespace models -EnvPath .\.env -ModelsCsvPath .\data\models.csv -RunOnce
 ```
