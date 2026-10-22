@@ -144,8 +144,8 @@ TZ=America/New_York
 HUGGINGFACE_TOKEN=
 
 # MinIO S3 (Local)
-MINIO_ROOT_USER=minioadmin
-MINIO_ROOT_PASSWORD=minioadmin
+MINIO_ROOT_USER=replace-with-a-unique-user
+MINIO_ROOT_PASSWORD=replace-with-a-strong-secret
 MINIO_BUCKET=models
 MINIO_ENDPOINT=minio:9000
 MINIO_SECURE=false
@@ -159,7 +159,7 @@ DB_PATH=/app/db/models.db
 
 # Sync flags
 DIRECT_UPLOAD=1
-REGISTRY_API_KEY=dev-please-change
+REGISTRY_API_KEY=replace-with-a-strong-secret
 ```
 
 ---
@@ -241,11 +241,7 @@ sqlite3 db/models.db ".tables"
 docker compose down
 ```
 
-To remove volumes and cached files:
-
-```bash
-docker system prune -af --volumes
-```
+**Preserve model and database volumes by default.** `docker compose down` stops and removes this project's containers/networks but retains named volumes. Do **not** use host-wide `docker system prune -af --volumes` for this project: it can remove unrelated cached images and volumes on a shared machine. Before deleting any volume, inspect `docker compose config` and `docker volume ls`, take a verified backup, and remove only explicitly identified project resources.
 
 ---
 
@@ -289,5 +285,5 @@ bash run_os_pipeline.sh \
 ---
 
 ``` Local command
-.\deploy.ps1 -Namespace models -EnvPath .\.env -ModelsCsvPath .\data\models.csv -Nuke -PurgeVolumes -RunOnce
+ .\deploy.ps1 -Namespace models -EnvPath .\.env -ModelsCsvPath .\data\models.csv -RunOnce
 ```
